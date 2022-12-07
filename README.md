@@ -1,13 +1,12 @@
 # MandarinOrangeMarket
 멋쟁이사자처럼 프로젝트 12조 감귤마켓 레포지토리입니다.
 
-## 1. 구성원
+## 1. 팀원
 
 | 이지형   | 이재영 | 정수현 |
-| :------- |:-------|:------- |
-|사진|사진|사진|
-|깃헙|깃헙|깃헙|
-
+| :-------: |:-------:|:-------:|
+| <img src="https://avatars.githubusercontent.com/u/90930391?v=4" height=180 width=180>| <img src="https://avatars.githubusercontent.com/u/103429329?v=4" height=180 width=180>| <img src="https://avatars.githubusercontent.com/u/68059880?v=4" height=180 width=180>|
+|<a href="https://github.com/July249"><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a> |<a href="https://github.com/GreattitJY"><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a> |<a href="https://github.com/IntHyun"><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a>|
 
 ## 2. 커밋 컨벤션
 
