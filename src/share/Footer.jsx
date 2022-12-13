@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       <Link to="/">home</Link>
-      <Link to="/chat" className="text-red-400">
+      <Link to="/chat" className="text-red-400 font-spoqa">
         chat
       </Link>
       <Link to="postcreate">postcreate</Link>
