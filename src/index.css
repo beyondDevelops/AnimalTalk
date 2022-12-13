@@ -13,6 +13,10 @@ h1 {
   @apply text-2xl;
 }
 
+.ir {
+  @apply overflow-hidden absolute w-0 h-0 leading-[0] indent-[-9999px]
+}
+
 /* 레이아웃 */
 .page {
   @apply w-[390px] h-screen mx-auto bg-white flex flex-col justify-between;
