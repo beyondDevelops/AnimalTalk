@@ -1,12 +1,18 @@
-# MandarinOrangeMarket
+# AnimalTalk
 
-멋쟁이사자처럼 프로젝트 12조 감귤마켓 레포지토리입니다.
+멋쟁이사자처럼 프로젝트 12조 애니멀톡 레포지토리입니다.
 
 ## 회의록 링크(임시)
 
 - [회의록](https://github.com/beyondDevelops/MandarinOrangeMarket/wiki)
 
 <br>
+
+## 브랜치 생성 컨벤션
+
+- `(커밋컨벤션 키워드)/issue_(이슈번호)`로 변경 (22/12/13)
+  - 브랜치 생성에 있어 네이밍을 단순화 및 획일화하여 추적이 가능하다는 용이함이 있어 변경되었음
+
 
 ## 커밋 컨벤션
 
@@ -32,3 +38,7 @@
 | :-------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: |
 |                          <img src="https://avatars.githubusercontent.com/u/90930391?v=4" height=150 width=150>                          |                           <img src="https://avatars.githubusercontent.com/u/103429329?v=4" height=150 width=150>                           |                          <img src="https://avatars.githubusercontent.com/u/68059880?v=4" height=150 width=150>                          |
 | <a href="https://github.com/July249"><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a> | <a href="https://github.com/GreattitJY"><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a> | <a href="https://github.com/IntHyun"><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"/></a> |
+
+
+
+
