@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const home = `${process.env.PUBLIC_URL}/assets/img/icon-home.png`;
