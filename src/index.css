@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 유틸리티 스타일 */
 html {
   @apply font-spoqa text-[14px] font-normal;
 }
@@ -12,6 +13,12 @@ h1 {
   @apply text-2xl;
 }
 
+/* 레이아웃 */
+.page {
+  @apply w-[390px] h-screen mx-auto bg-white;
+}
+
+/* 디자인 공통 스타일 */
 .btn-xl {
   @apply rounded-[44px] p-[13px] w-[322px] font-medium;
 }
