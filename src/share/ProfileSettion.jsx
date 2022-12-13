@@ -1,5 +1,7 @@
 import React from "react";
 
-export const ProfileSettion = () => {
+const ProfileSettion = () => {
   return <div>ProfileSettion</div>;
 };
+
+export default ProfileSettion;

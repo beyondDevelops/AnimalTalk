@@ -1,5 +1,7 @@
 import React from "react";
 
-export const SplashScreen = () => {
+const SplashScreen = () => {
   return <div>SplashScreen</div>;
 };
+
+export default SplashScreen;

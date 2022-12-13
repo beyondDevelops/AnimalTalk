@@ -1,5 +1,7 @@
 import React from "react";
 
-export const OtherProfile = () => {
+const OtherProfile = () => {
   return <div>OtherProfile</div>;
 };
+
+export default OtherProfile;

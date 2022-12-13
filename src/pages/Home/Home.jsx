@@ -1,6 +1,8 @@
 import React from "react";
-import { Footer } from "../../share/Footer";
+import Footer from "../../share/Footer";
 
-export const Home = () => {
+const Home = () => {
   return <Footer />;
 };
+
+export default Home;
