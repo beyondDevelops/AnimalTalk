@@ -5,9 +5,25 @@
 @tailwind utilities;
 
 html {
-  @apply font-spoqa
+  @apply font-spoqa text-[14px] font-normal;
 }
 
 h1 {
   @apply text-2xl;
+}
+
+.btn-xl {
+  @apply rounded-[44px] p-[13px] w-[322px] font-medium;
+}
+
+.btn-lg {
+  @apply rounded-[34px] p-[7px] w-[120px] font-medium;
+}
+
+.btn-md {
+  @apply rounded-[44px] p-[6px] w-[90px] font-medium;
+}
+
+.btn-sm {
+  @apply rounded-[26px] p-[5px] w-[56px] text-[12px];
 }
