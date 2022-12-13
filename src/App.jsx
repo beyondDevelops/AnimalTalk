@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
-import { Home } from "./pages/Home/Home";
-import { Login } from "./pages/Login/Login";
-import { NotFound } from "./pages/NotFound/NotFound";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import NotFound from "./pages/NotFound/NotFound";
 /* 임시 import 입니다. */
-import { Chat } from "./pages/Chat/Chat";
-import { PostCreate } from "./pages/PostCreate/PostCreate";
-import { MyProfile } from "./pages/MyProfile/MyProfile";
+import Chat from "./pages/Chat/Chat";
+import PostCreate from "./pages/PostCreate/PostCreate";
+import MyProfile from "./pages/MyProfile/MyProfile";
 
 function App() {
   const [userInfo, setUserInfo] = useState(true);

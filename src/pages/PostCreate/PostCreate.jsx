@@ -1,5 +1,7 @@
 import React from "react";
 
-export const PostCreate = () => {
+const PostCreate = () => {
   return <div>PostCreate</div>;
 };
+
+export default PostCreate;
