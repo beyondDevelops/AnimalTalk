@@ -1,5 +1,4 @@
 const LoginBtn = ({ mt, img, text, borderColor }) => {
-  console.log(borderColor);
   return (
     <li className={mt}>
       <button
