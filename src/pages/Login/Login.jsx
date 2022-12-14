@@ -13,21 +13,18 @@ const Login = () => {
       imgUrl: kakaoImg,
       color: "border-[#F2C94C]",
       text: "카카오톡 계정으로 로그인",
-      mt: "mt-[50px]",
     },
     {
       id: "google",
       imgUrl: googleImg,
       color: "border-[#767676]",
       text: "카카오톡 계정으로 로그인",
-      mt: "mt-[10px]",
     },
     {
       id: "facebook",
       imgUrl: faceBookImg,
       color: "border-[#2D9CDB]",
       text: "카카오톡 계정으로 로그인",
-      mt: "mt-[10px]",
     },
   ];
 
@@ -37,17 +34,17 @@ const Login = () => {
         <img src={loginImg} alt="" className="w-[145px] h-[200px] my-[50%] mx-[auto]" />
       </div>
       <article className="bg-slate-200 h-3/5">
-        <ul className="flex flex-col items-center">
+        <ul className="flex flex-col items-center mt-[50px]">
           {loginBtnStyles.map((item) => (
-            <LoginBtn id={item.id} img={item.imgUrl} borderColor={item.color} text={item.text} mt={item.mt} />
+            <LoginBtn id={item.id} img={item.imgUrl} borderColor={item.color} text={item.text} />
           ))}
         </ul>
-        <div className="flex justify-center gap-[28px] mt-[20px] text-[#767676] text-[12px]">
+        <div className="flex justify-center gap-[28px] mt-[10px] text-[#767676] text-[12px]">
           <Link to="/login/email">
-            이메일로 로그인
+            <button>이메일로 로그인</button>
           </Link>
           <Link to="/join">
-            회원가입
+            <button>회원가입</button>
           </Link>
         </div>
       </article>
