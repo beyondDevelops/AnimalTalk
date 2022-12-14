@@ -13,18 +13,22 @@ const Post = (/* props */) => {
 
   return (
     <section className="relative w-[358px] flex flex-row mx-[16px] my-[20px]">
-      <h2 className="ir">게시글</h2>
+      <h2 className="ir">사용자 게시글</h2>
       <div className="basis-[42px] shrink-0 mr-[12px]">
         <img className="h-[42px]" src={profileManSmallImg} alt="(OOO님 방문하기)" />
       </div>
       <div className="post_item flex flex-col mb-[4px]">
         <div className="w-[200px] mb-[16px]">
           <strong className="text-[14px] leading-[18px] font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-            애월읍 위니브 감귤농장에 놀러왔으면 오이를 사가야하는게 기본 아닌가요?
+            애월읍 위니브 감귤농장
           </strong>
           <p className="text-[12px] leading-[14px] font-normal mt-[2px] text-[#767676]">@ weniv_Mandarin</p>
         </div>
-        <img className="absolute mt-[4px] w-[18px] h-[18px] right-[0px]" src={moreVerticalSmallImg} alt="더보기" />
+        <img
+          className="absolute mt-[4px] w-[18px] h-[18px] right-[0px] cursor-pointer"
+          src={moreVerticalSmallImg}
+          alt="더보기"
+        />
         <div className="mb-[16px]">
           <p className="font-normal text-[14px] leading-[18px]">
             옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와
