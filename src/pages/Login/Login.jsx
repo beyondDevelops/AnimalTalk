@@ -44,10 +44,10 @@ const Login = () => {
         </ul>
         <div className="flex justify-center gap-[28px] mt-[20px] text-[#767676] text-[12px]">
           <Link to="/login/email">
-            <button>이메일로 로그인</button>
+            이메일로 로그인
           </Link>
           <Link to="/join">
-            <button>회원가입</button>
+            회원가입
           </Link>
         </div>
       </article>
