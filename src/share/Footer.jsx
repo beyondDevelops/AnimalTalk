@@ -8,7 +8,7 @@ const Footer = () => {
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/icon-user.png`;
 
   return (
-    <nav className="w-[390px] bg-rose-300 h-[60px] flex justify-around items-center ">
+    <nav className="w-[390px] bg-rose-300 h-[60px] flex justify-around shrink-0 items-center ">
       <Link className="flex flex-col items-center" to="/">
         <img src={home} alt="홈" className="w-[24px] h-[24px]" />
         <span className="text-[10px] text-[#767676]">홈</span>
