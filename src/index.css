@@ -23,6 +23,7 @@ h1 {
 }
 
 /* 디자인 공통 스타일 */
+/* 버튼 크기 */
 .btn-xl {
   @apply rounded-[44px] p-[13px] w-[322px] font-medium;
 }
@@ -37,4 +38,17 @@ h1 {
 
 .btn-sm {
   @apply rounded-[26px] p-[5px] w-[56px] text-[12px];
+}
+
+/* 버튼 색상 */
+.btn-on {
+  @apply bg-[#EDA751]
+}
+
+.btn-off {
+  @apply bg-[#FCD690]
+}
+
+.btn-cancle {
+  @apply bg-[#fff] border-[1px] border-[#DBDBDB]
 }
