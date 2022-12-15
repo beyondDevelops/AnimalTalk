@@ -1,10 +1,41 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import SimpleClub from "../components/SimpleClub/SimpleClub";
 
 const Club = (/* props */) => {
   /* Note: 실제로 API를 통해 받아오는 데이터는 다를 수 있습니다. */
   /* Note: 데이터가 없는 경우 즉 참여하는 클럽이 없을 경우에 대한 예외처리가 필요합니다. */
-
+  const data = [
+    {
+      id: "1",
+      thumbnailImg: "https://cdn.pixabay.com/photo/2014/08/05/09/34/seoul-410257__340.jpg",
+      title: "한강에서 같이 산책해요~",
+      location: "뚝섬유원지",
+    },
+    {
+      id: "2",
+      thumbnailImg: "https://cdn.pixabay.com/photo/2017/08/15/22/51/golden-retriever-2645903__340.jpg",
+      title: "리트리버 러닝",
+      location: "반포공원",
+    },
+    {
+      id: "3",
+      thumbnailImg: "https://cdn.pixabay.com/photo/2016/06/12/04/01/bonjour-xiufeng-downtown-1451406__340.jpg",
+      title: "애견 카페에서의 티타임",
+      location: "도기스 카페",
+    },
+    {
+      id: "4",
+      thumbnailImg: "https://cdn.pixabay.com/photo/2016/02/05/19/52/man-1181873__340.jpg",
+      title: "사랑하는 강아지와 등산",
+      location: "광교산",
+    },
+    {
+      id: "5",
+      thumbnailImg: "",
+      title: "시각장애인 안내견 모임",
+      location: "제주시 복지센터",
+    },
+  ];
   /* scroll Button 기능을 구현하기 위해 사용된 코드입니다. */
   const elRef = useRef(null);
   const [arrowDisabled, setArrowDisabled] = useState(true);
@@ -29,65 +60,9 @@ const Club = (/* props */) => {
     <section className="bg-sky-300 relative px-[16px] py-[20px]">
       <h2 className="mb-[16px]">참여 중인 산책</h2>
       <ul className="flex flex-row overflow-hidden overflow-x-scroll scrollbar-hide" ref={elRef}>
-        {/* 별도의 컴포넌트로 분리시킬 예정*/}
-        <li className="w-[140px] mr-[10px]">
-          <Link to="/:club">
-            <img
-              className="w-full h-[90px] object-cover border-[0.5px] border-[#dbdbdb] rounded-[8px]"
-              src="https://images.unsplash.com/photo-1540411003967-af56b79be677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              alt=""
-            />
-            <strong className="block mt-[6px] mx-[2px] text-[14px] leading-[18px] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">
-              한강에서 원반 던지면 놀기
-            </strong>
-            <span className="block mt-[4px] mx-[2px] text-[12px] leading-[15px] font-bold text-[#EDA751]">
-              35,000원
-            </span>
-          </Link>
-        </li>
-        <li className="w-[140px] mr-[10px]">
-          <Link to="/:club">
-            <img
-              className="w-full h-[90px] object-cover border-[0.5px] border-[#dbdbdb] rounded-[8px]"
-              src="https://images.unsplash.com/photo-1540411003967-af56b79be677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              alt=""
-            />
-            <strong className="block mt-[6px] mx-[2px] text-[14px] leading-[18px] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">
-              한강에서 원반 던지면 놀기
-            </strong>
-            <span className="block mt-[4px] mx-[2px] text-[12px] leading-[15px] font-bold text-[#EDA751]">
-              35,000원
-            </span>
-          </Link>
-        </li>
-        <li className="w-[140px] mr-[10px]">
-          <Link to="/:club">
-            <img
-              className="box-border w-full h-[90px] object-cover border-[0.5px] border-[#dbdbdb] rounded-[8px]"
-              src="https://images.unsplash.com/photo-1540411003967-af56b79be677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              alt=""
-            />
-            <strong className="block mt-[6px] mb-[4px] mx-[2px] text-[14px] leading-[18px] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">
-              한강에서 원반 던지면 놀기
-            </strong>
-            <span className="block mx-[2px] text-[12px] leading-[15px] font-bold text-[#EDA751]">35,000원</span>
-          </Link>
-        </li>
-        <li className="w-[140px] mr-[10px]">
-          <Link to="/:club">
-            <img
-              className="w-full h-[90px] object-cover border-[0.5px] border-[#dbdbdb] rounded-[8px]"
-              src="https://images.unsplash.com/photo-1540411003967-af56b79be677?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              alt=""
-            />
-            <strong className="block mt-[6px] mx-[2px] text-[14px] leading-[18px] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">
-              한강에서 원반 던지면 놀기
-            </strong>
-            <span className="block mt-[4px] mx-[2px] text-[12px] leading-[15px] font-bold text-[#EDA751]">
-              35,000원
-            </span>
-          </Link>
-        </li>
+        {data.map((item) => (
+          <SimpleClub key={item.id} data={item} />
+        ))}
       </ul>
       <div className="relative top-[-90px] flex justify-between w-full">
         <button
