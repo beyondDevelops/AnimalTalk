@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ProfileSettion = ({ name, btnName, text }) => {
+const ProfileSetting = ({ name, btnName, text }) => {
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
   const upload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
@@ -64,4 +64,4 @@ const ProfileSettion = ({ name, btnName, text }) => {
   );
 };
 
-export default ProfileSettion;
+export default ProfileSetting;
