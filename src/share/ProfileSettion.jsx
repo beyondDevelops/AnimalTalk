@@ -16,40 +16,40 @@ const ProfileSettion = ({ name, btnName, text }) => {
         </button>
         <form action="" className="flex flex-col items-center ">
           <fieldset className="mb-[16px]">
-            <legend className="ir">로그인</legend>
+            <legend className="ir">사용자 이름</legend>
 
-            <label htmlFor="emailId" className="block text-[12px] text-[#767676] py-[4px]">
+            <label htmlFor="name" className="block text-[12px] text-[#767676] py-[4px]">
               사용자 이름
             </label>
             <input
-              id="emailId"
-              type="email"
+              id="name"
+              type="text"
               placeholder="2~10자 이내여야 합니다."
               className="w-[322px] border-b-[1px] border-[#DBDBDB]"
             />
           </fieldset>
 
           <fieldset className="mb-[16px]">
-            <legend className="ir">로그인</legend>
-            <label htmlFor="pw" className="block text-[12px] text-[#767676] py-[4px]">
+            <legend className="ir">계정 ID</legend>
+            <label htmlFor="userId" className="block text-[12px] text-[#767676] py-[4px]">
               계정 ID
             </label>
             <input
-              id="pw"
-              type="password"
+              id="userId"
+              type="text"
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
               className="w-[322px] border-b-[1px] border-[#DBDBDB]"
             />
           </fieldset>
 
           <fieldset>
-            <legend className="ir">로그인</legend>
-            <label htmlFor="pw" className="block text-[12px] text-[#767676] py-[4px]">
+            <legend className="ir">소개</legend>
+            <label htmlFor="intro" className="block text-[12px] text-[#767676] py-[4px]">
               소개
             </label>
             <input
-              id="pw"
-              type="password"
+              id="intro"
+              type="text"
               placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
               className="w-[322px] border-b-[1px] border-[#DBDBDB]"
             />
