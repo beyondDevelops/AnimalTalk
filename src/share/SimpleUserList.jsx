@@ -27,7 +27,11 @@ const SimpleUserList = (props) => {
       </div>
 
       {isBtn ? (
-        <button onClick={handleIsFollow} type="button" className={`btn-sm ${isFollow ? "btn-on text-white" : "btn-cancle text-[#767676]"}`}>
+        <button
+          onClick={handleIsFollow}
+          type="button"
+          className={`btn-sm ${isFollow ? "btn-on text-white" : "btn-cancle text-[#767676]"}`}
+        >
           {isFollow ? "팔로우" : "취소"}
         </button>
       ) : (

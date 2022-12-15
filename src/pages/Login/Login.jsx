@@ -30,23 +30,23 @@ const Login = () => {
 
   return (
     <main className="page">
-      <div className="bg-cyan-300 basis-full">
-        <img src={loginImg} alt="" className="w-[145px] h-[200px] my-[50%] mx-[auto]" />
+      <div className="bg-cyan-300 h-3/5 flex justify-center items-center">
+        <img src={loginImg} alt="애니멀톡" className="w-[145px] h-[200px]" />
       </div>
-      <article className="bg-slate-200 h-3/5">
-        <ul className="flex flex-col items-center mt-[50px]">
+      <article className="bg-slate-200 h-2/5 shrink-0">
+        <ul className>
           {loginBtnStyles.map((item) => (
             <LoginBtn id={item.id} img={item.imgUrl} borderColor={item.color} text={item.text} />
           ))}
+          <Link className="inline-block" to="/login/email">
+            이메일로 로그인
+          </Link>
         </ul>
-        <div className="flex justify-center gap-[28px] mt-[10px] text-[#767676] text-[12px]">
-          <Link to="/login/email">
-            <button>이메일로 로그인</button>
-          </Link>
-          <Link to="/join">
-            <button>회원가입</button>
-          </Link>
-        </div>
+        {/* <div className="flex justify-center gap-[28px] mt-[10px] text-[#767676] text-[12px]"> */}
+        <Link className="" to="/join">
+          회원가입
+        </Link>
+        {/* </div> */}
       </article>
     </main>
   );

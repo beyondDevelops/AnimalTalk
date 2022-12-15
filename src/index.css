@@ -19,7 +19,7 @@ h1 {
 
 /* 레이아웃 */
 .page {
-  @apply w-[390px] h-screen mx-auto bg-white flex flex-col justify-between;
+  @apply w-[390px] h-screen mx-auto bg-white flex flex-col;
 }
 
 /* 디자인 공통 스타일 */
