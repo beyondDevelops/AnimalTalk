@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const LoginAndJoin = ({ name, btnName, option }) => {
+  const test = useLocation();
   return (
     <div className="bg-lime-400">
       <main className="w-[390px] h-screen mx-auto bg-white flex flex-col">
@@ -24,7 +26,12 @@ const LoginAndJoin = ({ name, btnName, option }) => {
             <input id="pw" type="password" className="w-[322px] border-b-[1px] border-[#DBDBDB]" />
           </fieldset>
 
-          <button className="btn-xl bg-[#FCD690] text-[#fff] mt-[30px] mb-[20px]">{btnName}</button>
+          <Link
+            to={test.pathname === "/login/email" ? "/" : "/setting"}
+            className="btn-xl bg-[#FCD690] text-[#fff] mt-[30px] mb-[20px] text-center"
+          >
+            {btnName}
+          </Link>
         </form>
         <Link to="/join" className="text-[#767676] text-[12px] text-center">
           {option}
