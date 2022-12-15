@@ -7,7 +7,7 @@ const HeaderBasic = () => {
   let navigate = useNavigate();
 
   return (
-    <header className="w-[390px] bg-emerald-300 h-[48px] flex shrink-0 justify-between items-center">
+    <header className="w-[390px] h-[48px] flex shrink-0 justify-between items-center border-b-[1px] border-[#DBDBDB]">
       <button
         type="type"
         onClick={() => {
@@ -30,7 +30,7 @@ const HeaderSearch = () => {
   let navigate = useNavigate();
 
   return (
-    <header className="w-[390px] bg-emerald-300 h-[48px] flex justify-between shrink-0 items-center">
+    <header className="w-[390px] h-[48px] flex justify-between shrink-0 items-center border-b-[1px] border-[#DBDBDB]">
       <button
         type="button"
         onClick={() => {
@@ -59,7 +59,7 @@ const HeaderSearch = () => {
 const HeaderFeed = () => {
   const search = `${process.env.PUBLIC_URL}/assets/img/icon-search.png`;
   return (
-    <header className="w-[390px] bg-sky-300 h-[48px] flex shrink-0 justify-between items-center">
+    <header className="w-[390px] border-b-[1px] border-[#DBDBDB] h-[48px] flex shrink-0 justify-between items-center">
       <span className="ml-[16px] text-[18px] font-medium">애니멀톡 피드</span>
       {/* button을 Link로 바꾸어 serach페이지로 이동해야합니다. */}
       <button type="button">
@@ -74,7 +74,7 @@ const HeaderSave = () => {
   let navigate = useNavigate();
 
   return (
-    <header className="w-[390px] bg-sky-300 h-[48px] flex justify-between shrink-0 items-center">
+    <header className="w-[390px] border-b-[1px] border-[#DBDBDB] h-[48px] flex justify-between shrink-0 items-center">
       <button
         type="button"
         onClick={() => {
@@ -94,7 +94,7 @@ const HeaderChat = () => {
   let navigate = useNavigate();
 
   return (
-    <header className="w-[390px] bg-emerald-300 h-[48px] flex justify-between shrink-0 items-center">
+    <header className="w-[390px] border-b-[1px] border-[#DBDBDB] h-[48px] flex justify-between shrink-0 items-center">
       <button
         type="button"
         onClick={() => {
