@@ -7,7 +7,7 @@ const LoginAndJoin = ({ name, btnName, option }) => {
   return (
     <div className="bg-lime-400">
       <main className="w-[390px] h-screen mx-auto bg-white flex flex-col">
-        <strong className="pt-[30px] pb-[40px] text-center text-[24px] font-medium">{name}</strong>
+        <h1 className="pt-[30px] pb-[40px] text-center text-[24px] font-medium">{name}</h1>
         <form action="" className="flex flex-col items-center ">
           <fieldset className="mb-[16px]">
             <legend className="ir">로그인</legend>
