@@ -17,49 +17,51 @@ const UserProfile = () => {
   };
 
   return (
-    <section className="pt-[30px] px-[55px] pb-[26px]">
+    <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem]">
       <h2 className="ir">유저 프로필</h2>
 
       {/* 팔로우 리스트 링크, 유저 사진 */}
       <Link to="/" className="inline-block">
-        <button type="button" className="text-[10px] text-[#767676]">
-          <span className="block mb-[px] text-[18px] text-black font-bold">{followers}</span>
+        <button type="button" className="text-[1rem] text-[#767676]">
+          <span className="block text-[1.8rem] font-bold text-black">{followers}</span>
           followers
         </button>
       </Link>
-      <img src={tmpImg} alt="" className="inline-block w-[110px] h-[110px] ml-[43px] mr-[36px]" />
+      <img src={tmpImg} alt="" className="inline-block w-[11rem] h-[11rem] ml-[4.3rem] mr-[3.6rem]" />
       <Link to="/" className="inline-block">
-        <button type="button" className="text-[10px] text-[#767676]">
-          <span className="block text-[18px] font-bold text-black">{followings}</span>
+        <button type="button" className="text-[1rem] text-[#767676]">
+          <span className="block text-[1.8rem] font-bold text-black">{followings}</span>
           followings
         </button>
       </Link>
 
       {/* 유저 정보 텍스트 */}
-      <p className="w-fit mx-auto mt-[16px] text-[16px] font-bold">애월읍 위니브 감귤농장</p>
-      <p className="w-fit mx-auto text-[12px] text-[#767676]">@ weniv_Mandarin</p>
-      <p className="w-fit mx-auto mt-[16px] mb-[24px] text-[#767676]">애월읍 감귤 전국 배송, 귤따기 체험, 감귤농장</p>
+      <p className="w-fit mx-auto mt-[1.6rem] text-[1.6rem] font-bold">애월읍 위니브 감귤농장</p>
+      <p className="w-fit mx-auto text-[1.2rem] text-[#767676]">@ weniv_Mandarin</p>
+      <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-[#767676]">
+        애월읍 감귤 전국 배송, 귤따기 체험, 감귤농장
+      </p>
 
       {/* 채팅, 팔로우, 공유 */}
       <Link
         to="/chat"
-        className="inline-flex justify-center items-center w-[34px] h-[34px] border-[1px] border-[#DBDBDB] rounded-[30px] ml-[36px] align-bottom"
+        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-[#DBDBDB] rounded-[30px] ml-[3.6rem] align-bottom"
       >
-        <img src={chatImg} alt="" className="w-[20px] h-[20px]" />
+        <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
       </Link>
       <button
         type="button"
         onClick={handleIsFollow}
-        className={`h-[34px] mx-[10px] btn-lg ${isFollow ? "btn-on text-white" : "btn-cancle text-[#767676]"}`}
+        className={`h-[3.4rem] mx-[1rem] btn-lg ${isFollow ? "btn-on text-white" : "btn-cancle text-[#767676]"}`}
       >
         {isFollow ? "팔로우" : "언팔로우"}
       </button>
       <button
         type="button"
         to="/"
-        className="inline-flex justify-center items-center w-[34px] h-[34px] border-[1px] border-[#DBDBDB] rounded-[30px] align-bottom"
+        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-[#DBDBDB] rounded-[30px] align-bottom"
       >
-        <img src={shareImg} alt="" className="w-[20px] h-[20px]" />
+        <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
       </button>
     </section>
   );

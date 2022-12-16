@@ -19,11 +19,11 @@ const SimpleUserList = (props) => {
 
   // Note::호출하는 부모태그(ul)에 mt-[20px]이 들어가야 합니다.
   return (
-    <li className="w-[358px] h-[50px] mx-auto mb-[16px] flex justify-between items-center">
-      <img src={tmpImg} alt="" className="w-[50px] h-[50px]" />
-      <div className="mr-auto ml-[12px]">
+    <li className="mx-[1.6rem] my-[1.6rem] flex justify-between items-center">
+      <img src={tmpImg} alt="" className="w-[5rem] h-[5rem]" />
+      <div className="mr-auto ml-[1.2rem]">
         <strong className="font-medium">{userName}</strong>
-        <p className="text-[12px] text-[#767676]">{accountName ?? content ?? chat}</p>
+        <p className="text-[1.2rem] text-[#767676]">{accountName ?? content ?? chat}</p>
       </div>
 
       {isBtn ? (

@@ -10,17 +10,17 @@ const SimpleClub = (props) => {
   const clubLocation = props.data.location;
 
   return (
-    <li className="shrink-0 basis-[140px] mr-[10px] overflow-hidden">
+    <li className="shrink-0 basis-[14rem] mr-[1rem] overflow-hidden">
       <Link to={`/:${club}`}>
         <img
-          className="w-[140px] h-[90px] object-cover border-[0.5px] border-[#dbdbdb] rounded-[8px]"
+          className="w-[14rem] h-[9rem] object-cover border-[0.05rem] border-[#dbdbdb] rounded-[8px]"
           src={clubThumbnailImg}
           alt=""
         />
-        <strong className="block mt-[6px] mx-[2px] text-[14px] leading-[18px] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <strong className="block mt-[0.6rem] mx-[0.2rem] leading-[1.8rem] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">
           {clubTitle}
         </strong>
-        <span className="block mt-[4px] mx-[2px] text-[12px] leading-[15px] font-bold text-[#EDA751]">
+        <span className="block mt-[0.4rem] mx-[0.2rem] text-[1.2rem] leading-[1.5rem] font-bold text-[#EDA751]">
           {clubLocation}
         </span>
       </Link>
