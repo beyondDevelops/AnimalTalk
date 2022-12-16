@@ -10,7 +10,7 @@ html {
 }
 
 #root {
-  @apply bg-gray-100;
+  @apply bg-gray-100 text-[1.4rem];
 }
 
 .ir {
