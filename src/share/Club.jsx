@@ -57,16 +57,16 @@ const Club = (/* props */) => {
   };
 
   return (
-    <section className="bg-sky-300 relative px-[16px] py-[20px]">
-      <h2 className="mb-[16px]">참여 중인 산책</h2>
+    <section className="relative px-[1.6rem] py-[2rem]">
+      <h2 className="mb-[1.6rem]">참여 중인 산책</h2>
       <ul className="flex flex-row overflow-hidden overflow-x-scroll scrollbar-hide" ref={elRef}>
         {data.map((item) => (
           <SimpleClub key={item.id} data={item} />
         ))}
       </ul>
-      <div className="relative top-[-90px] flex justify-between w-full">
+      <div className="relative top-[-9rem] flex justify-between w-full">
         <button
-          className="absolute z-10 left-[-10px] bg-[#0000005d] leading-[100%] w-[30px] h-[30px] text-[30px] text-[#ffffff9a] rounded-[50%] cursor-pointer"
+          className="absolute z-10 left-[-1rem] bg-[#0000005d] leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-[#ffffff9a] rounded-[50%] cursor-pointer"
           type="button"
           aria-label="prev"
           onClick={() => handleHorizontalScroll(elRef.current, 25, 140, -10)}
@@ -75,7 +75,7 @@ const Club = (/* props */) => {
           &lt;
         </button>
         <button
-          className="absolute z-10 right-[-10px] bg-[#0000005d] leading-[100%] w-[30px] h-[30px] text-[30px] text-[#ffffff9a] rounded-[50%] cursor-pointer"
+          className="absolute z-10 right-[-1rem] bg-[#0000005d] leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-[#ffffff9a] rounded-[50%] cursor-pointer"
           type="button"
           aria-label="next"
           onClick={() => handleHorizontalScroll(elRef.current, 25, 140, 10)}

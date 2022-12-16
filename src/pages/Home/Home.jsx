@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="page">
       <HeaderFeed />
-      <main className="w-[390px] overflow-hidden overflow-y-auto scrollbar-hide">
+      <main>
         {data.map((item) => (
           <Post key={item.id} />
         ))}
