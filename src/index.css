@@ -6,49 +6,53 @@
 
 /* 유틸리티 스타일 */
 html {
-  @apply font-spoqa text-[14px] font-normal;
+  @apply font-spoqa text-[10px] font-normal;
 }
 
-h1 {
-  @apply text-2xl;
+#root {
+  @apply bg-gray-100 text-[1.4rem];
 }
 
 .ir {
-  @apply overflow-hidden absolute w-0 h-0 leading-[0] indent-[-9999px]
+  @apply overflow-hidden absolute w-0 h-0 leading-[0] indent-[-9999px];
 }
 
-/* 레이아웃 */
+/* 전체 페이지 레이아웃 */
 .page {
   @apply w-[390px] h-screen mx-auto bg-white flex flex-col;
+}
+
+main {
+  @apply basis-full overflow-hidden overflow-y-auto scrollbar-hide;
 }
 
 /* 디자인 공통 스타일 */
 /* 버튼 크기 */
 .btn-xl {
-  @apply rounded-[44px] p-[13px] w-[322px] font-medium;
+  @apply rounded-[44px] p-[1.3rem] w-[32.2rem] font-medium;
 }
 
 .btn-lg {
-  @apply rounded-[34px] p-[7px] w-[120px] font-medium;
+  @apply rounded-[34px] p-[0.7rem] w-[12rem] font-medium;
 }
 
 .btn-md {
-  @apply rounded-[44px] p-[6px] w-[90px] font-medium;
+  @apply rounded-[44px] p-[0.6rem] w-[9rem] font-medium;
 }
 
 .btn-sm {
-  @apply rounded-[26px] p-[5px] w-[56px] text-[12px];
+  @apply rounded-[26px] p-[0.5rem] w-[5.6rem] text-[1.2rem];
 }
 
 /* 버튼 색상 */
 .btn-on {
-  @apply bg-[#EDA751]
+  @apply bg-[#EDA751];
 }
 
 .btn-off {
-  @apply bg-[#FCD690]
+  @apply bg-[#FCD690];
 }
 
 .btn-cancle {
-  @apply bg-[#fff] border-[1px] border-[#DBDBDB]
+  @apply bg-[#fff] border-[0.1rem] border-[#DBDBDB];
 }
