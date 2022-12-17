@@ -7,7 +7,8 @@ const Login = () => {
   const faceBookImg = `${process.env.PUBLIC_URL}/assets/img/logo-facebook.png`;
 
   return (
-    <main className="page">
+    <section className="page">
+      <h1 className="ir">메인 로그인 화면</h1>
       <div className="bg-cyan-300 h-3/5 flex justify-center items-center">
         <img src={loginImg} alt="애니멀톡" className="w-[145px] h-[200px]" />
       </div>
@@ -61,7 +62,7 @@ const Login = () => {
           회원가입
         </Link>
       </article>
-    </main>
+    </section>
   );
 };
 
