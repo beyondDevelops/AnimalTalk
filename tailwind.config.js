@@ -4,11 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "main-color": "#EDA751",
-        "sub-color": "#FCD690",
-        "custom-gray": "#767676",
-        "custom-light-gray": "#dbdbdb",
-        "custom-layout-color": "#f3f4f6",
+        "m-color": "#EDA751",
+        "s-color": "#FCD690",
+        "cst-gray": "#767676",
+        "cst-light-gray": "#dbdbdb",
+        "cst-layout": "#f3f4f6",
       },
       fontFamily: {
         spoqa: ["Spoqa Han Sans Neo", "sans-serif"],
