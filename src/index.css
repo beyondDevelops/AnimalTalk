@@ -10,7 +10,7 @@ html {
 }
 
 #root {
-  @apply bg-gray-100 text-[1.4rem];
+  @apply bg-cst-layout text-[1.4rem];
 }
 
 .ir {
@@ -46,13 +46,13 @@ main {
 
 /* 버튼 색상 */
 .btn-on {
-  @apply bg-[#EDA751];
+  @apply bg-m-color;
 }
 
 .btn-off {
-  @apply bg-[#FCD690];
+  @apply bg-s-color;
 }
 
 .btn-cancle {
-  @apply bg-[#fff] border-[0.1rem] border-[#DBDBDB];
+  @apply bg-[#fff] border-[0.1rem] border-cst-light-gray;
 }
