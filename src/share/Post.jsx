@@ -10,46 +10,41 @@ const Post = (/* props */) => {
   const profileManSmallImg = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const moreVerticalSmallImg = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-small.png`;
   const heartOffImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-off.png`;
-
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
 
+  const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const [isLike, setIsLike] = useState(false);
-  const imgRef = useRef();
 
   // Note: 이미지를 전송할 때 (,)를 기준으로 하나의 문자열로 전송한다고 가정했습니다.
-  const filenames = "1640066364747.png,1640066364748.png,1640066364749.png".split(",");
-  const images = [
-    {
-      id: filenames[0],
-      url: "https://cdn.pixabay.com/photo/2022/06/06/10/55/cat-7245850__480.jpg",
-    },
-    {
-      id: filenames[1],
-      url: "https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016__480.jpg",
-    },
-    {
-      id: filenames[2],
-      url: "https://cdn.pixabay.com/photo/2012/02/28/00/49/snow-17854_1280.jpg",
-    },
-  ];
+  const images =
+    "https://cdn.pixabay.com/photo/2022/06/06/10/55/cat-7245850__480.jpg, https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016__480.jpg, https://cdn.pixabay.com/photo/2012/02/28/00/49/snow-17854_1280.jpg";
+  const imageArr = images.split(", ");
 
   const handleLikeBtn = () => {
     setIsLike(!isLike);
     // Note: 여기서 좋아요 데이터를 처리합니다.
   };
 
-  // Note: transform이 먹지 않습니다..
-  const handleCarousel = (e) => {
-    console.log(e.target.id);
-    if (e.target.id === 1) {
-      if (currentIndex === 0) {
-        imgRef.style.transform = `translateX(-304px)`;
-        // imgRef.style.transform = `translate-x-[-304px]`;
-        // imgRef.classList.add("tranlate-x-[-304px]");
-        // setCurrentIndex(1);
+  const handleCarousel = (el, pos) => {
+    let currentPos = el.scrollLeft;
+    if (currentPos < pos) {
+      el.scrollLeft += pos;
+    } else if (currentPos > pos) {
+      if (pos === 0) {
+        el.scrollLeft = 0;
       }
+      el.scrollLeft -= pos;
+    }
+    /* Carousel 버튼 색깔 변화 기능 */
+    if (el.scrollLeft === 0) {
+      setCurrentIndex(0);
+    } else if (el.scrollLeft === 304) {
+      setCurrentIndex(1);
+    } else if (el.scrollLeft === 608) {
+      setCurrentIndex(2);
     }
   };
 
@@ -77,20 +72,20 @@ const Post = (/* props */) => {
 
       {/* Note: 캐러셀 부분 */}
       <div className="relative overflow-hidden w-[30.4rem] h-[22.8rem] mt-[1.6rem] ml-[5.4rem] mb-[1.4rem] rounded-[10px]">
-        <div ref={imgRef} className="flex h-full overflow-x-auto scrollbar-hide">
-          {images.map((image) => (
-            <img key={image.id} src={image.url} alt="" className={`min-w-full object-cover`} />
+        <div className="flex h-full overflow-x-scroll scrollbar-hide" ref={imgRef}>
+          {imageArr.map((image, idx) => (
+            <img key={idx} src={image} alt="" className="min-w-full object-cover" />
           ))}
         </div>
         <div className="relative flex justify-center -translate-y-[2rem]">
-          {images.map((image, index) =>
-            images.length > 1 ? (
+          {imageArr.map((image, idx) =>
+            imageArr.length > 1 ? (
               <button
-                onClick={handleCarousel}
-                key={image.id}
-                id={index}
-                className={`mr-[0.6rem] last:mr-0 text-white bg-white w-[0.6rem] h-[0.6rem] rounded-[50%] ${
-                  images[currentIndex].id === image.id ? "bg-m-color" : "bg-white"
+                onClick={() => handleCarousel(imgRef.current, 304 * idx)}
+                key={idx}
+                id={idx}
+                className={`mr-[0.6rem] last:mr-0 text-white w-[0.6rem] h-[0.6rem] rounded-[50%] ${
+                  currentIndex === idx ? "bg-m-color" : "bg-white"
                 }`}
               ></button>
             ) : (
