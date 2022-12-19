@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Post = (/* props */) => {
@@ -14,13 +14,43 @@ const Post = (/* props */) => {
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
 
-  const tmpImg =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq3KKxatmkx5h29Eilsm2Myj78RjMqgMOvv71gY7N6z1YrS-2C2N9IHGS2V5HXgejTXUk&usqp=CAU";
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isLike, setIsLike] = useState(false);
+  const imgRef = useRef();
+
+  // Note: 이미지를 전송할 때 (,)를 기준으로 하나의 문자열로 전송한다고 가정했습니다.
+  const filenames = "1640066364747.png,1640066364748.png,1640066364749.png".split(",");
+  const images = [
+    {
+      id: filenames[0],
+      url: "https://cdn.pixabay.com/photo/2022/06/06/10/55/cat-7245850__480.jpg",
+    },
+    {
+      id: filenames[1],
+      url: "https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016__480.jpg",
+    },
+    {
+      id: filenames[2],
+      url: "https://cdn.pixabay.com/photo/2012/02/28/00/49/snow-17854_1280.jpg",
+    },
+  ];
 
   const handleLikeBtn = () => {
     setIsLike(!isLike);
     // Note: 여기서 좋아요 데이터를 처리합니다.
+  };
+
+  // Note: transform이 먹지 않습니다..
+  const handleCarousel = (e) => {
+    console.log(e.target.id);
+    if (e.target.id === 1) {
+      if (currentIndex === 0) {
+        imgRef.style.transform = `translateX(-304px)`;
+        // imgRef.style.transform = `translate-x-[-304px]`;
+        // imgRef.classList.add("tranlate-x-[-304px]");
+        // setCurrentIndex(1);
+      }
+    }
   };
 
   return (
@@ -32,7 +62,7 @@ const Post = (/* props */) => {
         <strong className="leading-[1.8rem] font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
           애월읍 위니브 감귤농장
         </strong>
-        <span className="block text-[1.2rem] leading-[1.4rem] font-normal text-[#767676]">@ weniv_Mandarin</span>
+        <span className="block text-[1.2rem] leading-[1rem] font-normal text-[#767676]">@ weniv_Mandarin</span>
       </p>
       <img
         className="float-right w-[1.8rem] h-[1.8rem] mt-[0.4rem] cursor-pointer"
@@ -45,23 +75,31 @@ const Post = (/* props */) => {
         약동하다. 대고, 못할 넣는 풍부하게 뛰노는 인생의 힘있다.
       </p>
 
-      {/* Note: 캐러셀 부분 (미구현) */}
+      {/* Note: 캐러셀 부분 */}
       <div className="relative overflow-hidden w-[30.4rem] h-[22.8rem] mt-[1.6rem] ml-[5.4rem] mb-[1.4rem] rounded-[10px]">
-        <div className="flex h-full transition duration-[0.3s] ease-in-out ">
-          <img src={tmpImg} alt="" className="min-w-full" />
-          <img src={tmpImg} alt="" className="min-w-full" />
-          <img src={tmpImg} alt="" className="min-w-full" />
+        <div ref={imgRef} className="flex h-full overflow-x-auto scrollbar-hide">
+          {images.map((image) => (
+            <img key={image.id} src={image.url} alt="" className={`min-w-full object-cover`} />
+          ))}
         </div>
-        <button type="button" className="absolute bottom-[1.2rem] left-[45%] text-white">
-          점
-        </button>
-        <button type="button" className="absolute bottom-[1.2rem] left-[50%] text-white">
-          점
-        </button>
-        <button type="button" className="absolute bottom-[1.2rem] left-[55%] text-white">
-          점
-        </button>
+        <div className="relative flex justify-center -translate-y-[2rem]">
+          {images.map((image, index) =>
+            images.length > 1 ? (
+              <button
+                onClick={handleCarousel}
+                key={image.id}
+                id={index}
+                className={`mr-[0.6rem] last:mr-0 text-white bg-white w-[0.6rem] h-[0.6rem] rounded-[50%] ${
+                  images[currentIndex].id === image.id ? "bg-m-color" : "bg-white"
+                }`}
+              ></button>
+            ) : (
+              <></>
+            )
+          )}
+        </div>
       </div>
+
       <button
         type="button"
         onClick={handleLikeBtn}
