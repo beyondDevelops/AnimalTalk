@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const HeaderBasic = () => {
+const HeaderBasic = ({ handleModalInfo }) => {
   const arrowLeft = `${process.env.PUBLIC_URL}/assets/img/icon-arrow-left.png`;
   const moreVertical = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-large.png`;
   let navigate = useNavigate();
@@ -19,7 +19,7 @@ const HeaderBasic = () => {
       </button>
 
       {/* 아래 버튼에는 모달 이벤트가 들어가야 합니다. */}
-      <button className="w-[2.4rem] h-[2.4rem] my-[1.2rem]" type="button">
+      <button className="w-[2.4rem] h-[2.4rem] my-[1.2rem]" type="button" onClick={handleModalInfo}>
         <img src={moreVertical} alt="더보기" />
       </button>
     </header>
