@@ -6,8 +6,7 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <article className="page">
-      <h1 className="ir">페이지를 찾지 못하였습니다.</h1>
+    <div className="page">
       <img src={notFoundImg} alt="페이지를 찾을 수 없습니다." className="w-[185px] h-[185px] mt-[191px] mx-[auto]" />
       <p className="text-center mt-[21px] text-[#767676]">페이지를 찾을 수 없습니다.</p>
       <button
@@ -18,7 +17,7 @@ const NotFound = () => {
       >
         이전 페이지
       </button>
-    </article>
+    </div>
   );
 };
 
