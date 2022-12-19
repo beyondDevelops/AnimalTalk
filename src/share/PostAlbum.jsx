@@ -8,6 +8,7 @@ const PostAlbum = ({ post }) => {
   const postImg = post.image
     ? post.image
     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq3KKxatmkx5h29Eilsm2Myj78RjMqgMOvv71gY7N6z1YrS-2C2N9IHGS2V5HXgejTXUk&usqp=CAU";
+
   return (
     <div className="relative flex h-full">
       {postImg && postImg.includes(", ") ? (

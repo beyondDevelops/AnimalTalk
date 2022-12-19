@@ -186,25 +186,47 @@ const OtherProfile = () => {
         <UserProfile />
         <Club />
         <PostTypeSelectBar list={list} onListToggle={onListToggle} />
-        <section className="flex flex-wrap my-[2rem] mx-[1.6rem]">
+        <section className="">
           <h2 className="ir">유저 게시글</h2>
           {postDataArray ? (
-            postDataArray.map((post, idx) =>
-              list ? (
-                <Post key={post.id} post={post} />
-              ) : (
-                <div
-                  className={`relative overflow-hidden w-[11.4rem] h-[11.4rem] mb-[0.8rem] ${
-                    (idx + 1) % 3 === 0 ? "mr-0" : "mr-[0.8rem]"
-                  } rounded-[10px]`}
-                >
-                  <PostAlbum key={post.id} post={post} />
-                </div>
-              )
+            list ? (
+              postDataArray.map((post, idx) => <Post key={post.id} post={post} />)
+            ) : (
+              <section className="flex flex-wrap my-[1.6rem] mx-[1.6rem]">
+                {postDataArray.map((post, idx) => (
+                  <div
+                    className={`relative overflow-hidden w-[11.4rem] h-[11.4rem] mb-[0.8rem] ${
+                      (idx + 1) % 3 === 0 ? "mr-0" : "mr-[0.8rem]"
+                    } rounded-[10px]`}
+                  >
+                    <PostAlbum key={post.id} post={post} />
+                  </div>
+                ))}
+              </section>
             )
           ) : (
             <img src={loadingImg} alt="잠시만 기다려 주세요." />
           )}
+
+          {/* {postDataArray ? (
+            postDataArray.map((post, idx) => {
+              if (list) {
+                return <Post key={post.id} post={post} />;
+              } else {
+                return (
+                  <div
+                    className={`relative overflow-hidden w-[11.4rem] h-[11.4rem] mt-[1.6rem] ml-[1.6rem] mb-[0.8rem] ${
+                      (idx + 1) % 3 === 0 ? "mr-0" : "mr-[0.8rem]"
+                    } rounded-[10px]`}
+                  >
+                    <PostAlbum key={post.id} post={post} />
+                  </div>
+                );
+              }
+            })
+          ) : (
+            <img src={loadingImg} alt="잠시만 기다려 주세요." />
+          )} */}
         </section>
       </main>
       <Footer />
