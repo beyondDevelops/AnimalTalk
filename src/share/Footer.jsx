@@ -12,7 +12,6 @@ const Footer = () => {
   const myProfileFill = `${process.env.PUBLIC_URL}/assets/img/icon-user-fill.png`;
 
   const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <nav className="flex px-[0.6rem] pt-[1.2rem] pb-[0.6rem]">
