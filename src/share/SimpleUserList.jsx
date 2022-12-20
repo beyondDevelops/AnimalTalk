@@ -23,14 +23,14 @@ const SimpleUserList = (props) => {
       <img src={tmpImg} alt="" className="w-[5rem] h-[5rem]" />
       <div className="mr-auto ml-[1.2rem]">
         <strong className="font-medium">{userName}</strong>
-        <p className="text-[1.2rem] text-[#767676]">{accountName ?? content ?? chat}</p>
+        <p className="text-[1.2rem] text-cst-gray">{accountName ?? content ?? chat}</p>
       </div>
 
       {isBtn ? (
         <button
           onClick={handleIsFollow}
           type="button"
-          className={`btn-sm ${isFollow ? "btn-on text-white" : "btn-cancle text-[#767676]"}`}
+          className={`btn-sm ${isFollow ? "btn-on text-white" : "btn-cancle text-cst-gray"}`}
         >
           {isFollow ? "팔로우" : "취소"}
         </button>

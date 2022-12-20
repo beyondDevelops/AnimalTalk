@@ -21,7 +21,7 @@ const UserChat = (props) => {
           약동하다. 대고, 못할 넣는 풍부하게 뛰노는 인생의 힘있다.
         </p>
       )}
-      <time dateTime="2022-12-19 12:40" className="self-end ml-[0.6rem] text-[1rem] text-[#767676]">
+      <time dateTime="2022-12-19 12:40" className="self-end ml-[0.6rem] text-[1rem] text-cst-gray">
         12:40
       </time>
     </section>
@@ -36,7 +36,7 @@ const UserChat = (props) => {
           약동하다. 대고, 못할 넣는 풍부하게 뛰노는 인생의 힘있다.
         </p>
       )}
-      <time dateTime="2022-12-19 12:40" className="self-end mr-[0.6rem] text-[1rem] text-[#767676]">
+      <time dateTime="2022-12-19 12:40" className="self-end mr-[0.6rem] text-[1rem] text-cst-gray">
         12:40
       </time>
     </section>

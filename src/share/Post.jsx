@@ -62,7 +62,7 @@ const Post = (/* props */) => {
         <strong className="leading-[1.8rem] font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
           애월읍 위니브 감귤농장
         </strong>
-        <span className="block text-[1.2rem] leading-[1rem] font-normal text-[#767676]">@ weniv_Mandarin</span>
+        <span className="block text-[1.2rem] leading-[1rem] font-normal text-cst-gray">@ weniv_Mandarin</span>
       </p>
       <img
         className="float-right w-[1.8rem] h-[1.8rem] mt-[0.4rem] cursor-pointer"
@@ -103,18 +103,18 @@ const Post = (/* props */) => {
       <button
         type="button"
         onClick={handleLikeBtn}
-        className="inline-flex items-center ml-[5.4rem] mr-[1.8rem] text-[#767676] align-bottom"
+        className="inline-flex items-center ml-[5.4rem] mr-[1.8rem] text-cst-gray align-bottom"
       >
         <img className="w-[2rem] h-[2rem]" src={`${isLike ? heartOnImg : heartOffImg}`} alt="좋아요" />
         <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">58</span>
       </button>
-      <Link to="/chat" className="inline-flex items-center text-[#767676] align-bottom">
+      <Link to="/chat" className="inline-flex items-center text-cst-gray align-bottom">
         <img className="w-[2rem] h-[2rem]" src={commentImg} alt="댓글 확인하기" />
         <span className="text-[1.2rem leading-[1.2rem] ml-[0.6rem]">12</span>
       </Link>
       <time
         dateTime="2020-10-21"
-        className="block ml-[5.4rem] mt-[1.8rem] mb-[0.4rem] text-[1rem] leading-[1.2rem] text-[#767676]"
+        className="block ml-[5.4rem] mt-[1.8rem] mb-[0.4rem] text-[1rem] leading-[1.2rem] text-cst-gray"
       >
         2020년 10월 21일
       </time>

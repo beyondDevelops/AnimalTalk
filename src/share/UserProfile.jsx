@@ -22,14 +22,14 @@ const UserProfile = () => {
 
       {/* 팔로우 리스트 링크, 유저 사진 */}
       <Link to="/" className="inline-block">
-        <button type="button" className="text-[1rem] text-[#767676]">
+        <button type="button" className="text-[1rem] text-cst-gray">
           <span className="block text-[1.8rem] font-bold text-black">{followers}</span>
           followers
         </button>
       </Link>
       <img src={tmpImg} alt="" className="inline-block w-[11rem] h-[11rem] ml-[4.3rem] mr-[3.6rem]" />
       <Link to="/" className="inline-block">
-        <button type="button" className="text-[1rem] text-[#767676]">
+        <button type="button" className="text-[1rem] text-cst-gray">
           <span className="block text-[1.8rem] font-bold text-black">{followings}</span>
           followings
         </button>
@@ -37,29 +37,29 @@ const UserProfile = () => {
 
       {/* 유저 정보 텍스트 */}
       <p className="w-fit mx-auto mt-[1.6rem] text-[1.6rem] font-bold">애월읍 위니브 감귤농장</p>
-      <p className="w-fit mx-auto text-[1.2rem] text-[#767676]">@ weniv_Mandarin</p>
-      <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-[#767676]">
+      <p className="w-fit mx-auto text-[1.2rem] text-cst-gray">@ weniv_Mandarin</p>
+      <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-cst-gray">
         애월읍 감귤 전국 배송, 귤따기 체험, 감귤농장
       </p>
 
       {/* 채팅, 팔로우, 공유 */}
       <Link
         to="/chat"
-        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-[#DBDBDB] rounded-[30px] ml-[3.6rem] align-bottom"
+        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] ml-[3.6rem] align-bottom"
       >
         <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
       </Link>
       <button
         type="button"
         onClick={handleIsFollow}
-        className={`h-[3.4rem] mx-[1rem] btn-lg ${isFollow ? "btn-on text-white" : "btn-cancle text-[#767676]"}`}
+        className={`h-[3.4rem] mx-[1rem] btn-lg ${isFollow ? "btn-on text-white" : "btn-cancle text-cst-gray"}`}
       >
         {isFollow ? "팔로우" : "언팔로우"}
       </button>
       <button
         type="button"
         to="/"
-        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-[#DBDBDB] rounded-[30px] align-bottom"
+        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
       >
         <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
       </button>
