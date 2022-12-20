@@ -162,10 +162,10 @@ const data = {
 const OtherProfile = () => {
   const loadingImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
   const [list, setList] = useState(true);
-  const [postDataArray, setPostDataArray] = useState(null);
+  const [postDataArray, setPostDataArray] = useState([]);
 
   useEffect(() => {
-    if (!postDataArray) {
+    if (postDataArray) {
       const fetchData = async () => {
         try {
           await setPostDataArray(data.post);
@@ -188,11 +188,15 @@ const OtherProfile = () => {
         <PostTypeSelectBar list={list} onListToggle={onListToggle} />
         <section className="">
           <h2 className="ir">유저 게시글</h2>
+          {postDataArray.length === 0 && (
+            <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>
+          )}
           {postDataArray ? (
             list ? (
               postDataArray.map((post, idx) => <Post key={post.id} post={post} />)
             ) : (
               <section className="flex flex-wrap my-[1.6rem] mx-[1.6rem]">
+                <h2 className="ir">앨범형</h2>
                 {postDataArray.map((post, idx) => (
                   <PostAlbum key={post.id} post={post} idx={idx} />
                 ))}
