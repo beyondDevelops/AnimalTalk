@@ -8,10 +8,9 @@ const Login = () => {
   const basicImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
 
   return (
-    // 페이지에 먼저 적용된 백그라운드 색상으로 인해 section에 백그라운드 색을 넣어줘도 적용이 안됨ㅜㅜ
-    <section className="page">
+    <section className="w-[39rem] bg-[#FCD690] h-screen mx-auto flex flex-col shadow-[0_0px_10px_-5px_rgba(0,0,0,0.8)]">
       <h1 className="ir">메인 로그인 화면</h1>
-      <div className="bg-[#FCD690] h-3/5 flex justify-center items-center">
+      <div className="h-3/5 flex justify-center items-center">
         <img src={loginImg} alt="애니멀톡" className="w-[14.5rem] h-[20rem]" />
       </div>
       <article className="bg-[#fff] h-2/5 shrink-0 rounded-t-[20px]">
