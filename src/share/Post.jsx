@@ -73,9 +73,7 @@ const Post = ({ post }) => {
         <strong className="leading-[1.8rem] font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
           {post.author.username}
         </strong>
-        <span className="block mt-[0.2rem] text-[1.2rem] leading-[1rem] text-cst-gray">
-          @&nbsp;{post.author.accountname}
-        </span>
+        <span className="block text-[1.2rem] leading-[1rem] font-normal text-cst-gray">@ weniv_Mandarin</span>
       </p>
       <img
         className="float-right w-[1.8rem] h-[1.8rem] mt-[0.4rem] cursor-pointer"
@@ -146,8 +144,8 @@ const Post = ({ post }) => {
         <span className="text-[1.2rem leading-[1.2rem] ml-[0.6rem]">{post.commentCount}</span>
       </Link>
       <time
-        dateTime={`${year}-${month}-${date}`}
-        className="block ml-[5.4rem] mt-[1.8rem] mb-[0.4rem] text-[1rem] leading-[1.2rem] text-[#767676]"
+        dateTime="2020-10-21"
+        className="block ml-[5.4rem] mt-[1.8rem] mb-[0.4rem] text-[1rem] leading-[1.2rem] text-cst-gray"
       >
         {year}년 {month}월 {date}일
       </time>
