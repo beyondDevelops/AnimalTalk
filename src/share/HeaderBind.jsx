@@ -47,7 +47,7 @@ const HeaderSearch = () => {
           <input
             id="search"
             type="text"
-            className="w-[316px] bg-[#F2F2F2] rounded-[32px] px-[16px] py-[7px] text-[1.4rem] focus:border"
+            className="w-[31.6rem] bg-[#F2F2F2] rounded-[32px] px-[1.6rem] py-[0.7rem] text-[1.4rem] focus:border"
             placeholder="계정 검색"
           />
         </fieldset>
@@ -60,7 +60,7 @@ const HeaderFeed = () => {
   const search = `${process.env.PUBLIC_URL}/assets/img/icon-search.png`;
   return (
     <header className="flex justify-between items-center px-[1.6rem]">
-      <span className="text-[18px] font-medium">애니멀톡 피드</span>
+      <span className="text-[1.8rem] font-medium">애니멀톡 피드</span>
       {/* button을 Link로 바꾸어 serach페이지로 이동해야합니다. */}
       <button className="w-[2.4rem] h-[2.4rem] my-[1.2rem]" type="button">
         <img src={search} alt="검색하기" />
@@ -84,7 +84,7 @@ const HeaderSave = () => {
       >
         <img className="" src={arrowLeft} alt="뒤로가기" />
       </button>
-      <button className="btn-md bg-[#FCD690] text-[1.4rem] text-[#fff] my-[0.8rem]">저장</button>
+      <button className="btn-md bg-s-color text-[1.4rem] text-[#fff] my-[0.8rem]">저장</button>
     </header>
   );
 };
@@ -106,7 +106,7 @@ const HeaderChat = () => {
         <img src={arrowLeft} alt="뒤로가기" />
       </button>
       {/* 아래 텍스트는 유저 이름을 porps로 전달받습니다. */}
-      <span className="ml-[10px] mr-auto text-[1.4rem]">안녕하세요. 환영합니다.</span>
+      <span className="ml-[1rem] mr-auto text-[1.4rem]">안녕하세요. 환영합니다.</span>
 
       {/* 아래 버튼에는 모달 이벤트가 들어가야 합니다. */}
       <button className="w-[2.4rem] h-[2.4rem] my-[1.2rem]" type="button">
