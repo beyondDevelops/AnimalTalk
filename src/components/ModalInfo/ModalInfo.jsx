@@ -4,7 +4,7 @@ const ModalInfo = ({ onModalAction, onModalInfo, contentOne, contentTwo, modalRe
   return (
     <section onClick={onModalInfo} ref={modalRef} className="absolute inset-0">
       <h2 className="ir">모달 설정창</h2>
-      <div className="absolute bottom-0 left-[50%] translate-x-[-50%] bg-[#d4b886] w-[39rem] rounded-t-[1rem] mx-auto">
+      <div className="absolute bottom-0 left-[50%] translate-x-[-50%] bg-[#fff] w-[39rem] rounded-t-[1rem] mx-auto shadow-[0_-2px_6px_-3px_rgba(0,0,0,0.8)]">
         <button className="bg-[#DBDBDB] border-[0.2rem] rounded-[0.5rem] block w-[5rem] mx-auto my-[1.6rem]"></button>
         <button
           onClick={() => {
