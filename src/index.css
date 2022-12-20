@@ -6,7 +6,7 @@
 
 /* 유틸리티 스타일 */
 html {
-  @apply font-spoqa text-[1rem] font-normal;
+  @apply font-spoqa text-[10px] font-normal;
 }
 
 #root {
