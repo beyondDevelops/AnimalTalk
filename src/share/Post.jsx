@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ModalPostImg from "../components/ModalPostImg/ModalPostImg";
 
-const Post = ({ post }) => {
+const Post = ({ post, onModalClose }) => {
   // Note: 팔로잉 유저가 있는 사용자가 처음 로그인 시 Home에서 확인할 수 있는 게시물 포스트를 기준으로 작성되었습니다.
   // Note: 사용자 닉네임, 계정아이디, 게시물 정보(업로드 일시, 좋아요 갯수, 댓글 내용 및 갯수, 포스팅 이미지, 포스팅한 글)를 받아오게 됩니다.
   // Note: 아래 변수는 임시로 구현되었으며, 실제로는 API와 props를 이용합니다.
@@ -90,8 +90,19 @@ const Post = ({ post }) => {
           <>
             <div className="flex flex-row h-full overflow-x-scroll scrollbar-hide" ref={imgRef}>
               {postImg.split(", ").map((img, idx) => (
-                <img key={idx} src={img} alt="" className="min-w-full object-cover cursor-pointer" />
+                <img
+                  key={idx}
+                  src={img}
+                  alt=""
+                  className="min-w-full object-cover cursor-pointer"
+                  onClick={handleModalToggle}
+                />
               ))}
+              {modal ? (
+                <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
+              ) : (
+                <></>
+              )}
             </div>
             <div className="relative flex justify-center -translate-y-[2rem]">
               {postImg.split(", ").map((img, idx) => (
@@ -116,7 +127,7 @@ const Post = ({ post }) => {
                 onClick={handleModalToggle}
               />
             </div>
-            <ModalPostImg img={postImg} modal={modal} onModalToggle={handleModalToggle} />
+            {modal ? <ModalPostImg imgArr={[postImg]} modal={modal} onModalToggle={handleModalToggle} /> : <></>}
           </>
         )}
       </div>
