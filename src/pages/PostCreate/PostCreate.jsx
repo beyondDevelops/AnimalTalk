@@ -83,7 +83,7 @@ const PostCreate = () => {
       <form className="p-[1.6rem]">
         <fieldset>
           <legend className="ir">사진 업로드</legend>
-          <label htmlFor="imgUpload">
+          <label htmlFor="imgUpload" className="block ml-auto w-[5rem] h-[5rem]">
             <img src={imgUpload} alt="" className="w-[5rem] h-[5rem] ml-auto" />
           </label>
           <input id="imgUpload" multiple type="file" className="hidden" onChange={handleImgUpload} />
