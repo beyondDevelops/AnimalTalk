@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ModalPostImg from "../components/ModalPostImg/ModalPostImg";
 
-const Post = ({ post, onModalClose }) => {
+const Post = ({ post }) => {
   // Note: 팔로잉 유저가 있는 사용자가 처음 로그인 시 Home에서 확인할 수 있는 게시물 포스트를 기준으로 작성되었습니다.
   // Note: 사용자 닉네임, 계정아이디, 게시물 정보(업로드 일시, 좋아요 갯수, 댓글 내용 및 갯수, 포스팅 이미지, 포스팅한 글)를 받아오게 됩니다.
   // Note: 아래 변수는 임시로 구현되었으며, 실제로는 API와 props를 이용합니다.
@@ -13,8 +13,6 @@ const Post = ({ post, onModalClose }) => {
   const heartOffImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-off.png`;
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
-
-  const [isLike, setIsLike] = useState(post.hearted);
 
   // 이미지 관리 및 모달 처리
   const postImg = post.image
@@ -28,20 +26,7 @@ const Post = ({ post, onModalClose }) => {
     modal ? setModal(false) : setModal(true);
   };
 
-  const handleLikeBtn = () => {
-    setIsLike(!isLike);
-    // Note: 여기서 좋아요 데이터를 처리합니다.
-  };
-
-  // 날짜 정보 관리
-  const postDate = post.updatedAt
-    ? post.updatedAt.slice(0, 10).replaceAll("-", "")
-    : post.createdAt.slice(0, 10).replaceAll("-", "");
-  const year = postDate.slice(0, 4);
-  const month = postDate.slice(4, 6);
-  const date = postDate.slice(6, 8);
-
-  const handleCarousel = (el, pos) => {
+  const handleButtonCarousel = (el, pos) => {
     let currentPos = el.scrollLeft;
     if (currentPos < pos) {
       el.scrollLeft += pos;
@@ -60,6 +45,22 @@ const Post = ({ post, onModalClose }) => {
       setCurrentIndex(2);
     }
   };
+
+  // 좋아요 관리
+  const [isLike, setIsLike] = useState(post.hearted);
+
+  const handleLikeBtn = () => {
+    setIsLike(!isLike);
+    // Note: 여기서 좋아요 데이터를 처리합니다.
+  };
+
+  // 날짜 정보 관리
+  const postDate = post.updatedAt
+    ? post.updatedAt.slice(0, 10).replaceAll("-", "")
+    : post.createdAt.slice(0, 10).replaceAll("-", "");
+  const year = postDate.slice(0, 4);
+  const month = postDate.slice(4, 6);
+  const date = postDate.slice(6, 8);
 
   return (
     <section className="my-[2rem] mx-[1.6rem]">
@@ -107,7 +108,7 @@ const Post = ({ post, onModalClose }) => {
             <div className="relative flex justify-center -translate-y-[2rem]">
               {postImg.split(", ").map((img, idx) => (
                 <button
-                  onClick={() => handleCarousel(imgRef.current, 304 * idx)}
+                  onClick={() => handleButtonCarousel(imgRef.current, 304 * idx)}
                   key={idx}
                   id={idx}
                   className={`mr-[0.6rem] last:mr-0 text-white w-[0.6rem] h-[0.6rem] rounded-[50%] ${
