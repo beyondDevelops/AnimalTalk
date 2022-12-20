@@ -7,12 +7,13 @@ import NotFound from "./pages/NotFound/NotFound";
 import Chat from "./pages/Chat/Chat";
 import PostCreate from "./pages/PostCreate/PostCreate";
 import MyProfile from "./pages/MyProfile/MyProfile";
+import OtherProfile from "./pages/OtherProfile/OtherProfile";
 import LoginEmail from "./pages/LoginEmail/LoginEmail";
 import SignUp from "./pages/SignUp/SignUp";
 import Profilesetting from "./share/ProfileSetting";
 
 function App() {
-  const [userInfo, setUserInfo] = useState(false);
+  const [userInfo, setUserInfo] = useState(true);
 
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/postcreate" element={<PostCreate />} />
         <Route path="/myprofile" element={<MyProfile />} />
+        <Route path="/otherprofile" element={<OtherProfile />} />
         <Route path="/*" element={<NotFound />} />
 
         <Route path="/login/email" element={<LoginEmail name="로그인" btnName="로그인" option="이메일로 회원가입" />} />
