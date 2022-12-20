@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Chat from "./pages/Chat/Chat";
 import PostCreate from "./pages/PostCreate/PostCreate";
 import MyProfile from "./pages/MyProfile/MyProfile";
+import OtherProfile from "./pages/OtherProfile/OtherProfile";
 import LoginEmail from "./pages/LoginEmail/LoginEmail";
 import SignUp from "./pages/SignUp/SignUp";
 import ChatRoom from "./pages/Chat/ChatRoom/ChatRoom";
@@ -26,6 +27,7 @@ function App() {
 
         <Route path="/postcreate" element={<PostCreate />} />
         <Route path="/myprofile" element={<MyProfile />} />
+        <Route path="/otherprofile" element={<OtherProfile />} />
         <Route path="/*" element={<NotFound />} />
 
         <Route path="/login/email" element={<LoginEmail name="로그인" btnName="로그인" option="이메일로 회원가입" />} />
