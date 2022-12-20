@@ -5,7 +5,7 @@ import { HeaderSave } from "../../share/HeaderBind";
 const PostCreate = () => {
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
-  const imgCamcle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
+  const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
 
   const [images, setImages] = useState([]);
   const [imageURLs, setImgURLs] = useState([]);
@@ -22,11 +22,8 @@ const PostCreate = () => {
   };
 
   const handleImgCancle = (e) => {
-    console.log(e.target.id);
     const newImageURLs = imageURLs.filter((_, index) => index !== parseInt(e.target.id));
     setImgURLs(newImageURLs);
-    console.log(newImageURLs);
-    console.log(imageURLs);
   };
 
   return (
@@ -47,7 +44,7 @@ const PostCreate = () => {
                   <img src={imgURL} alt="" className="w-[30.4rem] h-[22.8rem] ml-auto object-cover rounded-[10px]" />
                   <button type="button" onClick={handleImgCancle}>
                     <img
-                      src={imgCamcle}
+                      src={imgCancle}
                       id={index}
                       alt=""
                       className="w-[2rem] h-[2rem] absolute top-[1.1rem] right-[1.1rem]"
@@ -68,7 +65,7 @@ const PostCreate = () => {
                   />
                   <button type="button" onClick={handleImgCancle}>
                     <img
-                      src={imgCamcle}
+                      src={imgCancle}
                       id={index}
                       alt=""
                       className="w-[1.5rem] h-[1.5rem] absolute top-[1.1rem] right-[1.1rem]"
