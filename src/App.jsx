@@ -9,10 +9,11 @@ import PostCreate from "./pages/PostCreate/PostCreate";
 import MyProfile from "./pages/MyProfile/MyProfile";
 import LoginEmail from "./pages/LoginEmail/LoginEmail";
 import SignUp from "./pages/SignUp/SignUp";
-import Profilesetting from "./share/ProfileSetting";
+import ChatRoom from "./pages/Chat/ChatRoom/ChatRoom";
+import ProfileSetting from "./share/ProfileShare/ProfileSetting/ProfileSetting";
 
 function App() {
-  const [userInfo, setUserInfo] = useState(false);
+  const [userInfo, setUserInfo] = useState(true);
 
   return (
     <BrowserRouter>
@@ -21,6 +22,8 @@ function App() {
         <Route path="/" element={!userInfo ? <Navigate to="/login" replace={true} /> : <Home />} />
         {/* path=/:user/chat 이런 식으로 들어가야 합니다. 현재는 테스트를 위해 user 정보를 제외했습니다. */}
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/chatroom" element={<ChatRoom />} />
+
         <Route path="/postcreate" element={<PostCreate />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/*" element={<NotFound />} />
@@ -30,7 +33,7 @@ function App() {
         <Route
           path="/setting"
           element={
-            <Profilesetting name="프로필 설정" btnName="애니멀톡 시작하기" text="언제든지 변경할 수 있습니다." />
+            <ProfileSetting name="프로필 설정" btnName="애니멀톡 시작하기" text="언제든지 변경할 수 있습니다." />
           }
         />
       </Routes>
