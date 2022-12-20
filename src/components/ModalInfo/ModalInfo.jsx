@@ -1,5 +1,4 @@
 import React from "react";
-
 const ModalInfo = ({ onModalAction, onModalInfo, contentOne, contentTwo, modalRef }) => {
   return (
     <section onClick={onModalInfo} ref={modalRef} className="absolute inset-0">
@@ -10,13 +9,13 @@ const ModalInfo = ({ onModalAction, onModalInfo, contentOne, contentTwo, modalRe
           onClick={() => {
             alert("준비중입니다.");
           }}
-          className="block p-[1.25rem] w-[100%] text-left pl-[2.6rem]"
+          className="block p-[1.25rem] w-[100%] text-left pl-[2.6rem] hover:bg-s-color"
         >
           {contentOne}
         </button>
         <button
           onClick={onModalAction}
-          className="border-t-[0.1rem] p-[1.25rem]  w-[100%] text-left pl-[2.6rem] hover:text-[#ff0000]"
+          className="border-t-[0.1rem] p-[1.25rem]  w-[100%] text-left pl-[2.6rem] hover:bg-s-color"
         >
           {contentTwo}
         </button>
@@ -24,5 +23,4 @@ const ModalInfo = ({ onModalAction, onModalInfo, contentOne, contentTwo, modalRe
     </section>
   );
 };
-
 export default ModalInfo;
