@@ -5,8 +5,7 @@ const ModalPostImg = ({ imgArr, modal, onModalToggle }) => {
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
 
-  const handleCarousel = (el) => {
-    // console.log(el.dataset.name);
+  const handleModalCarousel = (el) => {
     if (el.dataset.name === "prev") {
       if (imgArr[currentIndex - 1]) {
         setCurrentIndex((idx) => idx - 1);
@@ -29,13 +28,13 @@ const ModalPostImg = ({ imgArr, modal, onModalToggle }) => {
       }`}
     >
       <button
-        className={`absolute top-[50%] left-[10rem] z-30 ${
-          imgArr.length > 1 ? "bg-[#ffffffdb]" : "bg-[#ffffff4a]"
+        className={`absolute top-[50%] left-[6%] min-[391px]:left-[10%] lg:left-[25%] z-30 ${
+          imgArr.length > 1 ? "bg-[#ffffffdb] hover:text-black" : "bg-[#ffffff00]"
         } leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-cst-gray rounded-[50%] cursor-pointer`}
         type="button"
         aria-label="prev"
         data-name="prev"
-        onClick={(e) => handleCarousel(e.target)}
+        onClick={(e) => handleModalCarousel(e.target)}
         ref={leftArrow}
       >
         &lt;
@@ -54,13 +53,13 @@ const ModalPostImg = ({ imgArr, modal, onModalToggle }) => {
         </div>
       </section>
       <button
-        className={`absolute top-[50%] right-[10rem] z-30 ${
-          imgArr.length > 1 ? "bg-[#ffffffdb]" : "bg-[#ffffff4a]"
+        className={`absolute top-[50%] right-[6%] min-[391px]:right-[10%] lg:right-[25%] z-30 ${
+          imgArr.length > 1 ? "bg-[#ffffffdb] hover:text-black" : "bg-[#ffffff00]"
         } leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-cst-gray rounded-[50%] cursor-pointer`}
         type="button"
         aria-label="next"
         data-name="next"
-        onClick={(e) => handleCarousel(e.target)}
+        onClick={(e) => handleModalCarousel(e.target)}
         ref={rightArrow}
       >
         &gt;
