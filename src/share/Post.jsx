@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import ModalPostImg from "../components/ModalPostImg/ModalPostImg";
 
 const Post = ({ post }) => {
-  console.log(post);
   // Note: 팔로잉 유저가 있는 사용자가 처음 로그인 시 Home에서 확인할 수 있는 게시물 포스트를 기준으로 작성되었습니다.
   // Note: 사용자 닉네임, 계정아이디, 게시물 정보(업로드 일시, 좋아요 갯수, 댓글 내용 및 갯수, 포스팅 이미지, 포스팅한 글)를 받아오게 됩니다.
   // Note: 아래 변수는 임시로 구현되었으며, 실제로는 API와 props를 이용합니다.
@@ -14,21 +14,26 @@ const Post = ({ post }) => {
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
 
-  const imgRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLike, setIsLike] = useState(post.hearted);
 
-  const [isLike, setIsLike] = useState(false);
-
-  // Note: 이미지를 전송할 때 (,)를 기준으로 하나의 문자열로 전송한다고 가정했습니다.
+  // 이미지 관리 및 모달 처리
   const postImg = post.image
     ? post.image
     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq3KKxatmkx5h29Eilsm2Myj78RjMqgMOvv71gY7N6z1YrS-2C2N9IHGS2V5HXgejTXUk&usqp=CAU";
+  const imgRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [modal, setModal] = useState(false);
+
+  const handleModalToggle = () => {
+    modal ? setModal(false) : setModal(true);
+  };
 
   const handleLikeBtn = () => {
     setIsLike(!isLike);
     // Note: 여기서 좋아요 데이터를 처리합니다.
   };
 
+  // 날짜 정보 관리
   const postDate = post.updatedAt
     ? post.updatedAt.slice(0, 10).replaceAll("-", "")
     : post.createdAt.slice(0, 10).replaceAll("-", "");
@@ -85,7 +90,7 @@ const Post = ({ post }) => {
           <>
             <div className="flex flex-row h-full overflow-x-scroll scrollbar-hide" ref={imgRef}>
               {postImg.split(", ").map((img, idx) => (
-                <img key={idx} src={img} alt="" className="min-w-full object-cover" />
+                <img key={idx} src={img} alt="" className="min-w-full object-cover cursor-pointer" />
               ))}
             </div>
             <div className="relative flex justify-center -translate-y-[2rem]">
@@ -102,9 +107,17 @@ const Post = ({ post }) => {
             </div>
           </>
         ) : (
-          <div className="flex h-full">
-            <img src={postImg} alt="" className="min-w-full object-cover" />
-          </div>
+          <>
+            <div className="flex h-full">
+              <img
+                src={postImg}
+                alt=""
+                className="min-w-full object-cover cursor-pointer"
+                onClick={handleModalToggle}
+              />
+            </div>
+            <ModalPostImg img={postImg} modal={modal} onModalToggle={handleModalToggle} />
+          </>
         )}
       </div>
 
