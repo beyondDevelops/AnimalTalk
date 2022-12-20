@@ -26,27 +26,7 @@ const Post = ({ post }) => {
     modal ? setModal(false) : setModal(true);
   };
 
-  const handleButtonCarousel = (el, pos) => {
-    let currentPos = el.scrollLeft;
-    if (currentPos < pos) {
-      el.scrollLeft += pos;
-    } else if (currentPos > pos) {
-      if (pos === 0) {
-        el.scrollLeft = 0;
-      }
-      el.scrollLeft -= pos;
-    }
-    /* Carousel 버튼 색깔 변화 기능 */
-    if (el.scrollLeft === 0) {
-      setCurrentIndex(0);
-    } else if (el.scrollLeft === 304) {
-      setCurrentIndex(1);
-    } else if (el.scrollLeft === 608) {
-      setCurrentIndex(2);
-    }
-  };
-
-  // 좋아요 관리
+  // 좋아요 관리x
   const [isLike, setIsLike] = useState(post.hearted);
 
   const handleLikeBtn = () => {
@@ -95,7 +75,9 @@ const Post = ({ post }) => {
                   key={idx}
                   src={img}
                   alt=""
-                  className="min-w-full object-cover cursor-pointer"
+                  className={`min-w-full object-cover cursor-pointer ${
+                    postImg.split(", ")[currentIndex] === img ? "" : "hidden"
+                  }`}
                   onClick={handleModalToggle}
                 />
               ))}
@@ -108,11 +90,11 @@ const Post = ({ post }) => {
             <div className="relative flex justify-center -translate-y-[2rem]">
               {postImg.split(", ").map((img, idx) => (
                 <button
-                  onClick={() => handleButtonCarousel(imgRef.current, 304 * idx)}
+                  onClick={() => setCurrentIndex(postImg.split(", ").indexOf(img))}
                   key={idx}
                   id={idx}
                   className={`mr-[0.6rem] last:mr-0 text-white w-[0.6rem] h-[0.6rem] rounded-[50%] ${
-                    currentIndex === idx ? "bg-m-color" : "bg-white"
+                    postImg.split(", ")[currentIndex] === img ? "bg-m-color" : "bg-white"
                   }`}
                 ></button>
               ))}
