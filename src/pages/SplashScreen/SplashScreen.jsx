@@ -1,13 +1,27 @@
-import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SplashScreen = () => {
   const splashImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    let time = setTimeout(() => {
+      navigate("/login", { replace: true });
+    }, 1500);
+
+    return () => {
+      clearTimeout(time);
+    };
+  });
+
   return (
-    <main className="page">
-      <div className="basis-full overflow-hidden">
-        <img src={splashImg} alt="" className="w-[14.5rem] h-[20rem] mt-64 mx-[auto]" />
-      </div>
-    </main>
+    <div className="page">
+      <main>
+        <img src={splashImg} alt="" className="w-[14.5rem] h-[20rem] mx-[auto]" />
+      </main>
+    </div>
   );
 };
 
