@@ -7,6 +7,7 @@ import Club from "../../share/Club";
 import ModalInfo from "../../components/ModalInfo/ModalInfo";
 import Modal from "../../components/Modal/Modal";
 import { useState, useCallback, useRef } from "react";
+import OtherProfile from "../OtherProfile/OtherProfile";
 const MyProfile = () => {
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
@@ -32,7 +33,7 @@ const MyProfile = () => {
       <main>
         <UserProfile />
         <Club />
-        <Post />
+        {/* <Post /> */}
       </main>
       <Footer />
       {modal === true ? (
