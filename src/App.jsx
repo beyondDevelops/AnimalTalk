@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SplashScreen from "./pages/SplashScreen/SplashScreen";
 import LoginHome from "./pages/LoginHome/LoginHome";
 import LoginEmail from "./pages/LoginEmail/LoginEmail";
-import Signup from "./pages/Signup/Signup";
+import Signup from "./pages/SignUp/SignUp";
 import SignupProfile from "./pages/SignupProfile/SignupProfile";
 import CheckAuth from "./components/CheckAuth/CheckAuth";
 import Home from "./pages/Home/Home";
