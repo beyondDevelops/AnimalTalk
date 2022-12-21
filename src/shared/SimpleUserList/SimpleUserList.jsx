@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SimpleUserList = ({ isBtn }) => {
   // Note::아래 변수는 임시로 구현했으며, 실제로는 API와 props를 사용합니다.
@@ -6,13 +7,14 @@ const SimpleUserList = ({ isBtn }) => {
   // const isBtn = true;
   const userName = "사용자 이름";
   // Note::아래 셋 중 하나가 사용됩니다. nullish를 사용해서 0이 아닌 null 값이 들어가야 됩니다.
-  // Note:: props로 데이터를 전달받아서 사용하면 편할 거 같습니다.
+  // Note:: 실제로는 nullish가 아니라 props를 사용해 컨트롤할 수 있습니다.
   const accountName = null;
   const content = null;
-  const chat = "마지막 대화 내역입니다. 가나다라마바사아자카타파하";
+  const chat = "안녕하세요. 가나다라마바사아자카타파하아";
 
   // 채팅리스트에서만 사용됩니다. 읽지 않은 메시지 알람을 관립합니다.
   const message = true;
+  const navigate = useNavigate();
 
   // Note::useState(false)안의 인자값을 props로 받고 이벤트 발생 시 axios로 데이터를 전송하는 건 어떨까요?
   const [isFollow, setIsFollow] = useState(false);
@@ -20,6 +22,14 @@ const SimpleUserList = ({ isBtn }) => {
   const handleIsFollow = () => {
     setIsFollow(!isFollow);
     // Note::form 대신 이 부분에서 axios를 통해서 데이터를 보내면 될 거 같습니다.
+  };
+
+  const handleLink = () => {
+    if (!isBtn) {
+      navigate("/chat/1");
+    } else {
+      navigate("/profile/:accountname");
+    }
   };
 
   // Note::호출하는 부모태그(ul)에 mt-[20px]이 들어가야 합니다.
@@ -31,8 +41,8 @@ const SimpleUserList = ({ isBtn }) => {
           : ""
       } `}
     >
-      <img src={tmpImg} alt="" className="w-[5rem] h-[5rem]" />
-      <p className="mr-auto ml-[1.2rem]">
+      <img src={tmpImg} alt="" className="w-[5rem] h-[5rem] cursor-pointer" onClick={handleLink} />
+      <p className="mr-auto ml-[1.2rem] cursor-pointer" onClick={handleLink}>
         <strong className="font-medium">{userName}</strong>
         <span className="block text-[1.2rem] w-[23.8rem] whitespace-nowrap text-cst-gray text-ellipsis overflow-hidden">
           {accountName ?? content ?? chat}
