@@ -1,43 +1,61 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import NotFound from "./pages/NotFound/NotFound";
-/* 임시 import 입니다. */
-import Chat from "./pages/Chat/Chat";
-import PostCreate from "./pages/PostCreate/PostCreate";
-import MyProfile from "./pages/MyProfile/MyProfile";
-import OtherProfile from "./pages/OtherProfile/OtherProfile";
+import SplashScreen from "./pages/SplashScreen/SplashScreen";
+import LoginHome from "./pages/LoginHome/LoginHome";
 import LoginEmail from "./pages/LoginEmail/LoginEmail";
-import SignUp from "./pages/SignUp/SignUp";
-import ChatRoom from "./pages/Chat/ChatRoom/ChatRoom";
-import ProfileSetting from "./share/ProfileShare/ProfileSetting/ProfileSetting";
+import Signup from "./pages/Signup/Signup";
+import SignupProfile from "./pages/SignupProfile/SignupProfile";
+import CheckAuth from "./components/CheckAuth/CheckAuth";
+import Home from "./pages/Home/Home";
+import UserSearch from "./pages/UserSearch/UserSearch";
+import UserFeed from "./pages/UserFeed/UserFeed";
+import Follows from "./pages/Follows/Follows";
+import ClubUpload from "./pages/ClubUpload/ClubUpload";
+import EditProfile from "./pages/EditProfile/EditProfile";
+import PostDetail from "./pages/PostDetail/PostDetail";
+import PostUpload from "./pages/PostUpload/PostUpload";
+import ChatList from "./pages/ChatList/ChatList";
+import ChatRoom from "./pages/ChatRoom/ChatRoom";
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
-  const [userInfo, setUserInfo] = useState(true);
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={!userInfo ? <Login /> : <Navigate to="/" replace={true} />} />
-        <Route path="/" element={!userInfo ? <Navigate to="/login" replace={true} /> : <Home />} />
-        {/* path=/:user/chat 이런 식으로 들어가야 합니다. 현재는 테스트를 위해 user 정보를 제외했습니다. */}
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/chat/chatroom" element={<ChatRoom />} />
+        <Route path="/" element={<SplashScreen />} />
+        <Route path="/login">
+          <Route index element={<LoginHome />} />
+          <Route path="email" element={<LoginEmail />} />
+        </Route>
 
-        <Route path="/postcreate" element={<PostCreate />} />
-        <Route path="/myprofile" element={<MyProfile />} />
-        <Route path="/otherprofile" element={<OtherProfile />} />
-        <Route path="/*" element={<NotFound />} />
+        <Route path="/signup">
+          <Route index element={<Signup />} />
+          <Route path="profile" element={<SignupProfile />} />
+        </Route>
 
-        <Route path="/login/email" element={<LoginEmail name="로그인" btnName="로그인" option="이메일로 회원가입" />} />
-        <Route path="/join" element={<SignUp name="회원가입" btnName="회원가입" />} />
-        <Route
-          path="/setting"
-          element={
-            <ProfileSetting name="프로필 설정" btnName="애니멀톡 시작하기" text="언제든지 변경할 수 있습니다." />
-          }
-        />
+        <Route element={<CheckAuth />}>
+          <Route path="/home" element={<Home />} />
+
+          <Route path="/search" element={<UserSearch />} />
+
+          <Route path="/profile/:accountname">
+            <Route index element={<UserFeed />} />
+            <Route path="followers" element={<Follows />} />
+            <Route path="followings" element={<Follows />} />
+            <Route path="clubupload" element={<ClubUpload />} />
+            <Route path="edit" element={<EditProfile />} />
+          </Route>
+
+          <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/postedit" element={<PostUpload />} />
+          <Route path="/postupload" element={<PostUpload />} />
+        </Route>
+
+        <Route path="/chat">
+          <Route index element={<ChatList />} />
+          <Route path=":accountname" element={<ChatRoom />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

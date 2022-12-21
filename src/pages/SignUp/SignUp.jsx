@@ -1,12 +1,8 @@
 import React from "react";
-import LoginAndJoin from "../../components/LoginAndJoin/LoginAndJoin";
+import LoginAndSignup from "../../components/LoginAndSignup/LoginAndSignup";
 
-const SignUp = ({ name, btnName }) => {
-  return (
-    <div>
-      <LoginAndJoin name={name} btnName={btnName} />
-    </div>
-  );
+const Signup = () => {
+  return <LoginAndSignup name="회원가입" btnName="회원가입" />;
 };
 
-export default SignUp;
+export default Signup;

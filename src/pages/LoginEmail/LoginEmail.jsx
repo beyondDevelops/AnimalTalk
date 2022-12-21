@@ -1,10 +1,10 @@
 import React from "react";
-import LoginAndJoin from "../../components/LoginAndJoin/LoginAndJoin";
+import LoginAndSignup from "../../components/LoginAndSignup/LoginAndSignup";
 
-const LoginEmail = ({ name, btnName, option }) => {
+const LoginEmail = () => {
   return (
     <>
-      <LoginAndJoin name={name} btnName={btnName} option={option} />
+      <LoginAndSignup name="로그인" btnName="로그인" option="이메일로 회원가입" />
     </>
   );
 };
