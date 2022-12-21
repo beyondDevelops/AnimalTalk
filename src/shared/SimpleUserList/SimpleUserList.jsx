@@ -10,6 +10,10 @@ const SimpleUserList = ({ isBtn }) => {
   const accountName = null;
   const content = null;
   const chat = "마지막 대화 내역입니다. 가나다라마바사아자카타파하";
+
+  // 채팅리스트에서만 사용됩니다. 읽지 않은 메시지 알람을 관립합니다.
+  const message = true;
+
   // Note::useState(false)안의 인자값을 props로 받고 이벤트 발생 시 axios로 데이터를 전송하는 건 어떨까요?
   const [isFollow, setIsFollow] = useState(false);
 
@@ -20,7 +24,13 @@ const SimpleUserList = ({ isBtn }) => {
 
   // Note::호출하는 부모태그(ul)에 mt-[20px]이 들어가야 합니다.
   return (
-    <li className="mx-[1.6rem] my-[1.6rem] flex justify-between items-center">
+    <li
+      className={`relative mx-[1.6rem] my-[1.6rem] flex justify-between items-center ${
+        message
+          ? "before:content-[''] before:bg-m-color before:w-[1.2rem] before:h-[1.2rem] before:absolute before:left-0 before:top-0 before:rounded-full"
+          : ""
+      } `}
+    >
       <img src={tmpImg} alt="" className="w-[5rem] h-[5rem]" />
       <p className="mr-auto ml-[1.2rem]">
         <strong className="font-medium">{userName}</strong>
