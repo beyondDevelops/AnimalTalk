@@ -48,11 +48,11 @@ function App() {
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/postedit" element={<PostUpload />} />
           <Route path="/postupload" element={<PostUpload />} />
-        </Route>
 
-        <Route path="/chat">
-          <Route index element={<ChatList />} />
-          <Route path=":accountname" element={<ChatRoom />} />
+          <Route path="/chat">
+            <Route index element={<ChatList />} />
+            <Route path=":accountname" element={<ChatRoom />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFound />} />
