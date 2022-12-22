@@ -25,7 +25,7 @@ const SimpleUserList = ({ isBtn }) => {
   };
 
   const handleLink = () => {
-    if (!isBtn) {
+    if (chat) {
       navigate("/chat/1");
     } else {
       navigate("/profile/:accountname");
