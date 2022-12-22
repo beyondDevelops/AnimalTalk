@@ -8,3 +8,10 @@ export default axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const axiosImgUpload = axios.create({
+  baseURL: BASE_URL,
+  header: {
+    "Content-Type": "multipart/form-data",
+  },
+});
