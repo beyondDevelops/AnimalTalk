@@ -1,8 +1,10 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 
 const CheckAuth = () => {
-  return <Outlet />;
+  const token = localStorage.getItem("token");
+
+  return <>{token ? <Outlet /> : <Navigate to="/login" replace="true" />}</>;
 };
 
 export default CheckAuth;
