@@ -103,9 +103,8 @@ const PostUpload = () => {
         {!!imageURLs.length &&
           (imageURLs.length === 1 ? (
             <>
-              {/* key 돌 때 index 사용... */}
               {imageURLs.map((imgURL, index) => (
-                <div key={index} className="relative">
+                <div key={crypto.randomUUID()} className="relative">
                   <img src={imgURL} alt="" className="w-[30.4rem] h-[22.8rem] ml-auto object-cover rounded-[10px]" />
                   <button type="button" onClick={handleImgCancle}>
                     <img
