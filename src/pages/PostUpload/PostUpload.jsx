@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 import Textarea from "../../components/Textarea/Textarea";
 import { axiosImgUpload } from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const PostUpload = () => {
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
@@ -13,6 +14,10 @@ const PostUpload = () => {
 
   const [images, setImages] = useState([]);
   const [imageURLs, setimageURLs] = useState([]);
+
+  const [uploadPossible, setUploadPossible] = useState(true);
+
+  const navigate = useNavigate();
 
   // 이미지 업로드
   const handleImgUpload = (e) => {
@@ -51,50 +56,42 @@ const PostUpload = () => {
     try {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
-        formData.append("image", files[i], files[i].name);
+        formData.append("image", files[i]);
       }
       const res = await axiosImgUpload.post("/image/uploadfiles", formData);
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
-      console.log(res);
-      // console.log("formData", formData);
-      // console.log(res["filename"]);
+      const imageName = res.data.map((i) => i["filename"]).join(", ");
+      return imageName;
     } catch (err) {
       console.error(err);
     }
-    // const url = "https://mandarin.api.weniv.co.kr";
-    // const formData = new FormData();
-    // formData.append("image", files[index]);
-    // const res = await fetch(url + "/image/uploadfile", {
-    //   method: "POST",
-    //   body: formData,
-    // });
-    // console.log(res);
-    // const data = await res.json();
-    // console.log("data", data);
-    // const productImgName = data["filename"];
-    // console.log(productImgName);
-    // return productImgName;
   };
 
   // 포스트 업로드
-  const onSubmitForm = useCallback(async (e) => {
-    try {
-      e.preventDefault();
-      console.log("업로드!");
-      // console.log(image);
-      // console.log(images);
-      const test = await ImageFormData(images, 0);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  const onSubmitForm = useCallback(
+    async (e) => {
+      try {
+        e.preventDefault();
+        console.log("업로드!");
+        const imageName = await ImageFormData(images);
+        console.log(imageName);
+
+        // Note: setUploadPossible과 navigate는 구현이 완성되면 들어가야 합니다.
+        // setUploadPossible(false);
+        // navigate("/home");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [images]
+  );
 
   return (
     <div className="page">
       {/* Note: Header 수정 필요 */}
-      <HeaderSave btnText="업로드" isActive={isText || imageURLs.length} {...{ onSubmitForm }} />
+      <HeaderSave btnText="업로드" isActive={uploadPossible && (isText || imageURLs.length)} {...{ onSubmitForm }} />
       <main className="pt-[2rem] px-[1.6rem]">
         {/* 프로필 및 텍스트 */}
         <img src={myProfile} alt="" className="inline-block align-top w-[4.2rem] h-[4.2rem] object-cover" />
