@@ -47,13 +47,45 @@ const PostUpload = () => {
     setImages(newImages);
   };
 
-  const ImageFormData = async (files, index) => {};
+  const ImageFormData = async (files) => {
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("image", files[i], files[i].name);
+      }
+      const res = await axiosImgUpload.post("/image/uploadfiles", formData);
+      if (res.status !== 200) {
+        throw new Error(res.status, "통신에 실패했습니다.");
+      }
+      console.log(res);
+      // console.log("formData", formData);
+      // console.log(res["filename"]);
+    } catch (err) {
+      console.error(err);
+    }
+    // const url = "https://mandarin.api.weniv.co.kr";
+    // const formData = new FormData();
+    // formData.append("image", files[index]);
+    // const res = await fetch(url + "/image/uploadfile", {
+    //   method: "POST",
+    //   body: formData,
+    // });
+    // console.log(res);
+    // const data = await res.json();
+    // console.log("data", data);
+    // const productImgName = data["filename"];
+    // console.log(productImgName);
+    // return productImgName;
+  };
 
   // 포스트 업로드
   const onSubmitForm = useCallback(async (e) => {
     try {
       e.preventDefault();
       console.log("업로드!");
+      // console.log(image);
+      // console.log(images);
+      const test = await ImageFormData(images, 0);
     } catch (err) {
       console.log(err);
     }
