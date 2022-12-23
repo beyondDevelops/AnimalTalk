@@ -43,9 +43,11 @@ const PostUpload = () => {
   }, [images]);
 
   const handleImgCancle = (e) => {
-    const newImageURLs = imageURLs.filter((_, index) => index !== parseInt(e.target.id));
-    setimageURLs(newImageURLs);
+    const newImages = images.filter((_, index) => index !== parseInt(e.target.id));
+    setImages(newImages);
   };
+
+  const ImageFormData = async (files, index) => {};
 
   // 포스트 업로드
   const onSubmitForm = useCallback(async (e) => {
