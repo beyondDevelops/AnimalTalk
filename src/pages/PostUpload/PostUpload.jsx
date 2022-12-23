@@ -9,30 +9,49 @@ const PostUpload = () => {
   const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
 
   const textareaRef = useRef();
-
   const [isText, setIsText] = useState(false);
+
   const [images, setImages] = useState([]);
-  const [imageURLs, setImgURLs] = useState([]);
+  const [imageURLs, setimageURLs] = useState([]);
 
-  useEffect(() => {
-    if (images.length < 1 || images.length > 4) return;
-    const newImageURLs = [];
-    images.map((image) => newImageURLs.push(URL.createObjectURL(image)));
-    setImgURLs(newImageURLs);
-  }, [images]);
-
+  // 이미지 업로드
   const handleImgUpload = (e) => {
+    const countImage = e.target.files.length;
+    const maxSize = 10 * 1024 * 1024;
+    let totalSize = 0;
+
+    if (countImage > 3) {
+      alert("이미지는 최대 3장까지 가능합니다.");
+      return;
+    }
+
+    for (let i = 0; i < countImage; i++) {
+      totalSize += e.target.files[i].size;
+    }
+
+    if (totalSize > maxSize) {
+      alert("이미지 용량은 10MB를 초과할 수 없습니다.");
+      return;
+    }
     setImages([...e.target.files]);
   };
 
+  useEffect(() => {
+    const newImageURLs = [];
+    images.map((image) => newImageURLs.push(URL.createObjectURL(image)));
+    setimageURLs(newImageURLs);
+  }, [images]);
+
   const handleImgCancle = (e) => {
     const newImageURLs = imageURLs.filter((_, index) => index !== parseInt(e.target.id));
-    setImgURLs(newImageURLs);
+    setimageURLs(newImageURLs);
   };
 
+  // 포스트 업로드
   const onSubmitForm = useCallback(async (e) => {
     try {
       e.preventDefault();
+      console.log("업로드!");
     } catch (err) {
       console.log(err);
     }
@@ -41,14 +60,17 @@ const PostUpload = () => {
   return (
     <div className="page">
       {/* Note: Header 수정 필요 */}
-      <HeaderSave btnText="업로드" isActive={isText} {...{ onSubmitForm }} />
+      <HeaderSave btnText="업로드" isActive={isText || imageURLs.length} {...{ onSubmitForm }} />
       <main className="pt-[2rem] px-[1.6rem]">
+        {/* 프로필 및 텍스트 */}
         <img src={myProfile} alt="" className="inline-block align-top w-[4.2rem] h-[4.2rem] object-cover" />
         <form className="inline-block">
           <Textarea ref={textareaRef} {...{ setIsText }} />
         </form>
-        {imageURLs.length ? (
-          imageURLs.length === 1 ? (
+
+        {/* 업로드 이미지 확인 및 삭제 */}
+        {!!imageURLs.length &&
+          (imageURLs.length === 1 ? (
             <>
               {/* key 돌 때 index 사용... */}
               {imageURLs.map((imgURL, index) => (
@@ -86,13 +108,9 @@ const PostUpload = () => {
                 </div>
               ))}
             </div>
-          )
-        ) : (
-          <></>
-        )}
+          ))}
       </main>
-
-      <form className="p-[1.6rem]">
+      <form className="p-[1.6rem] ">
         <fieldset>
           <legend className="ir">사진 업로드</legend>
           <label htmlFor="imgUpload" className="block ml-auto w-[5rem] h-[5rem]">
