@@ -35,9 +35,7 @@ const Post = ({ post }) => {
   };
 
   // 날짜 정보 관리
-  const postDate = post.updatedAt
-    ? post.updatedAt.slice(0, 10).replaceAll("-", "")
-    : post.createdAt.slice(0, 10).replaceAll("-", "");
+  const postDate = post.createdAt.slice(0, 10).replaceAll("-", "");
   const year = postDate.slice(0, 4);
   const month = postDate.slice(4, 6);
   const date = postDate.slice(6, 8);
