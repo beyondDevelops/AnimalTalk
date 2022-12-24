@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 import Textarea from "../../components/Textarea/Textarea";
-import { axiosImgUpload } from "../../api/axios";
+import axios, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const PostUpload = () => {
@@ -52,6 +52,7 @@ const PostUpload = () => {
     setImages(newImages);
   };
 
+  // 포스트 업로드에서 호출 - 전송할 이미지 서버에 요청 후 응답 받기
   const ImageFormData = async (files) => {
     try {
       const formData = new FormData();
@@ -62,7 +63,7 @@ const PostUpload = () => {
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
-      const imageName = res.data.map((i) => i["filename"]).join(", ");
+      const imageName = res.data.map((image) => image["filename"]).join(", ");
       return imageName;
     } catch (err) {
       console.error(err);
@@ -74,18 +75,36 @@ const PostUpload = () => {
     async (e) => {
       try {
         e.preventDefault();
-        console.log("업로드!");
-        const imageName = await ImageFormData(images);
-        console.log(imageName);
+        setUploadPossible(false);
 
-        // Note: setUploadPossible과 navigate는 구현이 완성되면 들어가야 합니다.
-        // setUploadPossible(false);
-        // navigate("/home");
+        const token = localStorage.getItem("token");
+        const imageName = await ImageFormData(images);
+
+        const res = await axios.post(
+          "/post",
+          {
+            post: {
+              content: textareaRef.current.value,
+              image: imageName,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.status !== 200) {
+          setUploadPossible(true);
+          throw new Error(res.status, "통신에 실패했습니다.");
+        }
+        navigate(`/profile/${res.data.post.author["accountname"]}`);
       } catch (err) {
         console.log(err);
       }
     },
-    [images]
+    [images, navigate]
   );
 
   return (
