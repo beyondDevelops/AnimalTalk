@@ -6,33 +6,32 @@ import axios from "../../api/axios";
 import { useEffect, useState } from "react";
 
 const Home = () => {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   const token = localStorage.getItem("token");
 
-  const getFollowersFeeds = async () => {
-    try {
-      const res = await axios.get("/post/feed", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPosts(res.data.posts);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    if (!posts) {
-      getFollowersFeeds();
-    }
-  }, [posts]);
+    const getFollowersFeeds = async () => {
+      try {
+        const res = await axios.get("/post/feed", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPosts(res.data.posts);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getFollowersFeeds();
+  }, []);
 
   return (
     <div className="page">
       <HeaderFeed />
-      <main>{posts === [] ? posts.map((post) => <Post key={post.id} post={post} />) : <NoFeed />}</main>
+      <main>{posts.length > 0 ? posts.map((post) => <Post key={post.id} post={post} />) : <NoFeed />}</main>
       <Footer />
     </div>
   );
