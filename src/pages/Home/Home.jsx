@@ -3,7 +3,7 @@ import Post from "../../shared/Post/Post";
 import NoFeed from "../../components/NoFeed/NoFeed";
 import Footer from "../../shared/Footer/Footer";
 import axios from "../../api/axios";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import useInterset from "../../hooks/useIntersect";
 
 const Home = () => {
