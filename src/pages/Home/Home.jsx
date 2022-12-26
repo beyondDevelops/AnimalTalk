@@ -4,6 +4,7 @@ import NoFeed from "../../components/NoFeed/NoFeed";
 import Footer from "../../shared/Footer/Footer";
 import axios from "../../api/axios";
 import { useEffect, useState, useRef } from "react";
+import useInterset from "../../hooks/useIntersect";
 
 const Home = () => {
   const token = localStorage.getItem("token");
@@ -26,51 +27,7 @@ const Home = () => {
 
   const observerTarget = useRef(null);
 
-  useEffect(() => {
-    if (!observerTarget.current || !state.moreFeed) return;
-
-    const observerCallback = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        getFollowersFeeds();
-      }
-    };
-
-    const observer = new IntersectionObserver(observerCallback);
-    observer.observe(observerTarget.current);
-
-    return () => observer.disconnect();
-  }, [state]);
-
-  // useEffect(() => {
-  //   if (!observerTarget.current || !state.moreFeed) return;
-
-  //   const getFollowersFeeds = async () => {
-  //     try {
-  //       const res = await axios.get(`/post/feed?limit=10&skip=${state.postNum}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setPosts((prev) => [...prev, ...res.data.posts]);
-  //       setState((prev) => ({ postNum: prev.postNum + 10, moreFeed: posts.length % 10 === 0 }));
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
-  //   const observerCallback = (entries, observer) => {
-  //     if (entries[0].isIntersecting) {
-  //       getFollowersFeeds();
-  //     }
-  //   };
-
-  //   const observer = new IntersectionObserver(observerCallback);
-  //   observer.observe(observerTarget.current);
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [posts.length, state.postNum, state.moreFeed, token]);
+  useInterset(observerTarget, state.postNum, state.moreFeed, getFollowersFeeds);
 
   return (
     <div className="page">
