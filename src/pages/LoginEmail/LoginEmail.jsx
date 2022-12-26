@@ -25,7 +25,7 @@ const LoginEmail = () => {
   }, []);
 
   useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 1) {
+    if (emailLength >= 1 && passwordLength >= 6) {
       setBtnColor(true);
       setBtnDisabled(false);
     } else {
