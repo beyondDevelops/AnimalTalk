@@ -37,17 +37,27 @@ const UserSearch = () => {
   return (
     <div className="page">
       <HeaderSearch search={search} setSearch={setSearch} />
-      {searchResult.map((user) => (
-        <SimpleUserList
-          key={user._id}
-          isMessage={false}
-          isBtn={false}
-          isChatMode={false}
-          username={user.username}
-          accountname={user.accountname}
-          profileImg={user.image}
-        />
-      ))}
+      <main>
+        <ul>
+          {searchResult.map((user) => (
+            <SimpleUserList
+              key={user._id}
+              isMessage={false}
+              isBtn={false}
+              isChatMode={false}
+              username={user.username}
+              accountname={user.accountname}
+              profileSmallImg={
+                user.image &&
+                user.image !== "http://146.56.183.55:5050/Ellipse.png" &&
+                user.image !== "https://mandarin.api.weniv.co.kr/Ellipse.png"
+                  ? user.image
+                  : `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`
+              }
+            />
+          ))}
+        </ul>
+      </main>
     </div>
   );
 };
