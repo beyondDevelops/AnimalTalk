@@ -34,8 +34,6 @@ const UserSearch = () => {
     }
   }, [search, token]);
 
-  console.log(searchResult);
-
   return (
     <div className="page">
       <HeaderSearch search={search} setSearch={setSearch} />
