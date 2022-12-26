@@ -54,7 +54,7 @@ const PostUpload = ({ post }) => {
     const ext = url.split(".").pop();
     const filename = url.split("/").pop();
     const metadata = { type: `image/${ext}` };
-    return new File([res], filename, metadata);
+    return new File([res.data], filename, metadata);
   };
 
   useEffect(() => {
