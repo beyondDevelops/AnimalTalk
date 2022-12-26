@@ -42,7 +42,11 @@ const ModalPostImg = ({ imgArr, modal, onModalToggle }) => {
       <section className="w-[70%] items-center grid place-items-center overflow-hidden relative">
         <h3 className="ir">이미지</h3>
         <div className="relative flex flex-row h-full overflow-x-scroll scrollbar-hide">
-          <img src={imgArr[currentIndex]} alt="" className="min-w-full object-contain" />
+          <img
+            src={`https://mandarin.api.weniv.co.kr/${imgArr[currentIndex]}`}
+            alt=""
+            className="min-w-full object-contain"
+          />
           <button
             type="button"
             className="absolute top-[1rem] right-[1rem] text-[2.4rem] font-bold bg-transparent border-transparent text-[#fff] cursor-pointer transition-all ease-linear duration-300 hover:text-m-color hover:scale-125"
