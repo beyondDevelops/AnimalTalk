@@ -4,7 +4,33 @@ import Textarea from "../../components/Textarea/Textarea";
 import axios, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
-const PostUpload = () => {
+const PostUpload = ({ post }) => {
+  post = [
+    {
+      id: "63a9470e17ae6665811dc966",
+      content: "처음부터 다시..",
+      image: "1672038158674.jpg, 1672038158676.jpg",
+      createdAt: "2022-12-26T07:02:38.853Z",
+      updatedAt: "2022-12-26T07:02:38.853Z",
+      hearted: false,
+      heartCount: 0,
+      comments: [],
+      commentCount: 0,
+      author: {
+        _id: "63a3a65017ae666581e724a1",
+        username: "jytest",
+        accountname: "jytest",
+        intro: "",
+        image: "http://146.56.183.55:5050/Ellipse.png",
+        isfollow: false,
+        following: ["63a3a50f17ae666581e71d35", "63a3a53917ae666581e71deb"],
+        follower: ["63a3a50f17ae666581e71d35", "63a3a53917ae666581e71deb"],
+        followerCount: 2,
+        followingCount: 2,
+      },
+    },
+  ];
+
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
   const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
@@ -13,11 +39,35 @@ const PostUpload = () => {
   const [isText, setIsText] = useState(false);
 
   const [images, setImages] = useState([]);
-  const [imageURLs, setimageURLs] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
 
   const [uploadPossible, setUploadPossible] = useState(true);
 
   const navigate = useNavigate();
+
+  const convertURLtoFile = async (url) => {
+    const res = await axios({
+      url,
+      method: "get",
+      responseType: "blob",
+    });
+    const ext = url.split(".").pop();
+    const filename = url.split("/").pop();
+    const metadata = { type: `image/${ext}` };
+    return new File([res], filename, metadata);
+  };
+
+  useEffect(() => {
+    if (!post) return;
+    const postImages = post[0].image.split(", ").map((image) => `https://mandarin.api.weniv.co.kr/${image}`);
+    // console.log(postImages);
+    const getImageFiles = async () => {
+      const imageFiles = await Promise.all(postImages.map((url) => convertURLtoFile(url)));
+      // console.log(imageFiles);
+      setImages(imageFiles);
+    };
+    getImageFiles();
+  }, []);
 
   // 이미지 업로드
   const handleImgUpload = (e) => {
@@ -42,9 +92,10 @@ const PostUpload = () => {
   };
 
   useEffect(() => {
+    console.log(images);
     const newImageURLs = [];
     images.map((image) => newImageURLs.push(URL.createObjectURL(image)));
-    setimageURLs(newImageURLs);
+    setImageURLs(newImageURLs);
   }, [images]);
 
   const handleImgCancle = (e) => {
@@ -139,13 +190,8 @@ const PostUpload = () => {
           ) : (
             <div className="flex overflow-hidden overflow-x-auto w-[30.4rem] ml-[5.4rem]">
               {imageURLs.map((imgURL, index) => (
-                <div key={index} className="relative first:ml-0 ml-[0.8rem] shrink-0">
-                  <img
-                    // key={index}
-                    src={imgURL}
-                    alt=""
-                    className="w-[16.8rem] h-[12.6rem] object-cover rounded-[10px]"
-                  />
+                <div key={crypto.randomUUID()} className="relative first:ml-0 ml-[0.8rem] shrink-0">
+                  <img src={imgURL} alt="" className="w-[16.8rem] h-[12.6rem] object-cover rounded-[10px]" />
                   <button type="button" onClick={handleImgCancle}>
                     <img
                       src={imgCancle}
