@@ -10,9 +10,7 @@ const PostAlbum = ({ post, idx }) => {
     modal ? setModal(false) : setModal(true);
   };
 
-  const postImg = post.image
-    ? post.image
-    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq3KKxatmkx5h29Eilsm2Myj78RjMqgMOvv71gY7N6z1YrS-2C2N9IHGS2V5HXgejTXUk&usqp=CAU";
+  const postImg = !!post.image.split(", ")[0] ? post.image : null;
 
   return (
     <div
@@ -27,7 +25,12 @@ const PostAlbum = ({ post, idx }) => {
               <img src={imgLayersImg} alt="" className="w-[2rem] h-[2rem]" />
             </button>
             {postImg.split(", ").map((img) => (
-              <img src={img} alt="" className="min-w-full object-cover cursor-pointer" onClick={handleModalToggle} />
+              <img
+                src={`https://mandarin.api.weniv.co.kr/${img}`}
+                alt=""
+                className="min-w-full object-cover cursor-pointer"
+                onClick={handleModalToggle}
+              />
             ))}
             {modal ? (
               <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
@@ -37,8 +40,17 @@ const PostAlbum = ({ post, idx }) => {
           </>
         ) : (
           <>
-            <img src={postImg} alt="" className="min-w-full object-cover cursor-pointer" onClick={handleModalToggle} />
-            {modal ? <ModalPostImg imgArr={[postImg]} modal={modal} onModalToggle={handleModalToggle} /> : <></>}
+            <img
+              src={`https://mandarin.api.weniv.co.kr/${postImg}`}
+              alt=""
+              className="min-w-full object-cover cursor-pointer"
+              onClick={handleModalToggle}
+            />
+            {modal ? (
+              <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
+            ) : (
+              <></>
+            )}
           </>
         )}
       </div>
