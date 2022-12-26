@@ -18,7 +18,7 @@ const Signup = () => {
   }, []);
 
   useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 1) {
+    if (emailLength >= 1 && passwordLength >= 6) {
       setBtnColor(true);
       setBtnDisabled(false);
     } else {
@@ -75,6 +75,7 @@ const Signup = () => {
               이메일
             </label>
             <input
+              placeholder="anything@anything.com의 형식으로 입력해주세요."
               required
               ref={emailRef}
               onChange={handleEmailLength}
@@ -96,6 +97,7 @@ const Signup = () => {
               비밀번호
             </label>
             <input
+              placeholder="6자리 이상 입력해주세요."
               required
               ref={passwordRef}
               onChange={handlePasswordLength}
