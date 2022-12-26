@@ -75,7 +75,7 @@ const Signup = () => {
               이메일
             </label>
             <input
-              placeholder="anything@anything.com의 형식으로 입력해주세요."
+              placeholder=""ex. animal@talk.com""
               required
               ref={emailRef}
               onChange={handleEmailLength}
