@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HeaderSearch } from "../../shared/Header/HeaderSearch";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import api from "../../api/axios";
 
-const Search = () => {
+const UserSearch = () => {
   const token = localStorage.getItem("token");
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     if (search) {
@@ -18,7 +17,12 @@ const Search = () => {
               Authorization: `Bearer ${token}`,
             },
           });
-          setUserList(res.data);
+          const filterUsers = res.data.filter(
+            (user) =>
+              user.username.toLowerCase().includes(search.toLowerCase()) ||
+              user.accountname.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(filterUsers);
         } catch (err) {
           console.log(err);
         }
@@ -26,25 +30,14 @@ const Search = () => {
 
       findUser();
     } else {
-      setUserList([]);
+      setSearchResult([]);
     }
   }, [search, token]);
-
-  useEffect(() => {
-    if (search) {
-      const filterUsers = userList.filter(
-        (user) =>
-          user.username.toLowerCase().includes(search.toLowerCase()) ||
-          user.accountname.toLowerCase().includes(search.toLowerCase())
-      );
-      setSearchResult(filterUsers.reverse());
-    }
-  }, [userList, search]);
 
   return (
     <div className="page">
       <HeaderSearch search={search} setSearch={setSearch} />
-      {userList.map((user) => (
+      {searchResult.map((user) => (
         <SimpleUserList
           key={user._id}
           isMessage={false}
@@ -59,4 +52,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default UserSearch;
