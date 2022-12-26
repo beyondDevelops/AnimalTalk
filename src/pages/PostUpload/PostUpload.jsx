@@ -5,32 +5,6 @@ import axios, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const PostUpload = ({ post }) => {
-  post = [
-    {
-      id: "63a9470e17ae6665811dc966",
-      content: "처음부터 다시..",
-      image: "1672038158674.jpg, 1672038158676.jpg",
-      createdAt: "2022-12-26T07:02:38.853Z",
-      updatedAt: "2022-12-26T07:02:38.853Z",
-      hearted: false,
-      heartCount: 0,
-      comments: [],
-      commentCount: 0,
-      author: {
-        _id: "63a3a65017ae666581e724a1",
-        username: "jytest",
-        accountname: "jytest",
-        intro: "",
-        image: "http://146.56.183.55:5050/Ellipse.png",
-        isfollow: false,
-        following: ["63a3a50f17ae666581e71d35", "63a3a53917ae666581e71deb"],
-        follower: ["63a3a50f17ae666581e71d35", "63a3a53917ae666581e71deb"],
-        followerCount: 2,
-        followingCount: 2,
-      },
-    },
-  ];
-
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
   const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
@@ -59,18 +33,22 @@ const PostUpload = ({ post }) => {
 
   useEffect(() => {
     if (!post) return;
-    const postImages = post[0].image.split(", ").map((image) => `https://mandarin.api.weniv.co.kr/${image}`);
-    // console.log(postImages);
+    const postImages = post.image
+      ? post.image.split(", ").map((image) => `https://mandarin.api.weniv.co.kr/${image}`)
+      : "";
     const getImageFiles = async () => {
       const imageFiles = await Promise.all(postImages.map((url) => convertURLtoFile(url)));
-      // console.log(imageFiles);
       setImages(imageFiles);
     };
-    getImageFiles();
+    if (postImages) getImageFiles();
+
+    const postText = post.content;
+    textareaRef.current.value = postText;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 이미지 업로드
-  const handleImgUpload = (e) => {
+  function handleImgUpload(e) {
     const countImage = e.target.files.length;
     const maxSize = 10 * 1024 * 1024;
     let totalSize = 0;
@@ -89,10 +67,9 @@ const PostUpload = ({ post }) => {
       return;
     }
     setImages([...e.target.files]);
-  };
+  }
 
   useEffect(() => {
-    console.log(images);
     const newImageURLs = [];
     images.map((image) => newImageURLs.push(URL.createObjectURL(image)));
     setImageURLs(newImageURLs);
@@ -121,8 +98,8 @@ const PostUpload = ({ post }) => {
     }
   };
 
-  // 포스트 업로드
-  const onSubmitForm = useCallback(
+  // 포스트 작성
+  const onPostCreate = useCallback(
     async (e) => {
       try {
         e.preventDefault();
@@ -132,7 +109,7 @@ const PostUpload = ({ post }) => {
         const imageName = await ImageFormData(images);
 
         const res = await axios.post(
-          "/post",
+          "/post/",
           {
             post: {
               content: textareaRef.current.value,
@@ -158,10 +135,52 @@ const PostUpload = ({ post }) => {
     [images, navigate]
   );
 
+  // 포스트 수정
+  const onPostEdit = useCallback(
+    async (e) => {
+      try {
+        e.preventDefault();
+        setUploadPossible(false);
+
+        const token = localStorage.getItem("token");
+        const imageName = await ImageFormData(images);
+
+        const res = await axios.put(
+          `/post/${post.id}`,
+          {
+            post: {
+              content: textareaRef.current.value,
+              image: imageName,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.status !== 200) {
+          setUploadPossible(true);
+          throw new Error(res.status, "통신에 실패했습니다.");
+        }
+        navigate(`/profile/${res.data.post.author["accountname"]}`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [images, navigate]
+  );
+
   return (
     <div className="page">
       {/* Note: Header 수정 필요 */}
-      <HeaderSave btnText="업로드" isActive={uploadPossible && (isText || imageURLs.length)} {...{ onSubmitForm }} />
+      <HeaderSave
+        btnText="업로드"
+        isActive={uploadPossible && (isText || imageURLs.length)}
+        onSubmitForm={post ? onPostEdit : onPostCreate}
+      />
       <main className="pt-[2rem] px-[1.6rem]">
         {/* 프로필 및 텍스트 */}
         <img src={myProfile} alt="" className="inline-block align-top w-[4.2rem] h-[4.2rem] object-cover" />
