@@ -17,6 +17,7 @@ const UserFeed = () => {
   const [userProfile, setUserProfile] = useState();
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState([]);
+  const [club, setClub] = useState(null);
   // const [follow, setFollow] = useState(false);
 
   const [modal, setModal] = useState(false);
@@ -84,6 +85,23 @@ const UserFeed = () => {
     setList(!list);
   };
 
+  useEffect(() => {
+    if (!club) {
+      const getUserClub = async () => {
+        const res = await api.get(`/product/${accountname}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setClub(res.data.product);
+        // console.log(res.data);
+        // console.log(res.data.product);
+      };
+
+      getUserClub();
+    }
+  }, [club, accountname, token]);
+
   // useEffect(() => {
   //   if (!!userProfile) {
   //     if (follow === userProfile.isfollow) {
@@ -123,7 +141,7 @@ const UserFeed = () => {
         {userProfile ? (
           <>
             <UserProfile userProfile={userProfile} /* follow={follow} setFollow={setFollow} */ />
-            <UserClub />
+            <UserClub club={club} />
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
