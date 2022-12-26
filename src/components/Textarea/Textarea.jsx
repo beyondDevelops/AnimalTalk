@@ -1,10 +1,15 @@
-import React, { useRef } from "react";
+import React, { forwardRef } from "react";
 
-const Textarea = () => {
-  const textareaRef = useRef();
+const Textarea = forwardRef(({ setIsText }, textareaRef) => {
+  // const textareaRef = useRef();
   const handleTextareaResize = (e) => {
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    if (textareaRef.current.value) {
+      setIsText(true);
+    } else if (textareaRef.current.value === "") {
+      setIsText(false);
+    }
   };
 
   return (
@@ -19,6 +24,6 @@ const Textarea = () => {
       onChange={handleTextareaResize}
     ></textarea>
   );
-};
+});
 
 export default Textarea;
