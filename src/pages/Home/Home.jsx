@@ -19,7 +19,6 @@ const Home = () => {
           },
         });
         setPosts(res.data.posts);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
