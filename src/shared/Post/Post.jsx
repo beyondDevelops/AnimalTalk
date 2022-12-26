@@ -8,7 +8,10 @@ const Post = ({ post }) => {
   // Note: 아래 변수는 임시로 구현되었으며, 실제로는 API와 props를 이용합니다.
 
   // 아래 이미지 변수는 기본 설정입니다.
-  const profileManSmallImg = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
+  const profileSmallImg =
+    post.author.image && post.author.image !== "http://146.56.183.55:5050/Ellipse.png"
+      ? post.author.image
+      : `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const moreVerticalSmallImg = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-small.png`;
   const heartOffImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-off.png`;
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
@@ -44,7 +47,7 @@ const Post = ({ post }) => {
     <section className="my-[2rem] mx-[1.6rem]">
       <img
         className="inline-block w-[4.2rem] h-[4.2rem]"
-        src={profileManSmallImg}
+        src={profileSmallImg}
         alt={`${post.author.username}님 방문하기`}
       />
       <p className="inline-block align-middle ml-[1.2rem]">
