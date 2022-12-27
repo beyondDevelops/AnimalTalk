@@ -133,7 +133,7 @@ const ClubUpload = ({ product }) => {
           {
             product: {
               itemName: clubName.current.value,
-              price: parseInt(clubPrice.current.value),
+              price: toInteger(clubPrice.current.value),
               link: clubLocation.current.value,
               itemImage: imageName,
             },
@@ -173,7 +173,7 @@ const ClubUpload = ({ product }) => {
           {
             product: {
               itemName: clubName.current.value,
-              price: parseInt(clubPrice.current.value),
+              price: toInteger(clubPrice.current.value),
               link: clubLocation.current.value,
               itemImage: imageName,
             },
