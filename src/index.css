@@ -57,6 +57,6 @@ main {
   @apply bg-s-color;
 }
 
-.btn-cancle {
+.btn-cancel {
   @apply bg-[#fff] border-[0.1rem] border-cst-light-gray;
 }
