@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 const Footer = () => {
   const home = `${process.env.PUBLIC_URL}/assets/img/icon-home.png`;
@@ -12,6 +13,7 @@ const Footer = () => {
   const myProfileFill = `${process.env.PUBLIC_URL}/assets/img/icon-user-fill.png`;
 
   const location = useLocation();
+  const { accountname } = useContext(UserContext);
 
   return (
     <nav className="flex px-[0.6rem] pt-[1.2rem] pb-[0.6rem]">
@@ -45,8 +47,8 @@ const Footer = () => {
         <img src={postCreate} alt="게시글 작성" className="w-[2.4rem] h-[2.4rem]" />
         <span className="block mt-[0.4rem] text-[1rem] text-cst-gray">게시물 작성</span>
       </Link>
-      <Link className="flex flex-col items-center mx-[3rem]" to="/profile/:accountname">
-        {location.pathname === "/profile/:accountname" ? (
+      <Link className="flex flex-col items-center mx-[3rem]" to={`/profile/${accountname}`}>
+        {location.pathname === `/profile/${accountname}` ? (
           <>
             <img src={myProfileFill} alt="프로필" className="w-[2.4rem] h-[2.4rem]" />
             <span className="block mt-[0.4rem] text-[1rem] text-m-color">프로필</span>
