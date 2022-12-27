@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios, { axiosImgUpload } from "../../api/axios";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 
-const ClubUpload = () => {
+const ClubUpload = ({ product }) => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
   const imgUploadFin = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
@@ -20,6 +20,35 @@ const ClubUpload = () => {
   const clubLocation = useRef();
 
   const navigate = useNavigate();
+
+  const convertURLtoFile = async (url) => {
+    const res = await axios({
+      url,
+      method: "get",
+      responseType: "blob",
+    });
+    const ext = url.split(".").pop();
+    const filename = url.split("/").pop();
+    const metadata = { type: `image/${ext}` };
+    return new File([res.data], filename, metadata);
+  };
+
+  useEffect(() => {
+    if (!product) return;
+
+    const getImageFile = async () => {
+      const imageFile = await convertURLtoFile(product.itemImage);
+      setImage([imageFile]);
+    };
+    getImageFile();
+    clubName.current.value = product.itemName;
+    clubPrice.current.value = product.price;
+    clubLocation.current.value = product.link;
+    setIsClubName(true);
+    setIsClubPrice(true);
+    setIsClubLocation(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 이미지 업로드
   const handleImgUpload = (e) => {
@@ -130,12 +159,53 @@ const ClubUpload = () => {
     [image, navigate]
   );
 
+  const onClubUpEdit = useCallback(
+    async (e) => {
+      try {
+        e.preventDefault();
+        setUploadPossible(false);
+
+        const token = localStorage.getItem("token");
+        const imageName = await imageFormData(image);
+
+        const res = await axios.put(
+          `/product/${product.id}`,
+          {
+            product: {
+              itemName: clubName.current.value,
+              price: parseInt(clubPrice.current.value),
+              link: clubLocation.current.value,
+              itemImage: imageName,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.status !== 200) {
+          setUploadPossible(true);
+          throw new Error(res.status, "통신에 실패했습니다.");
+        }
+
+        // 네비게이트 추후 수정 필요 (useContext)
+        // navigate(`/profile/${res.data.product.author["accountname"]}`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [image, navigate]
+  );
+
   return (
     <div className="page">
       <HeaderSave
         btnText="저장"
         isActive={uploadPossible && isClubName && isClubLocation && isClubPrice && imageURL.length}
-        onSubmitForm={onClubUpload}
+        onSubmitForm={product ? onClubUpEdit : onClubUpload}
       />
       <main>
         <form className="mt-[3rem] mx-[3.4rem]">
