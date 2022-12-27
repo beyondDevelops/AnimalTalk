@@ -4,7 +4,7 @@ import NoFeed from "../../components/NoFeed/NoFeed";
 import Footer from "../../shared/Footer/Footer";
 import axios from "../../api/axios";
 import { useState, useRef } from "react";
-import useInterset from "../../hooks/useIntersect";
+import useIntersect from "../../hooks/useIntersect";
 
 const Home = () => {
   const token = localStorage.getItem("token");
@@ -27,7 +27,7 @@ const Home = () => {
 
   const observerTarget = useRef(null);
 
-  useInterset(observerTarget, state.postNum, state.moreFeed, getFollowersFeeds);
+  useIntersect(observerTarget, state.postNum, state.moreFeed, getFollowersFeeds);
 
   return (
     <div className="page">
