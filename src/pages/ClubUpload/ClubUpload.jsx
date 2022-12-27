@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios, { axiosImgUpload } from "../../api/axios";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 
 const ClubUpload = () => {
@@ -16,6 +18,8 @@ const ClubUpload = () => {
   const clubName = useRef();
   const clubPrice = useRef();
   const clubLocation = useRef();
+
+  const navigate = useNavigate();
 
   // 이미지 업로드
   const handleImgUpload = (e) => {
@@ -71,9 +75,68 @@ const ClubUpload = () => {
     e.target.value ? setIsClubLocation(true) : setIsClubLocation(false);
   };
 
+  const imageFormData = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", file[0]);
+
+      const res = await axiosImgUpload.post("/image/uploadfile", formData);
+      if (res.status !== 200) {
+        throw new Error(res.status, "통신에 실패했습니다.");
+      }
+      return res.data.filename;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onClubUpload = useCallback(
+    async (e) => {
+      try {
+        e.preventDefault();
+        setUploadPossible(false);
+
+        const token = localStorage.getItem("token");
+        const imageName = await imageFormData(image);
+
+        const res = await axios.post(
+          "/product",
+          {
+            product: {
+              itemName: clubName.current.value,
+              price: parseInt(clubPrice.current.value),
+              link: clubLocation.current.value,
+              itemImage: imageName,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.status !== 200) {
+          setUploadPossible(true);
+          throw new Error(res.status, "통신에 실패했습니다.");
+        }
+
+        // 네비게이트 추후 수정 필요 (useContext)
+        // navigate(`/profile/${res.data.product.author["accountname"]}`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [image, navigate]
+  );
+
   return (
     <div className="page">
-      <HeaderSave btnText="저장" isActive={isClubName && isClubLocation && isClubPrice && imageURL.length} />
+      <HeaderSave
+        btnText="저장"
+        isActive={uploadPossible && isClubName && isClubLocation && isClubPrice && imageURL.length}
+        onSubmitForm={onClubUpload}
+      />
       <main>
         <form className="mt-[3rem] mx-[3.4rem]">
           <fieldset className="relative mb-[3rem]">
