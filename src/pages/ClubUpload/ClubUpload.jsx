@@ -3,6 +3,7 @@ import { HeaderSave } from "../../shared/Header/HeaderSave";
 
 const ClubUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
+  const imgUploadFin = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
   const [image, setImage] = useState([]);
   const [imageURL, setImageURL] = useState([]);
@@ -72,7 +73,7 @@ const ClubUpload = () => {
 
   return (
     <div className="page">
-      <HeaderSave btnText="저장" isActive={isClubName && isClubLocation && isClubPrice} />
+      <HeaderSave btnText="저장" isActive={isClubName && isClubLocation && isClubPrice && imageURL.length} />
       <main>
         <form className="mt-[3rem] mx-[3.4rem]">
           <fieldset className="relative mb-[3rem]">
@@ -91,7 +92,11 @@ const ClubUpload = () => {
               htmlFor="imgUpload"
               className="absolute block w-[3.6rem] h-[3.6rem] bottom-0 right-0 mr-[1.2rem] mb-[1.2rem]"
             >
-              <img src={imgUpload} alt="" className="w-[3.6rem] h-[3.6rem] cursor-pointer" />
+              <img
+                src={imageURL.length ? imgUploadFin : imgUpload}
+                alt=""
+                className="w-[3.6rem] h-[3.6rem] cursor-pointer"
+              />
             </label>
             <input id="imgUpload" accept="image/*" type="file" className="hidden" onChange={handleImgUpload} />
           </fieldset>
