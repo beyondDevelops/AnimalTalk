@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
 const UserProfile = ({ pageProfile, follow, setFollow }) => {
@@ -14,6 +14,8 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
   const username = pageProfile.username;
 
   const { accountname } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   return (
     <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem]">
@@ -39,27 +41,28 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
         <>
           <button
             type="button"
-            onClick={() => setFollow(!follow)}
+            onClick={() => navigate(`/profile/${accountname}/edit`)}
             className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
           >
             프로픨 수정
           </button>
           <button
             type="button"
-            onClick={() => setFollow(!follow)}
+            onClick={() => navigate(`/profile/${accountname}/clubupload`)}
             className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
           >
-            상품 등록
+            모임 만들기
           </button>
         </>
       ) : (
         <>
-          <Link
-            to="/chat"
+          <button
+            type="button"
+            onClick={() => navigate("/chat")}
             className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] ml-[3.6rem] align-bottom"
           >
             <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
-          </Link>
+          </button>
           <button
             type="button"
             onClick={() => setFollow(!follow)}
@@ -69,7 +72,6 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
           </button>
           <button
             type="button"
-            to="/"
             className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
           >
             <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
