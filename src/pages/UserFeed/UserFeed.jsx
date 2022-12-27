@@ -141,7 +141,7 @@ const UserFeed = () => {
         {userProfile ? (
           <>
             <UserProfile userProfile={userProfile} /* follow={follow} setFollow={setFollow} */ />
-            <UserClub club={club} />
+            {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
