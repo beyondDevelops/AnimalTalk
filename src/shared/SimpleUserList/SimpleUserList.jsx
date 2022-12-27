@@ -52,7 +52,7 @@ const SimpleUserList = ({ isMessage, isBtn, isChatMode, username, accountname, p
         <button
           onClick={handleIsFollow}
           type="button"
-          className={`btn-sm ${isFollow ? "btn-on text-white" : "btn-cancle text-cst-gray"}`}
+          className={`btn-sm ${isFollow ? "btn-on text-white" : "btn-cancel text-cst-gray"}`}
         >
           {isFollow ? "팔로우" : "취소"}
         </button>

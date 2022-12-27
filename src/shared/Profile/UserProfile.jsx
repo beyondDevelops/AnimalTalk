@@ -39,7 +39,7 @@ const UserProfile = ({ userProfile, follow, setFollow }) => {
       <button
         type="button"
         onClick={() => setFollow(!follow)}
-        className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-on text-white" : "btn-cancle text-cst-gray"}`}
+        className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-on text-white" : "btn-cancel text-cst-gray"}`}
       >
         {follow ? "팔로우" : "언팔로우"}
       </button>
