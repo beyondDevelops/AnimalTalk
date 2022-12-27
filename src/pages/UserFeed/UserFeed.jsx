@@ -19,7 +19,7 @@ const UserFeed = () => {
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState(null);
   const [club, setClub] = useState(null);
-  // const [follow, setFollow] = useState(false);
+  const [follow, setFollow] = useState(false);
 
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
@@ -106,37 +106,39 @@ const UserFeed = () => {
     }
   }, [club, pageAccount, token]);
 
-  // useEffect(() => {
-  //   if (!!userProfile) {
-  //     if (follow === userProfile.isfollow) {
-  //       return;
-  //     } else if (follow !== userProfile.isfollow && follow === true) {
-  //       const followReq = async () => {
-  //         const res = await api.post(`/profile/${accountname}/follow`, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         console.log(res.data.profile);
-  //         console.log("follow", follow);
-  //         console.log("userprofile.isfollow", userProfile.isfollow);
-  //       };
-  //       followReq();
-  //     } else if (follow !== userProfile.isfollow && follow === false) {
-  //       const unfollowReq = async () => {
-  //         const res = await api.delete(`/profile/${accountname}/unfollow`, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         console.log(res.data.profile);
-  //         console.log("follow", follow);
-  //         console.log("userprofile.isfollow", userProfile.isfollow);
-  //       };
-  //       unfollowReq();
-  //     }
-  //   }
-  // }, [follow, accountname, token, userProfile]);
+  useEffect(() => {
+    if (!!pageProfile) {
+      // 현재 follow 상태와 상대방의 프로필 데이터 요청을 통해 얻어진 나와의 팔로우 관계 정보가 저장된 follow 데이터 비교
+
+      // follow 상태 변동 없음
+      if (follow === pageProfile.isfollow) {
+        return;
+      } else if (follow !== pageProfile.isfollow && follow === true) {
+        // follow 상태 변동이 있고, 현재 팔로우를 한 경우 (팔로우 요청을 하여야 함)
+        const followReq = async () => {
+          // 로그인한 사용자의 계정으로 api 통신을 하여야 함
+          const res = await api.post(`/profile/${accountname}/follow`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(res.data.profile.follower);
+        };
+        followReq();
+      } else if (follow !== pageProfile.isfollow && follow === false) {
+        // follow 상태 변동이 있고, 현재 팔로우를 취소한 경우 (언팔로우를 요청하여야 함)
+        const unfollowReq = async () => {
+          const res = await api.delete(`/profile/${accountname}/unfollow`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(res.data.profile.following);
+        };
+        unfollowReq();
+      }
+    }
+  }, [follow, accountname, token, pageProfile]);
 
   return (
     <div className="page">
@@ -144,7 +146,7 @@ const UserFeed = () => {
       <main>
         {pageProfile ? (
           <>
-            <UserProfile pageProfile={pageProfile} /* follow={follow} setFollow={setFollow} */ />
+            <UserProfile pageProfile={pageProfile} follow={follow} setFollow={setFollow} />
             {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
