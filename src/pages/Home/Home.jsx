@@ -35,7 +35,7 @@ const Home = () => {
       <main>
         <>
           {posts.length > 0 ? posts.map((post) => <Post key={post.id} post={post} />) : <NoFeed />}
-          <div ref={observerTarget}></div>
+          {posts.length > 0 && <div ref={observerTarget}></div>}
         </>
       </main>
       <Footer />
