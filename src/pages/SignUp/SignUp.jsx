@@ -53,9 +53,10 @@ const Signup = () => {
         return;
       }
 
-      navigate("/signup/profile");
       localStorage.setItem("email", emailRef.current.value);
       localStorage.setItem("password", passwordRef.current.value);
+
+      navigate("/signup/profile");
     } catch (err) {
       setIswrong(!isWrong);
       console.log(err.response.status);
