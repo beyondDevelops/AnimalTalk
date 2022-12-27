@@ -144,7 +144,7 @@ const UserFeed = () => {
       <main>
         {pageProfile ? (
           <>
-            <UserProfile userProfile={pageProfile} /* follow={follow} setFollow={setFollow} */ />
+            <UserProfile pageProfile={pageProfile} /* follow={follow} setFollow={setFollow} */ />
             {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
