@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import api from "../../api/axios";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
@@ -10,11 +10,12 @@ import PostAlbum from "../../shared/Post/PostAlbum";
 import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
+import { UserContext } from "../../context/UserContext";
 
 const UserFeed = () => {
   const loadingImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
   const token = localStorage.getItem("token");
-  const [userProfile, setUserProfile] = useState();
+  const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState(null);
   const [club, setClub] = useState(null);
@@ -25,7 +26,8 @@ const UserFeed = () => {
   const modalRef = useRef();
 
   const location = useLocation();
-  const accountname = location.pathname.split("/")[2];
+  const pageAccount = location.pathname.split("/")[2];
+  const { accountname } = useContext(UserContext);
 
   const handleModalInfo = useCallback(
     (e) => {
@@ -44,29 +46,31 @@ const UserFeed = () => {
   }, []);
 
   useEffect(() => {
-    if (!userProfile) {
-      const getUserProfile = async () => {
+    if (!pageProfile) {
+      const getPageProfile = async () => {
         try {
-          const res = await api.get(`/profile/${accountname}`, {
+          const res = await api.get(`/profile/${pageAccount}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          setUserProfile(res.data.profile);
-          // setFollow(res.data.profile.isfollow);
+          setPageProfile(res.data.profile);
+          // 로그인한 사용자를 기준으로 타인의 피드 페이지에서 나와의 follow 관계를 isfollow로 확인
+          // 상대방과 로그인한 사용자의 팔로우 여부를 follow에 저장
+          setFollow(res.data.profile.isfollow);
         } catch (err) {
           console.log(err);
         }
       };
-      getUserProfile();
+      getPageProfile();
     }
-  }, [accountname, token, userProfile]);
+  }, [pageAccount, token, pageProfile]);
 
   useEffect(() => {
-    if (postDataArray.length === 0) {
+    if (!postDataArray) {
       const getUserFeeds = async () => {
         try {
-          const res = await api.get(`/post/${accountname}/userpost`, {
+          const res = await api.get(`/post/${pageAccount}/userpost`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -79,7 +83,7 @@ const UserFeed = () => {
 
       getUserFeeds();
     }
-  }, [accountname, postDataArray, token]);
+  }, [pageAccount, postDataArray, token]);
 
   const onListToggle = () => {
     setList(!list);
@@ -88,7 +92,7 @@ const UserFeed = () => {
   useEffect(() => {
     if (!club) {
       const getUserClub = async () => {
-        const res = await api.get(`/product/${accountname}`, {
+        const res = await api.get(`/product/${pageAccount}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -100,7 +104,7 @@ const UserFeed = () => {
 
       getUserClub();
     }
-  }, [club, accountname, token]);
+  }, [club, pageAccount, token]);
 
   // useEffect(() => {
   //   if (!!userProfile) {
@@ -138,9 +142,9 @@ const UserFeed = () => {
     <div className="page">
       <HeaderBasic onModalInfo={handleModalInfo} />
       <main>
-        {userProfile ? (
+        {pageProfile ? (
           <>
-            <UserProfile userProfile={userProfile} /* follow={follow} setFollow={setFollow} */ />
+            <UserProfile userProfile={pageProfile} /* follow={follow} setFollow={setFollow} */ />
             {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
