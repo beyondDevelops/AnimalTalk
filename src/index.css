@@ -23,7 +23,7 @@ html {
 }
 
 .login-page {
-  @apply w-[39rem] h-screen mx-auto bg-s-color flex flex-col shadow-[0_0px_10px_-5px_rgba(0,0,0,0.8)];
+  @apply w-[39rem] h-screen mx-auto bg-s-color flex flex-col justify-end shadow-[0_0px_10px_-5px_rgba(0,0,0,0.8)];
 }
 
 main {

@@ -17,9 +17,10 @@ const SplashScreen = () => {
   });
   return (
     <div className="page">
-      <main>
-        <img src={splashImg} alt="" className="w-[14.5rem] h-[20rem] mx-[auto]" />
+      <main className="flex">
+        <img src={splashImg} alt="" className="w-[14.5rem] mx-auto h-[20.2rem] my-[auto]" />
       </main>
+      <div className="h-[49.5rem] bg-s-color"></div>
     </div>
   );
 };
