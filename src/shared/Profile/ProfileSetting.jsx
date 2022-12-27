@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useRef, useState } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 const ProfileSetting = ({ name, btnName, text, isBtn }) => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
@@ -141,85 +141,100 @@ const ProfileSetting = ({ name, btnName, text, isBtn }) => {
   };
 
   return (
-    <div className="page">
-      <main className="h-screen flex flex-col">
-        <strong className="pt-[3rem] pb-[1.2rem] text-center text-[2.4rem] font-medium">{name}</strong>
-        <p className="text-center text-cst-gray">{text}</p>
-        <form action="" className="flex flex-col items-center" onSubmit={handleProfileSetting}>
-          <fieldset>
-            <legend className="ir">프로필 사진 업로드</legend>
-            <label htmlFor="imgUpload" className="block relative my-[3rem] cursor-pointer">
-              <img
-                src={profileImage ? profileImage : baseProfile}
-                alt=""
-                className="w-[11rem] h-[11rem] rounded-full"
-              />
-              <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
-            </label>
-            <input ref={imgRef} id="imgUpload" type="file" accept="image/*" className="hidden" onChange={imgPreview} />
-          </fieldset>
+    <>
+      {userEmail ? (
+        <div className="page">
+          <main className="h-screen flex flex-col">
+            <strong className="pt-[3rem] pb-[1.2rem] text-center text-[2.4rem] font-medium">{name}</strong>
+            <p className="text-center text-cst-gray">{text}</p>
+            <form action="" className="flex flex-col items-center" onSubmit={handleProfileSetting}>
+              <fieldset>
+                <legend className="ir">프로필 사진 업로드</legend>
+                <label htmlFor="imgUpload" className="block relative my-[3rem] cursor-pointer">
+                  <img
+                    src={profileImage ? profileImage : baseProfile}
+                    alt=""
+                    className="w-[11rem] h-[11rem] rounded-full"
+                  />
+                  <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
+                </label>
+                <input
+                  ref={imgRef}
+                  id="imgUpload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={imgPreview}
+                />
+              </fieldset>
 
-          <fieldset className="mb-[1.6rem]">
-            <legend className="ir">사용자 이름</legend>
+              <fieldset className="mb-[1.6rem]">
+                <legend className="ir">사용자 이름</legend>
 
-            <label htmlFor="name" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              사용자 이름
-            </label>
-            <input
-              ref={userNameRef}
-              onChange={handleUsernameLength}
-              id="name"
-              type="text"
-              placeholder="2~10자 이내여야 합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
-            />
-          </fieldset>
+                <label htmlFor="name" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+                  사용자 이름
+                </label>
+                <input
+                  ref={userNameRef}
+                  onChange={handleUsernameLength}
+                  id="name"
+                  type="text"
+                  placeholder="2~10자 이내여야 합니다."
+                  className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+                />
+              </fieldset>
 
-          <fieldset className="mb-[2.5rem]">
-            <legend className="ir">계정 ID</legend>
-            <label htmlFor="userId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              계정 ID
-            </label>
-            <input
-              ref={accountNameRef}
-              onChange={handleAccountnameLength}
-              id="userId"
-              type="text"
-              placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
-            />
-            {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
-          </fieldset>
+              <fieldset className="mb-[2.5rem]">
+                <legend className="ir">계정 ID</legend>
+                <label htmlFor="userId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+                  계정 ID
+                </label>
+                <input
+                  ref={accountNameRef}
+                  onChange={handleAccountnameLength}
+                  id="userId"
+                  type="text"
+                  placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
+                  className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+                />
+                {isWrong ? null : (
+                  <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>
+                )}
+              </fieldset>
 
-          <fieldset>
-            <legend className="ir">소개</legend>
-            <label htmlFor="intro" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              소개
-            </label>
-            <input
-              ref={introRef}
-              onChange={handleIntroLength}
-              id="intro"
-              type="text"
-              placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
-            />
-          </fieldset>
+              <fieldset>
+                <legend className="ir">소개</legend>
+                <label htmlFor="intro" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+                  소개
+                </label>
+                <input
+                  ref={introRef}
+                  onChange={handleIntroLength}
+                  id="intro"
+                  type="text"
+                  placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
+                  className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+                />
+              </fieldset>
 
-          {isBtn ? (
-            <button
-              className={`${
-                btnDisabled ? "pointer-events-none btn-off" : "btn-on"
-              } btn-xl text-[#fff] mt-[3rem] mb-[2rem] text-center`}
-            >
-              {btnName}
-            </button>
-          ) : (
-            <></>
-          )}
-        </form>
-      </main>
-    </div>
+              {isBtn ? (
+                <button
+                  className={`${
+                    btnDisabled ? "pointer-events-none btn-off" : "btn-on"
+                  } btn-xl text-[#fff] mt-[3rem] mb-[2rem] text-center`}
+                >
+                  {btnName}
+                </button>
+              ) : (
+                <></>
+              )}
+            </form>
+          </main>
+        </div>
+      ) : (
+        <Navigate to="/signup" />
+      )}
+    </>
   );
 };
 
