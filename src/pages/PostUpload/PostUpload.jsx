@@ -4,7 +4,7 @@ import Textarea from "../../components/Textarea/Textarea";
 import axios, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
-const PostUpload = () => {
+const PostUpload = ({ post }) => {
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
   const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
@@ -13,14 +13,42 @@ const PostUpload = () => {
   const [isText, setIsText] = useState(false);
 
   const [images, setImages] = useState([]);
-  const [imageURLs, setimageURLs] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
 
   const [uploadPossible, setUploadPossible] = useState(true);
 
   const navigate = useNavigate();
 
+  const convertURLtoFile = async (url) => {
+    const res = await axios({
+      url,
+      method: "get",
+      responseType: "blob",
+    });
+    const ext = url.split(".").pop();
+    const filename = url.split("/").pop();
+    const metadata = { type: `image/${ext}` };
+    return new File([res.data], filename, metadata);
+  };
+
+  useEffect(() => {
+    if (!post) return;
+    const postImages = post.image
+      ? post.image.split(", ").map((image) => `https://mandarin.api.weniv.co.kr/${image}`)
+      : "";
+    const getImageFiles = async () => {
+      const imageFiles = await Promise.all(postImages.map((url) => convertURLtoFile(url)));
+      setImages(imageFiles);
+    };
+    if (postImages) getImageFiles();
+
+    const postText = post.content;
+    textareaRef.current.value = postText;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // 이미지 업로드
-  const handleImgUpload = (e) => {
+  function handleImgUpload(e) {
     const countImage = e.target.files.length;
     const maxSize = 10 * 1024 * 1024;
     let totalSize = 0;
@@ -39,12 +67,12 @@ const PostUpload = () => {
       return;
     }
     setImages([...e.target.files]);
-  };
+  }
 
   useEffect(() => {
     const newImageURLs = [];
     images.map((image) => newImageURLs.push(URL.createObjectURL(image)));
-    setimageURLs(newImageURLs);
+    setImageURLs(newImageURLs);
   }, [images]);
 
   const handleImgCancle = (e) => {
@@ -70,8 +98,8 @@ const PostUpload = () => {
     }
   };
 
-  // 포스트 업로드
-  const onSubmitForm = useCallback(
+  // 포스트 작성
+  const onPostCreate = useCallback(
     async (e) => {
       try {
         e.preventDefault();
@@ -81,7 +109,7 @@ const PostUpload = () => {
         const imageName = await ImageFormData(images);
 
         const res = await axios.post(
-          "/post",
+          "/post/",
           {
             post: {
               content: textareaRef.current.value,
@@ -107,10 +135,52 @@ const PostUpload = () => {
     [images, navigate]
   );
 
+  // 포스트 수정
+  const onPostEdit = useCallback(
+    async (e) => {
+      try {
+        e.preventDefault();
+        setUploadPossible(false);
+
+        const token = localStorage.getItem("token");
+        const imageName = await ImageFormData(images);
+
+        const res = await axios.put(
+          `/post/${post.id}`,
+          {
+            post: {
+              content: textareaRef.current.value,
+              image: imageName,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.status !== 200) {
+          setUploadPossible(true);
+          throw new Error(res.status, "통신에 실패했습니다.");
+        }
+        navigate(`/profile/${res.data.post.author["accountname"]}`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [images, navigate]
+  );
+
   return (
     <div className="page">
       {/* Note: Header 수정 필요 */}
-      <HeaderSave btnText="업로드" isActive={uploadPossible && (isText || imageURLs.length)} {...{ onSubmitForm }} />
+      <HeaderSave
+        btnText="업로드"
+        isActive={uploadPossible && (isText || imageURLs.length)}
+        onSubmitForm={post ? onPostEdit : onPostCreate}
+      />
       <main className="pt-[2rem] px-[1.6rem]">
         {/* 프로필 및 텍스트 */}
         <img src={myProfile} alt="" className="inline-block align-top w-[4.2rem] h-[4.2rem] object-cover" />
@@ -139,13 +209,8 @@ const PostUpload = () => {
           ) : (
             <div className="flex overflow-hidden overflow-x-auto w-[30.4rem] ml-[5.4rem]">
               {imageURLs.map((imgURL, index) => (
-                <div key={index} className="relative first:ml-0 ml-[0.8rem] shrink-0">
-                  <img
-                    // key={index}
-                    src={imgURL}
-                    alt=""
-                    className="w-[16.8rem] h-[12.6rem] object-cover rounded-[10px]"
-                  />
+                <div key={crypto.randomUUID()} className="relative first:ml-0 ml-[0.8rem] shrink-0">
+                  <img src={imgURL} alt="" className="w-[16.8rem] h-[12.6rem] object-cover rounded-[10px]" />
                   <button type="button" onClick={handleImgCancle}>
                     <img
                       src={imgCancle}
