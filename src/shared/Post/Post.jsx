@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 
 const Post = ({ post }) => {
@@ -26,10 +26,13 @@ const Post = ({ post }) => {
   // 좋아요 관리x
   const [isLike, setIsLike] = useState(post.hearted);
 
+  const navigate = useNavigate();
   const handleLikeBtn = () => {
     setIsLike(!isLike);
     // Note: 여기서 좋아요 데이터를 처리합니다.
   };
+
+  const handleLink = () => navigate(`/profile/${post.author.accountname}`);
 
   // 날짜 정보 관리
   const postDate = post.createdAt.slice(0, 10).replaceAll("-", "");
@@ -40,11 +43,12 @@ const Post = ({ post }) => {
   return (
     <section className="my-[2rem] mx-[1.6rem]">
       <img
-        className="inline-block w-[4.2rem] h-[4.2rem]"
+        className="inline-block w-[4.2rem] h-[4.2rem] cursor-pointer"
         src={profileSmallImg}
         alt={`${post.author.username}님 방문하기`}
+        onClick={handleLink}
       />
-      <p className="inline-block align-middle ml-[1.2rem]">
+      <p className="inline-block align-middle ml-[1.2rem] cursor-pointer" onClick={handleLink}>
         <strong className="leading-[1.8rem] font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
           {post.author.username}
         </strong>
