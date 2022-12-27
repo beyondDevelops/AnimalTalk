@@ -75,7 +75,7 @@ const Signup = () => {
               이메일
             </label>
             <input
-              placeholder=""ex. animal@talk.com""
+              placeholder="ex. animal@talk.com"
               required
               ref={emailRef}
               onChange={handleEmailLength}

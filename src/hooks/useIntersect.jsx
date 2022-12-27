@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default function useInterset(targetRef, stateCount, stateMore, requestAPIFunc) {
+export default function useIntersect(targetRef, stateCount, stateMore, requestAPIFunc) {
   useEffect(() => {
     if (!targetRef.current || !stateMore) return;
 
