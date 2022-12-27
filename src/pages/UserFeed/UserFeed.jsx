@@ -16,7 +16,7 @@ const UserFeed = () => {
   const token = localStorage.getItem("token");
   const [userProfile, setUserProfile] = useState();
   const [list, setList] = useState(true);
-  const [postDataArray, setPostDataArray] = useState([]);
+  const [postDataArray, setPostDataArray] = useState(null);
   const [club, setClub] = useState(null);
   // const [follow, setFollow] = useState(false);
 
@@ -145,9 +145,7 @@ const UserFeed = () => {
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
-              {postDataArray.length === 0 && (
-                <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>
-              )}
+              {!postDataArray && <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>}
               {postDataArray ? (
                 list ? (
                   postDataArray.map((post, idx) => <Post key={post.id} post={post} />)
