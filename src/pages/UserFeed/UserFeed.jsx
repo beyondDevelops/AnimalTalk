@@ -14,7 +14,9 @@ import { UserContext } from "../../context/UserContext";
 
 const UserFeed = () => {
   const loadingImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
+
   const token = localStorage.getItem("token");
+
   const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState(null);
@@ -98,8 +100,6 @@ const UserFeed = () => {
           },
         });
         setClub(res.data.product);
-        // console.log(res.data);
-        // console.log(res.data.product);
       };
 
       getUserClub();
@@ -116,29 +116,31 @@ const UserFeed = () => {
       } else if (follow !== pageProfile.isfollow && follow === true) {
         // follow 상태 변동이 있고, 현재 팔로우를 한 경우 (팔로우 요청을 하여야 함)
         const followReq = async () => {
-          // 로그인한 사용자의 계정으로 api 통신을 하여야 함
-          const res = await api.post(`/profile/${accountname}/follow`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          console.log(res.data.profile.follower);
+          // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
+          await api.post(
+            `/profile/${pageAccount}/follow`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
         };
         followReq();
       } else if (follow !== pageProfile.isfollow && follow === false) {
         // follow 상태 변동이 있고, 현재 팔로우를 취소한 경우 (언팔로우를 요청하여야 함)
         const unfollowReq = async () => {
-          const res = await api.delete(`/profile/${accountname}/unfollow`, {
+          await api.delete(`/profile/${pageAccount}/unfollow`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(res.data.profile.following);
         };
         unfollowReq();
       }
     }
-  }, [follow, accountname, token, pageProfile]);
+  }, [follow, accountname, token, pageProfile, pageAccount]);
 
   return (
     <div className="page">
