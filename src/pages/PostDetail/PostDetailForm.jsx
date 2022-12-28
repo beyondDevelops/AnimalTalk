@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import axios from "../../api/axios";
 
@@ -42,7 +42,7 @@ const PostDetailForm = ({ postId }) => {
   };
 
   return (
-    <form className="flex py-[1.2rem] px-[1.6rem] ">
+    <form className="flex py-[1.2rem] px-[1.6rem] border-t-[1px] border-cst-light-graygray">
       <img src={profileImage} alt="" className="w-[3.6rem] h-[3.6rem] object-cover rounded-full" />
 
       <fieldset className="basis-full flex">
