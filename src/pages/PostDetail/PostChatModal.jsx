@@ -2,7 +2,7 @@ import React, { forwardRef, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 // Note: userId에 따라 댓글 신고와 삭제 구분
-const PostModal = forwardRef(({ setIsModal, userId, onSubmitForm }, modalRef) => {
+const PostModal = forwardRef(({ setIsModal, userId }, modalRef) => {
   const handleModal = (e) => {
     if (e.target === modalRef.current) {
       setIsModal(false);
@@ -10,6 +10,14 @@ const PostModal = forwardRef(({ setIsModal, userId, onSubmitForm }, modalRef) =>
   };
 
   const { _id } = useContext(UserContext);
+
+  const token = localStorage.getItem("token");
+
+  // 댓글 삭제
+  const handleChatDelete = async () => {};
+
+  // 댓글 신고
+  const handleChatReport = async () => {};
 
   return (
     <section className="absolute inset-0" ref={modalRef} onClick={handleModal}>
@@ -29,7 +37,7 @@ const PostModal = forwardRef(({ setIsModal, userId, onSubmitForm }, modalRef) =>
         <form>
           <button
             className="py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
-            onClick={onSubmitForm}
+            onClick={userId === _id ? handleChatDelete : handleChatReport}
           >
             {userId === _id ? "삭제" : "신고하기"}
           </button>

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
 import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
@@ -40,7 +40,7 @@ const PostDetail = ({ post }) => {
       username: "1",
       accountname: "1",
       intro: "1",
-      image: "1",
+      image: "1672103709318.jpg",
       following: [],
       follower: [],
       followerCount: 0,
@@ -52,6 +52,8 @@ const PostDetail = ({ post }) => {
   const [userId, setUserId] = useState(null);
 
   const modalRef = useRef();
+
+  useEffect(() => {}, []);
 
   return (
     <>
