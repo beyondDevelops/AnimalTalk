@@ -31,11 +31,11 @@ const PostDetail = ({ post }) => {
   return (
     <>
       <div className="page">
+        <HeaderBasic />
         <main>
-          <HeaderBasic />
           <Post {...{ post }} />
         </main>
-        <PostDetailForm {...{ post }} />
+        <PostDetailForm />
       </div>
     </>
   );
