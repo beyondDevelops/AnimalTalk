@@ -30,7 +30,27 @@ const PostDetail = ({ post }) => {
     },
   };
 
+  const comment = {
+    id: "test",
+    content: "아무말 대잔치",
+    createdAt: "2021-12-20T06:10:26.803Z",
+    author: {
+      _id: "63a3a65017ae666581e724a1",
+      // _id: "틀린 아이디",
+      username: "1",
+      accountname: "1",
+      intro: "1",
+      image: "1",
+      following: [],
+      follower: [],
+      followerCount: 0,
+      followingCount: 0,
+    },
+  };
+
   const [isModal, setIsModal] = useState(false);
+  const [userId, setUserId] = useState(null);
+
   const modalRef = useRef();
 
   return (
@@ -42,14 +62,14 @@ const PostDetail = ({ post }) => {
           <Post {...{ post }} />
           <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
             {/* Note: 댓글 리스트를 받아서 comment를 props로 내려줘야함 */}
-            <PostChatList {...{ setIsModal }} />
+            <PostChatList {...{ comment }} {...{ setIsModal }} {...{ setUserId }} />
           </ul>
         </main>
 
         <PostDetailForm postId={post.id} />
 
         {/* Note: modal에 comment list의 author._id를 내려줘야 함 */}
-        {isModal ? <PostChatModal ref={modalRef} {...{ setIsModal }} userId="63a3a65017ae666581e724a1" /> : <></>}
+        {isModal ? <PostChatModal ref={modalRef} {...{ setIsModal }} {...{ userId }} /> : <></>}
       </div>
     </>
   );
