@@ -32,9 +32,6 @@ const PostDetail = ({ post }) => {
 
   const [isModal, setIsModal] = useState(false);
   const modalRef = useRef();
-  const onModal = useCallback(() => {
-    setIsModal(true);
-  }, []);
 
   return (
     <>
@@ -45,7 +42,7 @@ const PostDetail = ({ post }) => {
           <Post {...{ post }} />
           <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
             {/* Note: 댓글 리스트를 받아서 comment를 props로 내려줘야함 */}
-            <PostChatList {...{ onModal }} />
+            <PostChatList {...{ setIsModal }} />
           </ul>
         </main>
 
