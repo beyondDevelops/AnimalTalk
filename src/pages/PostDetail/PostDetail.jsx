@@ -35,7 +35,7 @@ const PostDetail = ({ post }) => {
         <main>
           <Post {...{ post }} />
         </main>
-        <PostDetailForm />
+        <PostDetailForm postId={post.id} />
       </div>
     </>
   );

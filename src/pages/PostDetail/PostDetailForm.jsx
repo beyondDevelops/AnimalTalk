@@ -1,23 +1,43 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../context/UserContext";
+import axios from "../../api/axios";
 
-const PostDetailForm = () => {
-  const inpText = useRef();
+const PostDetailForm = ({ postId }) => {
+  const inpTextRef = useRef();
   const [isText, setIsText] = useState(false);
 
-  const handleTextValid = () => {
-    if (inpText.current.value) {
-      setIsText(true);
-    } else if (inpText.current.value === "") {
-      setIsText(false);
-    }
-  };
-
   const { image } = useContext(UserContext);
-  // const image = "1672103709318.jpg";
-
   const profileImage =
     image === "http://146.56.183.55:5050/Ellipse.png" ? image : `https://mandarin.api.weniv.co.kr/${image}`;
+
+  const handleTextValid = (e) => {
+    e.target.value ? setIsText(true) : setIsText(false);
+  };
+
+  const handleSubmitForm = async (e) => {
+    try {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        `/post/${postId}/comments`,
+        {
+          comment: {
+            content: inpTextRef.current.value,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form className="flex py-[1.2rem] px-[1.6rem] ">
@@ -29,7 +49,7 @@ const PostDetailForm = () => {
           텍스트 :
         </label>
         <input
-          ref={inpText}
+          ref={inpTextRef}
           id="text"
           type="text"
           placeholder="댓글 입력하기..."
@@ -38,7 +58,9 @@ const PostDetailForm = () => {
         />
       </fieldset>
 
-      <button className={`shrink-0  ${isText ? "text-m-color" : "text-[#C4C4C4]"}`}>개사</button>
+      <button className={`shrink-0  ${isText ? "text-m-color" : "text-[#C4C4C4]"}`} onClick={handleSubmitForm}>
+        게시
+      </button>
     </form>
   );
 };
