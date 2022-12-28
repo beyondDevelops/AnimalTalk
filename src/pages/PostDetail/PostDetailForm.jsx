@@ -34,6 +34,8 @@ const PostDetailForm = ({ postId }) => {
         }
       );
       if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
+      inpTextRef.current.value = "";
+      setIsText(false);
     } catch (err) {
       console.log(err);
     }
@@ -58,7 +60,11 @@ const PostDetailForm = ({ postId }) => {
         />
       </fieldset>
 
-      <button className={`shrink-0  ${isText ? "text-m-color" : "text-[#C4C4C4]"}`} onClick={handleSubmitForm}>
+      <button
+        className={`shrink-0  ${isText ? "text-m-color" : "text-[#C4C4C4]"}`}
+        onClick={handleSubmitForm}
+        disabled={!isText}
+      >
         게시
       </button>
     </form>
