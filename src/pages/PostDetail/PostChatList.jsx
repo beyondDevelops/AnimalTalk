@@ -1,6 +1,7 @@
 import React from "react";
 
-const PostChatList = () => {
+// Note: comment 정보를 props로 받음 (댓글, 소유자 정보)
+const PostChatList = ({ onModal }) => {
   const imgMore = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-small.png`;
 
   return (
@@ -16,7 +17,7 @@ const PostChatList = () => {
           5분 전
         </span>
       </p>
-      <button className="float-right mt-[0.6rem]">
+      <button type="button" className="float-right mt-[0.6rem]" onClick={onModal}>
         <img src={imgMore} alt="더보기" className="w-[2rem] h-[2rem]" />
       </button>
       <p className="ml-[4.8rem]">

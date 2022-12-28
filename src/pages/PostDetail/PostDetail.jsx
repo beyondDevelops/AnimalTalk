@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
 import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";
+import PostChatModal from "./PostChatModal";
 
 const PostDetail = ({ post }) => {
   post = {
@@ -29,22 +30,29 @@ const PostDetail = ({ post }) => {
     },
   };
 
+  const [isModal, setIsModal] = useState(false);
+  const modalRef = useRef();
+  const onModal = useCallback(() => {
+    setIsModal(true);
+  }, []);
+
   return (
     <>
       <div className="page">
         <HeaderBasic />
+
         <main>
           <Post {...{ post }} />
           <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
-            <PostChatList />
-            <PostChatList />
-            <PostChatList />
-            <PostChatList />
-            <PostChatList />
-            <PostChatList />
+            {/* Note: 댓글 리스트를 받아서 comment를 props로 내려줘야함 */}
+            <PostChatList {...{ onModal }} />
           </ul>
         </main>
+
         <PostDetailForm postId={post.id} />
+
+        {/* Note: modal에 comment list의 author._id를 내려줘야 함 */}
+        {isModal ? <PostChatModal ref={modalRef} {...{ setIsModal }} userId="63a3a65017ae666581e724a1" /> : <></>}
       </div>
     </>
   );
