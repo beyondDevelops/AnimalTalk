@@ -13,6 +13,19 @@ module.exports = {
       fontFamily: {
         spoqa: ["Spoqa Han Sans Neo", "sans-serif"],
       },
+      keyframes: {
+        "fade-in": {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 2s ease-out",
+      },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],
