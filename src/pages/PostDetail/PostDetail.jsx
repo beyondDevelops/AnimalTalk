@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
 import Post from "../../shared/Post/Post";
+import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";
 
 const PostDetail = ({ post }) => {
@@ -34,6 +35,14 @@ const PostDetail = ({ post }) => {
         <HeaderBasic />
         <main>
           <Post {...{ post }} />
+          <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
+            <PostChatList />
+            <PostChatList />
+            <PostChatList />
+            <PostChatList />
+            <PostChatList />
+            <PostChatList />
+          </ul>
         </main>
         <PostDetailForm postId={post.id} />
       </div>
