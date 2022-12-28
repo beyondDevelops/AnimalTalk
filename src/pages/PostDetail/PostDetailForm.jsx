@@ -42,7 +42,7 @@ const PostDetailForm = ({ postId }) => {
   };
 
   return (
-    <form className="flex py-[1.2rem] px-[1.6rem] border-t-[1px] border-cst-light-graygray">
+    <form className="flex py-[1.2rem] px-[1.6rem] border-t-[1px] border-cst-light-gray">
       <img src={profileImage} alt="" className="w-[3.6rem] h-[3.6rem] object-cover rounded-full" />
 
       <fieldset className="basis-full flex">
