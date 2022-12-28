@@ -53,6 +53,7 @@ const PostDetail = ({ post }) => {
 
   const modalRef = useRef();
 
+  // Note: axios로 채팅 리스트 받아서 뿌려주기
   useEffect(() => {}, []);
 
   return (
