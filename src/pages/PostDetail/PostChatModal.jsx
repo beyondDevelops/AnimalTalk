@@ -8,7 +8,6 @@ const PostModal = forwardRef(({ setIsModal, userId, onSubmitForm }, modalRef) =>
       setIsModal(false);
     }
   };
-  console.log(userId);
 
   const { _id } = useContext(UserContext);
 
