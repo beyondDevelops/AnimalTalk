@@ -48,7 +48,7 @@ const PostUpload = ({ post }) => {
   }, []);
 
   // 이미지 업로드
-  function handleImgUpload(e) {
+  const handleImgUpload = (e) => {
     const countImage = e.target.files.length;
     const maxSize = 10 * 1024 * 1024;
     let totalSize = 0;
@@ -67,7 +67,7 @@ const PostUpload = ({ post }) => {
       return;
     }
     setImages([...e.target.files]);
-  }
+  };
 
   useEffect(() => {
     const newImageURLs = [];
@@ -81,7 +81,7 @@ const PostUpload = ({ post }) => {
   };
 
   // 포스트 업로드에서 호출 - 전송할 이미지 서버에 요청 후 응답 받기
-  const ImageFormData = async (files) => {
+  const imageFormData = async (files) => {
     try {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
@@ -106,7 +106,7 @@ const PostUpload = ({ post }) => {
         setUploadPossible(false);
 
         const token = localStorage.getItem("token");
-        const imageName = await ImageFormData(images);
+        const imageName = await imageFormData(images);
 
         const res = await axios.post(
           "/post/",
@@ -143,7 +143,7 @@ const PostUpload = ({ post }) => {
         setUploadPossible(false);
 
         const token = localStorage.getItem("token");
-        const imageName = await ImageFormData(images);
+        const imageName = await imageFormData(images);
 
         const res = await axios.put(
           `/post/${post.id}`,
