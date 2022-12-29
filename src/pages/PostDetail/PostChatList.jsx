@@ -1,11 +1,12 @@
 import React from "react";
 
 // Note: comment 정보를 props로 받음 (댓글, 소유자 정보)
-const PostChatList = ({ comment, setIsModal, setUserId }) => {
+const PostChatList = ({ comment, setIsModal, setUserId, setCommentId }) => {
   const imgMore = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-small.png`;
 
   const handleModal = () => {
     setUserId(comment.author._id);
+    setCommentId(comment.id);
     setIsModal(true);
   };
 

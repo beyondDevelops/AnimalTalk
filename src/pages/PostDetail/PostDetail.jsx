@@ -51,8 +51,11 @@ const PostDetail = ({ post }) => {
 
   const [isModal, setIsModal] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [commentId, setCommentId] = useState(null);
   const [commentList, setCommentList] = useState([]);
   const [isUpload, setIsUpload] = useState(true);
+  // const [countComment, setCountComment] = useState(0);
+  // const [veiwComment, setVeiwComment] = useState(0);
 
   const modalRef = useRef();
   // Note: axios로 채팅 리스트 받아서 뿌려주기
@@ -63,7 +66,7 @@ const PostDetail = ({ post }) => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`/post/${post.id}/comments`, {
+        const res = await axios.get(`/post/${post.id}/comments/?limit=${Infinity}&skip=0`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -80,6 +83,11 @@ const PostDetail = ({ post }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpload]);
 
+  // useEffect(() => {
+  //   setCountComment(commentList.length);
+  //   console.log(countComment);
+  // }, [commentList, countComment]);
+
   return (
     <>
       <div className="page">
@@ -90,7 +98,13 @@ const PostDetail = ({ post }) => {
           <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
             {!!commentList.length &&
               commentList.map((comment) => (
-                <PostChatList key={crypto.randomUUID()} {...{ comment }} {...{ setIsModal }} {...{ setUserId }} />
+                <PostChatList
+                  key={crypto.randomUUID()}
+                  {...{ comment }}
+                  {...{ setCommentId }}
+                  {...{ setIsModal }}
+                  {...{ setUserId }}
+                />
               ))}
           </ul>
         </main>
@@ -98,7 +112,18 @@ const PostDetail = ({ post }) => {
         <PostDetailForm postId={post.id} {...{ setIsUpload }} />
 
         {/* Note: modal에 comment list의 author._id를 내려줘야 함 */}
-        {isModal ? <PostChatModal ref={modalRef} {...{ setIsModal }} {...{ userId }} /> : <></>}
+        {isModal ? (
+          <PostChatModal
+            ref={modalRef}
+            {...{ setIsModal }}
+            {...{ userId }}
+            {...{ commentId }}
+            {...{ setIsUpload }}
+            postId={post.id}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

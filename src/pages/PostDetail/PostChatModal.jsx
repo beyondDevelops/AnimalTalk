@@ -1,8 +1,11 @@
-import React, { forwardRef, useContext } from "react";
+import React, { forwardRef, useContext, useState } from "react";
+import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
 // Note: userId에 따라 댓글 신고와 삭제 구분
-const PostModal = forwardRef(({ setIsModal, userId }, modalRef) => {
+const PostModal = forwardRef(({ setIsModal, postId, userId, commentId, setIsUpload }, modalRef) => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const handleModal = (e) => {
     if (e.target === modalRef.current) {
       setIsModal(false);
@@ -14,10 +17,49 @@ const PostModal = forwardRef(({ setIsModal, userId }, modalRef) => {
   const token = localStorage.getItem("token");
 
   // 댓글 삭제
-  const handleChatDelete = async () => {};
+  const handleChatDelete = async (e) => {
+    try {
+      e.preventDefault();
+      setIsDisabled(true);
+
+      const res = await axios.delete(`/post/${postId}/comments/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsUpload(true);
+      setIsModal(false);
+
+      if (res.status !== 200) {
+        setIsDisabled(false);
+        throw new Error(res.status, "통신에 실패했습니다.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // 댓글 신고
-  const handleChatReport = async () => {};
+  const handleChatReport = async (e) => {
+    try {
+      e.preventDefault();
+      setIsDisabled(true);
+
+      const res = await axios.post(`/post/${postId}/comments/${commentId}/report`, [], {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsModal(false);
+      if (res.status !== 200) {
+        setIsDisabled(false);
+        throw new Error(res.status, "통신에 실패했습니다.");
+      }
+      alert("신고가 접수되었습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <section className="absolute inset-0" ref={modalRef} onClick={handleModal}>
@@ -38,6 +80,7 @@ const PostModal = forwardRef(({ setIsModal, userId }, modalRef) => {
           <button
             className="py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
             onClick={userId === _id ? handleChatDelete : handleChatReport}
+            disabled={isDisabled}
           >
             {userId === _id ? "삭제" : "신고하기"}
           </button>
