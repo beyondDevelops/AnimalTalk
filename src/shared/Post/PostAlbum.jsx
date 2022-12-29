@@ -26,7 +26,7 @@ const PostAlbum = ({ post, idx }) => {
             </button>
             {postImg.split(",").map((img) => (
               <img
-                src={`https://mandarin.api.weniv.co.kr/${img}`}
+                src={img.includes("https") ? img : `https://mandarin.api.weniv.co.kr/${img}`}
                 alt=""
                 className="min-w-full object-cover cursor-pointer"
                 onClick={handleModalToggle}
@@ -41,7 +41,7 @@ const PostAlbum = ({ post, idx }) => {
         ) : (
           <>
             <img
-              src={`https://mandarin.api.weniv.co.kr/${postImg}`}
+              src={postImg.includes("https") ? postImg : `https://mandarin.api.weniv.co.kr/${postImg}`}
               alt=""
               className="min-w-full object-cover cursor-pointer"
               onClick={handleModalToggle}

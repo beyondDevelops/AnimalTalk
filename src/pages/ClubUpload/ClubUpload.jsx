@@ -249,6 +249,8 @@ const ClubUpload = ({ product }) => {
               }`}
               placeholder="2~5자 이내여야 합니다."
               onChange={handleClubName}
+              minLength="2"
+              maxLength="5"
             />
 
             <label htmlFor="price" className="text-[1.2rem] text-cst-gray font-medium">

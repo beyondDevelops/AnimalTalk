@@ -43,7 +43,11 @@ const ModalPostImg = ({ imgArr, modal, onModalToggle }) => {
         <h3 className="ir">이미지</h3>
         <div className="relative flex flex-row h-full overflow-x-scroll scrollbar-hide">
           <img
-            src={`https://mandarin.api.weniv.co.kr/${imgArr[currentIndex]}`}
+            src={
+              imgArr[currentIndex].includes("https")
+                ? imgArr[currentIndex]
+                : `https://mandarin.api.weniv.co.kr/${imgArr[currentIndex]}`
+            }
             alt=""
             className="min-w-full object-contain"
           />
