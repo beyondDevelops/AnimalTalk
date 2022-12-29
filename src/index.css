@@ -10,7 +10,7 @@ html {
 }
 
 #root {
-  @apply bg-cst-layout text-[1.4rem];
+  @apply bg-m-color text-[1.4rem];
 }
 
 .ir {
