@@ -5,6 +5,7 @@ import { UserContext } from "../../context/UserContext";
 const UserProfile = ({ pageProfile, follow, setFollow }) => {
   const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
   const shareImg = `${process.env.PUBLIC_URL}/assets/img/icon-share.png`;
+  const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
 
   const profileImg = pageProfile.image;
   const followers = pageProfile.followerCount;
@@ -26,7 +27,14 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
           followers
         </button>
       </Link>
-      <img src={profileImg} alt="" className="inline-block w-[11rem] h-[11rem] ml-[4.3rem] mr-[3.6rem]" />
+      <img
+        onError={(e) => {
+          e.target.src = defaultProfile;
+        }}
+        src={profileImg}
+        alt=""
+        className="inline-block w-[11rem] h-[11rem] ml-[4.3rem] mr-[3.6rem] rounded-[50%]"
+      />
       <Link to={`/profile/${pageAccount}/followings`} className="inline-block">
         <button type="button" className="text-[1rem] text-cst-gray">
           <span className="block text-[1.8rem] font-bold text-black">{followings}</span>
