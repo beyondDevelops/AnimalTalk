@@ -34,7 +34,7 @@ const PostUpload = ({ post }) => {
   useEffect(() => {
     if (!post) return;
     const postImages = post.image
-      ? post.image.split(", ").map((image) => `https://mandarin.api.weniv.co.kr/${image}`)
+      ? post.image.split(",").map((image) => `https://mandarin.api.weniv.co.kr/${image}`)
       : "";
     const getImageFiles = async () => {
       const imageFiles = await Promise.all(postImages.map((url) => convertURLtoFile(url)));
@@ -91,7 +91,7 @@ const PostUpload = ({ post }) => {
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
-      const imageName = res.data.map((image) => image["filename"]).join(", ");
+      const imageName = res.data.map((image) => image["filename"]).join(",");
       return imageName;
     } catch (err) {
       console.error(err);

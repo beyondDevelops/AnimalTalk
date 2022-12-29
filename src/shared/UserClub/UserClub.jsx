@@ -21,7 +21,9 @@ const UserClub = ({ club }) => {
   const handleArrowBtnVisibility = (currentPosX) => {
     if (currentPosX <= 0) {
       setLeftBtnVisible(false);
+      setRightBtnVisible(true);
     } else if (currentPosX >= ulRef.current.scrollWidth - (ulRef.current.clientWidth + 2)) {
+      setLeftBtnVisible(true);
       setRightBtnVisible(false);
     } else if (currentPosX > 0 && currentPosX < ulRef.current.scrollWidth - (ulRef.current.clientWidth + 2)) {
       setLeftBtnVisible(true);
@@ -39,7 +41,7 @@ const UserClub = ({ club }) => {
           <li className="shrink-0 mr-[1rem] overflow-hidden text-m-color">현재 참여 중인 산책 모임이 없습니다.</li>
         )}
       </ul>
-      {club.length > 0 && (
+      {club.length > 2 && (
         <div className="relative top-[-9rem] flex justify-between w-full">
           <button
             className={`absolute z-10 left-[-1rem] ${
