@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "../../shared/Footer/Footer";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
+import ChatDummyData from "../../components/ChatDummyData/ChatDummyData";
 
 const Chat = () => {
   return (
@@ -9,10 +10,7 @@ const Chat = () => {
       <HeaderBasic />
       <main>
         <ul className="mt-[2rem]">
-          <SimpleUserList isBtn={false} />
-          <SimpleUserList isBtn={false} />
-          <SimpleUserList isBtn={false} />
-          <SimpleUserList isBtn={false} />
+          <ChatDummyData />
         </ul>
       </main>
       <Footer />
