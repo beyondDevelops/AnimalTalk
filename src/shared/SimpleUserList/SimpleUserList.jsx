@@ -6,6 +6,7 @@ const SimpleUserList = ({ isMessage, isBtn, isChatMode, username, accountname, p
   // Note:: 실제로는 nullish가 아니라 props를 사용해 컨트롤할 수 있습니다.
   const content = null;
   const chat = isChatMode && "안녕하세요. 가나다라마바사아자카타파하아";
+  const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
 
   // 채팅리스트에서만 사용됩니다. 읽지 않은 메시지 알람을 관립합니다.
   // const message = true;
@@ -41,6 +42,9 @@ const SimpleUserList = ({ isMessage, isBtn, isChatMode, username, accountname, p
         alt=""
         className="w-[5rem] h-[5rem] cursor-pointer rounded-[50%]"
         onClick={handleLink}
+        onError={(e) => {
+          e.target.src = defaultProfile;
+        }}
       />
       <p className="mr-auto ml-[1.2rem] cursor-pointer" onClick={handleLink}>
         <strong className="font-medium">{username}</strong>
