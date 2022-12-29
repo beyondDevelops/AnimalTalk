@@ -3,7 +3,7 @@ import Post from "../../shared/Post/Post";
 import NoFeed from "../../components/NoFeed/NoFeed";
 import Footer from "../../shared/Footer/Footer";
 import axios from "../../api/axios";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useIntersect from "../../hooks/useIntersect";
 
 const Home = () => {
@@ -24,6 +24,12 @@ const Home = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (posts.length === 0) {
+      getFollowersFeeds();
+    }
+  }, []);
 
   const observerTarget = useRef(null);
 
