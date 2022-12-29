@@ -4,6 +4,7 @@ import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";
 import PostChatModal from "./PostChatModal";
+import axios from "../../api/axios";
 
 const PostDetail = ({ post }) => {
   post = {
@@ -50,11 +51,34 @@ const PostDetail = ({ post }) => {
 
   const [isModal, setIsModal] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [commentList, setCommentList] = useState([]);
+  const [isUpload, setIsUpload] = useState(true);
 
   const modalRef = useRef();
-
   // Note: axios로 채팅 리스트 받아서 뿌려주기
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    if (!isUpload) return;
+    const getChatList = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get(`/post/${post.id}/comments`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
+        setCommentList(res.data.comments);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getChatList();
+    setIsUpload(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUpload]);
 
   return (
     <>
@@ -65,11 +89,15 @@ const PostDetail = ({ post }) => {
           <Post {...{ post }} />
           <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
             {/* Note: 댓글 리스트를 받아서 comment를 props로 내려줘야함 */}
-            <PostChatList {...{ comment }} {...{ setIsModal }} {...{ setUserId }} />
+            {!!commentList.length &&
+              commentList.map((comment) => (
+                <PostChatList key={crypto.randomUUID()} {...{ comment }} {...{ setIsModal }} {...{ setUserId }} />
+              ))}
+            {/* <PostChatList {...{ comment }} {...{ setIsModal }} {...{ setUserId }} /> */}
           </ul>
         </main>
 
-        <PostDetailForm postId={post.id} />
+        <PostDetailForm postId={post.id} {...{ setIsUpload }} />
 
         {/* Note: modal에 comment list의 author._id를 내려줘야 함 */}
         {isModal ? <PostChatModal ref={modalRef} {...{ setIsModal }} {...{ userId }} /> : <></>}

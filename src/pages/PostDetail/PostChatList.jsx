@@ -30,7 +30,7 @@ const PostChatList = ({ comment, setIsModal, setUserId }) => {
   const nowDate = detailDate(new Date(comment.createdAt));
 
   const userImage =
-    comment.author.image === "https://mandarin.api.weniv.co.kr/Ellipse.png"
+    comment.author.image === "http://146.56.183.55:5050/Ellipse.png"
       ? comment.author.image
       : `https://mandarin.api.weniv.co.kr/${comment.author.image}`;
 

@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import axios from "../../api/axios";
 
-const PostDetailForm = ({ postId }) => {
+const PostDetailForm = ({ postId, setIsUpload }) => {
   const inpTextRef = useRef();
   const [isText, setIsText] = useState(false);
 
@@ -36,6 +36,7 @@ const PostDetailForm = ({ postId }) => {
       if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
       inpTextRef.current.value = "";
       setIsText(false);
+      setIsUpload(true);
     } catch (err) {
       console.log(err);
     }
