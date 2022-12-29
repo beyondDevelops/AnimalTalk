@@ -44,7 +44,7 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
             onClick={() => navigate(`/profile/${accountname}/edit`)}
             className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
           >
-            프로픨 수정
+            프로필 수정
           </button>
           <button
             type="button"
