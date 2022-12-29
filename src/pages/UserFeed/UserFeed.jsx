@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import api from "../../api/axios";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
@@ -10,22 +10,26 @@ import PostAlbum from "../../shared/Post/PostAlbum";
 import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
+import { UserContext } from "../../context/UserContext";
 
 const UserFeed = () => {
   const loadingImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
+
   const token = localStorage.getItem("token");
-  const [userProfile, setUserProfile] = useState();
+
+  const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
-  const [postDataArray, setPostDataArray] = useState([]);
+  const [postDataArray, setPostDataArray] = useState(null);
   const [club, setClub] = useState(null);
-  // const [follow, setFollow] = useState(false);
+  const [follow, setFollow] = useState(false);
 
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
   const modalRef = useRef();
 
   const location = useLocation();
-  const accountname = location.pathname.split("/")[2];
+  const pageAccount = location.pathname.split("/")[2];
+  const { accountname } = useContext(UserContext);
 
   const handleModalInfo = useCallback(
     (e) => {
@@ -44,29 +48,31 @@ const UserFeed = () => {
   }, []);
 
   useEffect(() => {
-    if (!userProfile) {
-      const getUserProfile = async () => {
+    if (!pageProfile) {
+      const getPageProfile = async () => {
         try {
-          const res = await api.get(`/profile/${accountname}`, {
+          const res = await api.get(`/profile/${pageAccount}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          setUserProfile(res.data.profile);
-          // setFollow(res.data.profile.isfollow);
+          setPageProfile(res.data.profile);
+          // 로그인한 사용자를 기준으로 타인의 피드 페이지에서 나와의 follow 관계를 isfollow로 확인
+          // 상대방과 로그인한 사용자의 팔로우 여부를 follow에 저장
+          setFollow(res.data.profile.isfollow);
         } catch (err) {
           console.log(err);
         }
       };
-      getUserProfile();
+      getPageProfile();
     }
-  }, [accountname, token, userProfile]);
+  }, [pageAccount, token, pageProfile]);
 
   useEffect(() => {
-    if (postDataArray.length === 0) {
+    if (!postDataArray) {
       const getUserFeeds = async () => {
         try {
-          const res = await api.get(`/post/${accountname}/userpost`, {
+          const res = await api.get(`/post/${pageAccount}/userpost`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -79,7 +85,7 @@ const UserFeed = () => {
 
       getUserFeeds();
     }
-  }, [accountname, postDataArray, token]);
+  }, [pageAccount, postDataArray, token]);
 
   const onListToggle = () => {
     setList(!list);
@@ -88,66 +94,66 @@ const UserFeed = () => {
   useEffect(() => {
     if (!club) {
       const getUserClub = async () => {
-        const res = await api.get(`/product/${accountname}`, {
+        const res = await api.get(`/product/${pageAccount}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setClub(res.data.product);
-        // console.log(res.data);
-        // console.log(res.data.product);
       };
 
       getUserClub();
     }
-  }, [club, accountname, token]);
+  }, [club, pageAccount, token]);
 
-  // useEffect(() => {
-  //   if (!!userProfile) {
-  //     if (follow === userProfile.isfollow) {
-  //       return;
-  //     } else if (follow !== userProfile.isfollow && follow === true) {
-  //       const followReq = async () => {
-  //         const res = await api.post(`/profile/${accountname}/follow`, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         console.log(res.data.profile);
-  //         console.log("follow", follow);
-  //         console.log("userprofile.isfollow", userProfile.isfollow);
-  //       };
-  //       followReq();
-  //     } else if (follow !== userProfile.isfollow && follow === false) {
-  //       const unfollowReq = async () => {
-  //         const res = await api.delete(`/profile/${accountname}/unfollow`, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         console.log(res.data.profile);
-  //         console.log("follow", follow);
-  //         console.log("userprofile.isfollow", userProfile.isfollow);
-  //       };
-  //       unfollowReq();
-  //     }
-  //   }
-  // }, [follow, accountname, token, userProfile]);
+  useEffect(() => {
+    if (!!pageProfile) {
+      // 현재 follow 상태와 상대방의 프로필 데이터 요청을 통해 얻어진 나와의 팔로우 관계 정보가 저장된 follow 데이터 비교
+
+      // follow 상태 변동 없음
+      if (follow === pageProfile.isfollow) {
+        return;
+      } else if (follow !== pageProfile.isfollow && follow === true) {
+        // follow 상태 변동이 있고, 현재 팔로우를 한 경우 (팔로우 요청을 하여야 함)
+        const followReq = async () => {
+          // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
+          await api.post(
+            `/profile/${pageAccount}/follow`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        };
+        followReq();
+      } else if (follow !== pageProfile.isfollow && follow === false) {
+        // follow 상태 변동이 있고, 현재 팔로우를 취소한 경우 (언팔로우를 요청하여야 함)
+        const unfollowReq = async () => {
+          await api.delete(`/profile/${pageAccount}/unfollow`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        };
+        unfollowReq();
+      }
+    }
+  }, [follow, accountname, token, pageProfile, pageAccount]);
 
   return (
     <div className="page">
       <HeaderBasic onModalInfo={handleModalInfo} />
       <main>
-        {userProfile ? (
+        {pageProfile ? (
           <>
-            <UserProfile userProfile={userProfile} /* follow={follow} setFollow={setFollow} */ />
+            <UserProfile pageProfile={pageProfile} follow={follow} setFollow={setFollow} />
             {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
-              {postDataArray.length === 0 && (
-                <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>
-              )}
+              {!postDataArray && <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>}
               {postDataArray ? (
                 list ? (
                   postDataArray.map((post, idx) => <Post key={post.id} post={post} />)
