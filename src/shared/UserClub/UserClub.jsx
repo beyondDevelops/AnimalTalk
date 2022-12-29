@@ -19,7 +19,8 @@ const UserClub = ({ club }) => {
   };
 
   const handleArrowBtnVisibility = (currentPosX) => {
-    if (currentPosX === 0) {
+    if (currentPosX <= 0) {
+      setLeftBtnVisible(false);
     } else if (currentPosX >= ulRef.current.scrollWidth - (ulRef.current.clientWidth + 2)) {
       setRightBtnVisible(false);
     } else if (currentPosX > 0 && currentPosX < ulRef.current.scrollWidth - (ulRef.current.clientWidth + 2)) {
