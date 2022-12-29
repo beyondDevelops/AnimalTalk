@@ -7,8 +7,6 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
   const [isText, setIsText] = useState(false);
 
   const { image } = useContext(UserContext);
-  const profileImage =
-    image === "http://146.56.183.55:5050/Ellipse.png" ? image : `https://mandarin.api.weniv.co.kr/${image}`;
 
   const handleTextValid = (e) => {
     e.target.value ? setIsText(true) : setIsText(false);
@@ -44,7 +42,7 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
 
   return (
     <form className="flex py-[1.2rem] px-[1.6rem] border-t-[1px] border-cst-light-gray z-0">
-      <img src={profileImage} alt="" className="w-[3.6rem] h-[3.6rem] object-cover rounded-full" />
+      <img src={image} alt="" className="w-[3.6rem] h-[3.6rem] object-cover rounded-full" />
 
       <fieldset className="basis-full flex">
         <legend className="ir">텍스트 입력</legend>
