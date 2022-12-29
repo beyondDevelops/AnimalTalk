@@ -4,7 +4,6 @@ import SimpleClub from "../../components/SimpleClub/SimpleClub";
 const UserClub = ({ club }) => {
   const ulRef = useRef(null);
   const btnRef = useRef([]);
-  // const [btnClickCount, setBtnClickCount] = useState(0);
   const [leftBtnVisible, setLeftBtnVisible] = useState(false);
   const [rightBtnVisible, setRightBtnVisible] = useState(true);
 
@@ -19,25 +18,13 @@ const UserClub = ({ club }) => {
     }, speed);
   };
 
-  function scrollLeftValue(el) {
-    console.log("--------");
-    console.log(el.scrollLeft);
-    console.log(el.scrollWidth);
-    console.log(el.clientWidth);
-    console.log(el.scrollWidth - el.clientWidth - 2);
-  }
-
   const handleArrowBtnVisibility = (currentPosX) => {
-    console.log(currentPosX);
     if (currentPosX === 0) {
-      console.log(currentPosX);
     } else if (currentPosX >= ulRef.current.scrollWidth - (ulRef.current.clientWidth + 2)) {
       setRightBtnVisible(false);
-      console.log(currentPosX);
     } else if (currentPosX > 0 && currentPosX < ulRef.current.scrollWidth - (ulRef.current.clientWidth + 2)) {
       setLeftBtnVisible(true);
       setRightBtnVisible(true);
-      console.log(currentPosX);
     }
   };
 
@@ -77,8 +64,6 @@ const UserClub = ({ club }) => {
             onClick={() => {
               handleHorizontalScroll(ulRef.current, 25, 150, 10);
               handleArrowBtnVisibility(ulRef.current.scrollLeft + 150);
-              /* temp */
-              scrollLeftValue(ulRef.current);
             }}
           >
             &gt;
