@@ -14,7 +14,11 @@ const SimpleClub = ({ data }) => {
       <div className="cursor-pointer" onClick={() => navigate(`/product/detail/${clubId}`)}>
         <img
           className="w-[14rem] h-[9rem] object-cover border-[0.05rem] border-cst-light-gray rounded-[8px]"
-          src={clubThumbnailImg}
+          src={
+            clubThumbnailImg.includes("https")
+              ? clubThumbnailImg
+              : `https://mandarin.api.weniv.co.kr/${clubThumbnailImg}`
+          }
           alt=""
         />
         <strong className="block mt-[0.6rem] mx-[0.2rem] leading-[1.8rem] font-normal whitespace-nowrap overflow-hidden overflow-ellipsis">

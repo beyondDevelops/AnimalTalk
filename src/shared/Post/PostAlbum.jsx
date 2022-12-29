@@ -10,7 +10,7 @@ const PostAlbum = ({ post, idx }) => {
     modal ? setModal(false) : setModal(true);
   };
 
-  const postImg = !!post.image.split(", ")[0] ? post.image : null;
+  const postImg = !!post.image.split(",")[0] ? post.image : null;
 
   return (
     <div
@@ -19,12 +19,12 @@ const PostAlbum = ({ post, idx }) => {
       } rounded-[10px]`}
     >
       <div className="relative flex h-full">
-        {postImg && postImg.includes(", ") ? (
+        {postImg && postImg.includes(",") ? (
           <>
             <button type="button" className="absolute top-[0.6rem] right-[0.6rem]">
               <img src={imgLayersImg} alt="" className="w-[2rem] h-[2rem]" />
             </button>
-            {postImg.split(", ").map((img) => (
+            {postImg.split(",").map((img) => (
               <img
                 src={`https://mandarin.api.weniv.co.kr/${img}`}
                 alt=""
@@ -33,7 +33,7 @@ const PostAlbum = ({ post, idx }) => {
               />
             ))}
             {modal ? (
-              <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
+              <ModalPostImg imgArr={postImg.split(",")} modal={modal} onModalToggle={handleModalToggle} />
             ) : (
               <></>
             )}
@@ -47,7 +47,7 @@ const PostAlbum = ({ post, idx }) => {
               onClick={handleModalToggle}
             />
             {modal ? (
-              <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
+              <ModalPostImg imgArr={postImg.split(",")} modal={modal} onModalToggle={handleModalToggle} />
             ) : (
               <></>
             )}

@@ -14,7 +14,7 @@ const Post = ({ post }) => {
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
 
   // 이미지 관리 및 모달 처리
-  const postImg = !!post.image.split(", ")[0] ? post.image : null;
+  const postImg = !!post.image.split(",")[0] ? post.image : null;
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modal, setModal] = useState(false);
@@ -66,34 +66,34 @@ const Post = ({ post }) => {
 
       {postImg ? (
         <div className="relative overflow-hidden w-[30.4rem] h-[22.8rem] mt-[1.6rem] ml-[5.4rem] mb-[1.4rem] rounded-[10px]">
-          {postImg && postImg.includes(", ") ? (
+          {postImg && postImg.includes(",") ? (
             <>
               <div className="flex flex-row h-full overflow-x-scroll scrollbar-hide" ref={imgRef}>
-                {postImg.split(", ").map((img, idx) => (
+                {postImg.split(",").map((img, idx) => (
                   <img
                     key={idx}
-                    src={`https://mandarin.api.weniv.co.kr/${img}`}
+                    src={img.includes("https") ? img : `https://mandarin.api.weniv.co.kr/${img}`}
                     alt=""
                     className={`min-w-full object-cover cursor-pointer ${
-                      postImg.split(", ")[currentIndex] === img ? "" : "hidden"
+                      postImg.split(",")[currentIndex] === img ? "" : "hidden"
                     }`}
                     onClick={handleModalToggle}
                   />
                 ))}
                 {modal ? (
-                  <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
+                  <ModalPostImg imgArr={postImg.split(",")} modal={modal} onModalToggle={handleModalToggle} />
                 ) : (
                   <></>
                 )}
               </div>
               <div className="relative flex justify-center -translate-y-[2rem]">
-                {postImg.split(", ").map((img, idx) => (
+                {postImg.split(",").map((img, idx) => (
                   <button
-                    onClick={() => setCurrentIndex(postImg.split(", ").indexOf(img))}
+                    onClick={() => setCurrentIndex(postImg.split(",").indexOf(img))}
                     key={idx}
                     id={idx}
                     className={`mr-[0.6rem] last:mr-0 text-white w-[0.6rem] h-[0.6rem] rounded-[50%] ${
-                      postImg.split(", ")[currentIndex] === img ? "bg-m-color" : "bg-white"
+                      postImg.split(",")[currentIndex] === img ? "bg-m-color" : "bg-white"
                     }`}
                   ></button>
                 ))}
@@ -103,14 +103,14 @@ const Post = ({ post }) => {
             <>
               <div className="flex h-full">
                 <img
-                  src={`https://mandarin.api.weniv.co.kr/${postImg}`}
+                  src={postImg.includes("https") ? postImg : `https://mandarin.api.weniv.co.kr/${postImg}`}
                   alt=""
                   className="min-w-full object-cover cursor-pointer"
                   onClick={handleModalToggle}
                 />
               </div>
               {modal ? (
-                <ModalPostImg imgArr={postImg.split(", ")} modal={modal} onModalToggle={handleModalToggle} />
+                <ModalPostImg imgArr={postImg.split(",")} modal={modal} onModalToggle={handleModalToggle} />
               ) : (
                 <></>
               )}
