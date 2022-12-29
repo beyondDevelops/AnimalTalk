@@ -36,25 +36,48 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
       <p className="w-fit mx-auto mt-[1.6rem] text-[1.6rem] font-bold">{username}</p>
       <p className="w-fit mx-auto text-[1.2rem] text-cst-gray">@ {pageAccount}</p>
       <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-cst-gray">{intro}</p>
-      <Link
-        to="/chat"
-        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] ml-[3.6rem] align-bottom"
-      >
-        <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
-      </Link>
-      <button
-        type="button"
-        onClick={() => setFollow(!follow)}
-        className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
-      >
-        {follow ? "언팔로우" : "팔로우"}
-      </button>
-      <button
-        type="button"
-        className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
-      >
-        <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
-      </button>
+
+      {pageAccount === accountname ? (
+        <>
+          <button
+            type="button"
+            onClick={() => navigate(`/profile/${accountname}/edit`)}
+            className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
+          >
+            프로픨 수정
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate(`/profile/${accountname}/clubupload`)}
+            className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
+          >
+            모임 만들기
+          </button>
+        </>
+      ) : (
+        <>
+          <button
+            type="button"
+            onClick={() => navigate("/chat")}
+            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] ml-[3.6rem] align-bottom"
+          >
+            <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setFollow(!follow)}
+            className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
+          >
+            {follow ? "언팔로우" : "팔로우"}
+          </button>
+          <button
+            type="button"
+            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
+          >
+            <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
+          </button>
+        </>
+      )}
     </section>
   );
 };
