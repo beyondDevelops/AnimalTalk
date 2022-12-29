@@ -45,13 +45,12 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
       <button
         type="button"
         onClick={() => setFollow(!follow)}
-        className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-on text-white" : "btn-cancel text-cst-gray"}`}
+        className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
       >
-        {follow ? "팔로우" : "언팔로우"}
+        {follow ? "언팔로우" : "팔로우"}
       </button>
       <button
         type="button"
-        to="/"
         className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
       >
         <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
