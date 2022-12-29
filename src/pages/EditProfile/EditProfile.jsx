@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useRef, useState } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 
 const EditProfile = () => {
@@ -114,7 +114,6 @@ const EditProfile = () => {
 
   const handleEditProfile = async (e) => {
     e.preventDefault();
-    console.log();
     try {
       let imageURL = "";
 
