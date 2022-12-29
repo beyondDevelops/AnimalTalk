@@ -88,12 +88,10 @@ const PostDetail = ({ post }) => {
         <main>
           <Post {...{ post }} />
           <ul className="border-t-[0.1rem] px-[1.6rem] py-[2rem] border-cst-light-gray">
-            {/* Note: 댓글 리스트를 받아서 comment를 props로 내려줘야함 */}
             {!!commentList.length &&
               commentList.map((comment) => (
                 <PostChatList key={crypto.randomUUID()} {...{ comment }} {...{ setIsModal }} {...{ setUserId }} />
               ))}
-            {/* <PostChatList {...{ comment }} {...{ setIsModal }} {...{ setUserId }} /> */}
           </ul>
         </main>
 
