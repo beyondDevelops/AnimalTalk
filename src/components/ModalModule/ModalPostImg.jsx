@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-const ModalPostImg = ({ imgArr, modalPostImage, setModalPostImage, post }) => {
+const ModalPostImg = ({ imgArr, setModalPostImage }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const leftArrow = useRef(null);
   const rightArrow = useRef(null);
@@ -27,6 +27,7 @@ const ModalPostImg = ({ imgArr, modalPostImage, setModalPostImage, post }) => {
       setModalPostImage(false);
     }
   };
+  console.log(imgArr);
 
   return (
     <section className="absolute inset-0 z-10" ref={modalRef} onClick={handleModal}>
@@ -36,11 +37,39 @@ const ModalPostImg = ({ imgArr, modalPostImage, setModalPostImage, post }) => {
         <button
           type="button"
           aria-label="닫기창"
-          className="relative w-[100%] h-[3.6rem] border-b-[0.5rem] border-b-s-color/80 before:absolute before:left-[50%] before:-translate-x-[50%] before:content-[''] before:w-[5rem] before:h-[0.4rem] before:bg-cst-light-gray before:hover:bg-s-color"
+          className="relative w-[100%] h-[3.6rem] border-b-[0.5rem] border-b-s-color/80 before:absolute before:left-[50%] before:-translate-x-[50%] before:content-[''] before:w-[5rem] before:h-[0.4rem] before:bg-s-color before:hover:bg-m-color"
           onClick={() => {
             setModalPostImage(false);
           }}
         ></button>
+
+        {/* 이미지 캐러셀 버튼 */}
+        {imgArr.length > 1 ? (
+          <div className="relative">
+            <button
+              className="absolute top-[13rem] left-[2%] w-[3rem] h-[3rem] text-[2rem] text-m-color bg-s-color/60 rounded-full hover:bg-m-color hover:text-s-color"
+              type="button"
+              aria-label="prev"
+              data-name="prev"
+              onClick={(e) => handleModalCarousel(e.target)}
+              ref={leftArrow}
+            >
+              &lt;
+            </button>
+            <button
+              className="absolute top-[13rem] right-[2%] w-[3rem] h-[3rem] text-[2rem] text-m-color bg-s-color/60 rounded-full hover:bg-m-color hover:text-s-color"
+              type="button"
+              aria-label="next"
+              data-name="next"
+              onClick={(e) => handleModalCarousel(e.target)}
+              ref={rightArrow}
+            >
+              &gt;
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
 
         {/* 이미지 캐러셀 */}
         <div className="relative mx-auto my-[2rem] overflow-hidden w-[30.4rem] h-[22.8rem] rounded-[10px]">
@@ -54,30 +83,6 @@ const ModalPostImg = ({ imgArr, modalPostImage, setModalPostImage, post }) => {
               alt=""
               className="min-w-full object-cover"
             />
-            <button
-              className={`absolute top-[50%] left-[6%] min-[391px]:left-[10%] lg:left-[25%] z-30 ${
-                imgArr.length > 1 ? "bg-[#ffffffdb] hover:text-black" : "bg-[#ffffff00]"
-              } leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-cst-gray rounded-[50%] cursor-pointer`}
-              type="button"
-              aria-label="prev"
-              data-name="prev"
-              onClick={(e) => handleModalCarousel(e.target)}
-              ref={leftArrow}
-            >
-              &lt;
-            </button>
-            <button
-              className={`absolute top-[50%] right-[6%] min-[391px]:right-[10%] lg:right-[25%] z-30 ${
-                imgArr.length > 1 ? "bg-[#ffffffdb] hover:text-black" : "bg-[#ffffff00]"
-              } leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-cst-gray rounded-[50%] cursor-pointer`}
-              type="button"
-              aria-label="next"
-              data-name="next"
-              onClick={(e) => handleModalCarousel(e.target)}
-              ref={rightArrow}
-            >
-              &gt;
-            </button>
           </div>
         </div>
       </div>
