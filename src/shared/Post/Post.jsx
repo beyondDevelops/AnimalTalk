@@ -18,17 +18,13 @@ const Post = ({ post }) => {
   const postImg = !!post.image.split(",")[0] ? post.image : null;
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [modalPostImage, setModalPostImage] = useState(false);
+  const [modalPostImg, setModalPostImg] = useState(false);
 
   // 날짜 정보 관리
   const postDate = post.updatedAt.slice(0, 10).replaceAll("-", "");
   const year = postDate.slice(0, 4);
   const month = postDate.slice(4, 6);
   const date = postDate.slice(6, 8);
-
-  const handleModalPostImage = () => {
-    modalPostImage ? setModalPostImage(false) : setModalPostImage(true);
-  };
 
   // 좋아요 관리x
   const [isLike, setIsLike] = useState(post.hearted);
@@ -42,11 +38,6 @@ const Post = ({ post }) => {
   const handleLink = () => navigate(`/profile/${post.author.accountname}`);
 
   const { _id } = useContext(UserContext);
-
-  const handleModal = () => {
-    console.log("로그인유저", _id);
-    console.log("게시자", post.author._id);
-  };
 
   return (
     <>
@@ -67,9 +58,9 @@ const Post = ({ post }) => {
           </span>
         </p>
 
-        <button type="button" className="float-right mt-[0.6rem]" onClick={handleModal}>
+        <Link className="float-right mt-[0.6rem]">
           <img className="w-[1.8rem] h-[1.8rem]" src={moreVerticalSmallImg} alt="더보기" />
-        </button>
+        </Link>
 
         <p className={`leading-[1.8rem] mt-[1.6rem] ml-[5.4rem] ${postImg ? "" : "mb-[1.4rem]"}`}>{post.content}</p>
 
@@ -87,7 +78,9 @@ const Post = ({ post }) => {
                       className={`min-w-full object-cover cursor-pointer ${
                         postImg.split(",")[currentIndex] === img ? "" : "hidden"
                       }`}
-                      onClick={handleModalPostImage}
+                      onClick={() => {
+                        setModalPostImg(!modalPostImg);
+                      }}
                     />
                   ))}
                 </div>
@@ -110,7 +103,9 @@ const Post = ({ post }) => {
                   src={postImg.includes("https") ? postImg : `https://mandarin.api.weniv.co.kr/${postImg}`}
                   alt=""
                   className="min-w-full object-cover cursor-pointer"
-                  onClick={handleModalPostImage}
+                  onClick={() => {
+                    setModalPostImg(!modalPostImg);
+                  }}
                 />
               </div>
             )}
@@ -139,16 +134,7 @@ const Post = ({ post }) => {
         </time>
       </section>
 
-      {modalPostImage ? (
-        <ModalPostImg
-          imgArr={postImg.split(",")}
-          setModalPostImage={setModalPostImage}
-          onModalToggle={handleModalPostImage}
-          {...{ post }}
-        />
-      ) : (
-        <></>
-      )}
+      {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
     </>
   );
 };
