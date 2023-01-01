@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 import Textarea from "../../components/Textarea/Textarea";
 import axios, { axiosImgUpload } from "../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const PostUpload = ({ post }) => {
+const PostUpload = () => {
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
   const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
@@ -18,6 +18,8 @@ const PostUpload = ({ post }) => {
   const [uploadPossible, setUploadPossible] = useState(true);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const post = location.state?.post;
 
   const convertURLtoFile = async (url) => {
     const res = await axios({

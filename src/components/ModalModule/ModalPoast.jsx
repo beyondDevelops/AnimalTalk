@@ -1,4 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
@@ -83,13 +84,15 @@ const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
             {post.author._id === _id ? "삭제" : "신고하기"}
           </button>
           {post.author._id === _id ? (
-            <button
-              className="py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
-              // onClick={userId === _id ? handleChatDelete : handleChatReport}
+            <Link
+              to={"/postedit"}
+              state={{ ...{ post } }}
+              className="inline-block py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
+              // onClick={handlePostEdit}
               // disabled={isDisabled}
             >
               수정
-            </button>
+            </Link>
           ) : (
             <></>
           )}
