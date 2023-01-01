@@ -48,7 +48,6 @@ const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setIsUpload(true);
       setModalPost(false);
       if (res.status !== 200) {
         setIsDisabled(false);
