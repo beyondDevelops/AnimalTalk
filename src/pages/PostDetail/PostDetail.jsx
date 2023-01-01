@@ -21,8 +21,6 @@ const PostDetail = () => {
   const [commentList, setCommentList] = useState([]);
   const [isUpload, setIsUpload] = useState(true);
 
-  // const modalRef = useRef();
-
   useEffect(() => {
     if (!isUpload) return;
     const token = localStorage.getItem("token");
