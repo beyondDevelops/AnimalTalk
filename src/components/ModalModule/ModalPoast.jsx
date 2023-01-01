@@ -1,9 +1,12 @@
 import React, { useContext, useRef, useState } from "react";
+import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
 const ModalPoast = ({ setModalPost, post }) => {
   const modalRef = useRef();
-  // const [isModal, setIsModal] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const { _id } = useContext(UserContext);
+  const token = localStorage.getItem("token");
 
   const handleModal = (e) => {
     if (e.target === modalRef.current) {
@@ -11,7 +14,50 @@ const ModalPoast = ({ setModalPost, post }) => {
     }
   };
 
-  const { _id } = useContext(UserContext);
+  // 게시글 삭제
+  const handlePostDelete = async (e) => {
+    try {
+      e.preventDefault();
+      setIsDisabled(true);
+
+      const res = await axios.delete(`/post/${post.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // setIsUpload(true);
+      setModalPost(false);
+
+      if (res.status !== 200) {
+        setIsDisabled(false);
+        throw new Error(res.status, "통신에 실패했습니다.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 게시글 신고
+  const handlePostReport = async (e) => {
+    try {
+      e.preventDefault();
+      setIsDisabled(true);
+
+      const res = await axios.post(`/post/${post.id}/report`, [], {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setModalPost(false);
+      if (res.status !== 200) {
+        setIsDisabled(false);
+        throw new Error(res.status, "통신에 실패했습니다.");
+      }
+      alert("신고가 접수되었습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <section className="absolute inset-0 z-10" ref={modalRef} onClick={handleModal}>
@@ -31,8 +77,8 @@ const ModalPoast = ({ setModalPost, post }) => {
         <form>
           <button
             className="py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
-            // onClick={post.author.id === _id ? handleChatDelete : handleChatReport}
-            // disabled={isDisabled}
+            onClick={post.author._id === _id ? handlePostDelete : handlePostReport}
+            disabled={isDisabled}
           >
             {post.author._id === _id ? "삭제" : "신고하기"}
           </button>
