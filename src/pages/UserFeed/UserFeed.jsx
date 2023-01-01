@@ -154,7 +154,7 @@ const UserFeed = () => {
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
-              {!postDataArray.length && (
+              {postDataArray && !postDataArray.length && (
                 <>
                   <img
                     src={loadingImg}
