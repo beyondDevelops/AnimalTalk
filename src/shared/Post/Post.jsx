@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ModalPoast from "../../components/ModalModule/ModalPost";
+import ModalPost from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 import { UserContext } from "../../context/UserContext";
 
@@ -41,7 +41,7 @@ const Post = ({ post, setIsUpload }) => {
 
   const handleLink = () => navigate(`/profile/${post.author.accountname}`);
 
-  const { _id } = useContext(UserContext);
+  // const { _id } = useContext(UserContext);
 
   return (
     <>
@@ -150,7 +150,7 @@ const Post = ({ post, setIsUpload }) => {
 
       {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
 
-      {modalPost ? <ModalPoast {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
+      {modalPost ? <ModalPost {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
     </>
   );
 };
