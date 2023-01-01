@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ModalPoast from "../../components/ModalModule/ModalPoast";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 import { UserContext } from "../../context/UserContext";
 
@@ -19,6 +20,9 @@ const Post = ({ post }) => {
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalPostImg, setModalPostImg] = useState(false);
+
+  // 게시글 삭제 및 신고 모달
+  const [modalPost, setModalPost] = useState(false);
 
   // 날짜 정보 관리
   const postDate = post.updatedAt.slice(0, 10).replaceAll("-", "");
@@ -58,7 +62,13 @@ const Post = ({ post }) => {
           </span>
         </p>
 
-        <button type="button" className="float-right mt-[0.6rem]">
+        <button
+          type="button"
+          className="float-right mt-[0.6rem]"
+          onClick={() => {
+            setModalPost(true);
+          }}
+        >
           <img className="w-[1.8rem] h-[1.8rem]" src={moreVerticalSmallImg} alt="더보기" />
         </button>
 
@@ -139,6 +149,8 @@ const Post = ({ post }) => {
       </section>
 
       {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
+
+      {modalPost ? <ModalPoast {...{ setModalPost }} {...{ post }} /> : <></>}
     </>
   );
 };
