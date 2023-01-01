@@ -1,9 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ModalPoast from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 import { UserContext } from "../../context/UserContext";
 
-const Post = ({ post }) => {
+const Post = ({ post, setIsUpload }) => {
   // 아래 이미지 변수는 기본 설정입니다.
   const profileSmallImg =
     post.author.image !== "http://146.56.183.55:5050/Ellipse.png"
@@ -19,6 +20,9 @@ const Post = ({ post }) => {
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalPostImg, setModalPostImg] = useState(false);
+
+  // 게시글 삭제 및 신고 모달
+  const [modalPost, setModalPost] = useState(false);
 
   // 날짜 정보 관리
   const postDate = post.updatedAt.slice(0, 10).replaceAll("-", "");
@@ -58,9 +62,15 @@ const Post = ({ post }) => {
           </span>
         </p>
 
-        <Link className="float-right mt-[0.6rem]">
+        <button
+          type="button"
+          className="float-right mt-[0.6rem]"
+          onClick={() => {
+            setModalPost(true);
+          }}
+        >
           <img className="w-[1.8rem] h-[1.8rem]" src={moreVerticalSmallImg} alt="더보기" />
-        </Link>
+        </button>
 
         <p className={`leading-[1.8rem] mt-[1.6rem] ml-[5.4rem] ${postImg ? "" : "mb-[1.4rem]"}`}>{post.content}</p>
 
@@ -122,7 +132,11 @@ const Post = ({ post }) => {
           <img className="w-[2rem] h-[2rem]" src={`${isLike ? heartOnImg : heartOffImg}`} alt="좋아요" />
           <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">{post.heartCount}</span>
         </button>
-        <Link to="/chat" className="inline-flex items-center text-cst-gray align-bottom">
+        <Link
+          to={`/post/${post.id}`}
+          state={{ ...{ post } }}
+          className="inline-flex items-center text-cst-gray align-bottom"
+        >
           <img className="w-[2rem] h-[2rem]" src={commentImg} alt="댓글 확인하기" />
           <span className="text-[1.2rem leading-[1.2rem] ml-[0.6rem]">{post.commentCount}</span>
         </Link>
@@ -135,6 +149,8 @@ const Post = ({ post }) => {
       </section>
 
       {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
+
+      {modalPost ? <ModalPoast {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
     </>
   );
 };
