@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
-const ModalPoast = ({ setModalPost, post }) => {
+const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
   const modalRef = useRef();
   const [isDisabled, setIsDisabled] = useState(false);
   const { _id } = useContext(UserContext);
@@ -25,7 +25,7 @@ const ModalPoast = ({ setModalPost, post }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // setIsUpload(true);
+      setIsUpload(true);
       setModalPost(false);
 
       if (res.status !== 200) {
@@ -48,6 +48,7 @@ const ModalPoast = ({ setModalPost, post }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setIsUpload(true);
       setModalPost(false);
       if (res.status !== 200) {
         setIsDisabled(false);

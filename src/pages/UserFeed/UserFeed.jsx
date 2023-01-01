@@ -22,6 +22,7 @@ const UserFeed = () => {
   const [postDataArray, setPostDataArray] = useState(null);
   const [club, setClub] = useState(null);
   const [follow, setFollow] = useState(false);
+  const [isUpload, setIsUpload] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
@@ -69,23 +70,23 @@ const UserFeed = () => {
   }, [pageAccount, token, pageProfile]);
 
   useEffect(() => {
-    if (!postDataArray) {
-      const getUserFeeds = async () => {
-        try {
-          const res = await api.get(`/post/${pageAccount}/userpost`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setPostDataArray(res.data.post);
-        } catch (err) {
-          console.log(err);
-        }
-      };
+    if (!isUpload) return;
+    const getUserFeeds = async () => {
+      try {
+        const res = await api.get(`/post/${pageAccount}/userpost`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPostDataArray(res.data.post);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserFeeds();
 
-      getUserFeeds();
-    }
-  }, [pageAccount, postDataArray, token]);
+    setIsUpload(false);
+  }, [pageAccount, isUpload, token, postDataArray]);
 
   const onListToggle = () => {
     setList(!list);
@@ -156,7 +157,7 @@ const UserFeed = () => {
               {!postDataArray && <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>}
               {postDataArray ? (
                 list ? (
-                  postDataArray.map((post) => <Post key={post.id} post={post} />)
+                  postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
                 ) : (
                   <section className="flex flex-wrap gap-[0.8rem] my-[1.6rem] mx-[1.6rem]">
                     <h2 className="ir">앨범형</h2>

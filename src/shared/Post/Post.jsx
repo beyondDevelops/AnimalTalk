@@ -4,7 +4,7 @@ import ModalPoast from "../../components/ModalModule/ModalPoast";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 import { UserContext } from "../../context/UserContext";
 
-const Post = ({ post }) => {
+const Post = ({ post, setIsUpload }) => {
   // 아래 이미지 변수는 기본 설정입니다.
   const profileSmallImg =
     post.author.image !== "http://146.56.183.55:5050/Ellipse.png"
@@ -150,7 +150,7 @@ const Post = ({ post }) => {
 
       {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
 
-      {modalPost ? <ModalPoast {...{ setModalPost }} {...{ post }} /> : <></>}
+      {modalPost ? <ModalPoast {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
     </>
   );
 };
