@@ -154,7 +154,16 @@ const UserFeed = () => {
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
-              {!postDataArray && <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>}
+              {!postDataArray.length && (
+                <>
+                  <img
+                    src={loadingImg}
+                    alt="잠시만 기다려 주세요."
+                    className="inline-block ml-[2.9rem] w-[4rem] h-[4rem] mt-[2rem]"
+                  />
+                  <p className="inline-block align-[-1.2rem] ml-[0.5rem] text-m-color">작성된 게시글이 없어요...ㅠㅠ</p>
+                </>
+              )}
               {postDataArray ? (
                 list ? (
                   postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
@@ -167,7 +176,16 @@ const UserFeed = () => {
                   </section>
                 )
               ) : (
-                <img src={loadingImg} alt="잠시만 기다려 주세요." />
+                <>
+                  <img
+                    src={loadingImg}
+                    alt="잠시만 기다려 주세요."
+                    className="inline-block ml-[2.9rem] w-[4rem] h-[4rem] mt-[2rem] animate-pulse"
+                  />
+                  <p className="inline-block align-[-1.2rem] ml-[0.5rem] text-m-color">
+                    로딩중입니다. 잠시만 기다려주세요.
+                  </p>
+                </>
               )}
             </section>
           </>
