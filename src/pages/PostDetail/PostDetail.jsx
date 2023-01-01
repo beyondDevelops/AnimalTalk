@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HeaderBasic } from "../../shared/Header/HeaderBasic";
 import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
@@ -21,7 +21,7 @@ const PostDetail = () => {
   const [commentList, setCommentList] = useState([]);
   const [isUpload, setIsUpload] = useState(true);
 
-  const modalRef = useRef();
+  // const modalRef = useRef();
 
   useEffect(() => {
     if (!isUpload) return;
@@ -104,7 +104,7 @@ const PostDetail = () => {
           {/* Note: modal에 comment list의 author._id를 내려줘야 함 */}
           {isModal ? (
             <PostChatModal
-              ref={modalRef}
+              // ref={modalRef}
               {...{ setIsModal }}
               {...{ userId }}
               {...{ commentId }}

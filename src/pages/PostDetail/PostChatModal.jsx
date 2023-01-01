@@ -1,9 +1,10 @@
-import React, { forwardRef, useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
 // Note: userId에 따라 댓글 신고와 삭제 구분
-const PostModal = forwardRef(({ setIsModal, postId, userId, commentId, setIsUpload }, modalRef) => {
+const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
+  const modalRef = useRef();
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleModal = (e) => {
@@ -66,7 +67,7 @@ const PostModal = forwardRef(({ setIsModal, postId, userId, commentId, setIsUplo
       <h3 className="ir">댓글 모달창</h3>
       <div
         ref={modalRef}
-        className="absolute bottom-0 left-[50%] -translate-x-[50%] bg-white w-[39rem] h-[9.2rem] rounded-t-[10px] shadow-[0_-2px_6px_-3px_rgba(0,0,0,0.8)]"
+        className="absolute bottom-0 left-[50%] -translate-x-[50%] bg-white w-[39rem] rounded-t-[10px] shadow-[0_-2px_6px_-3px_rgba(0,0,0,0.8)]"
       >
         <button
           type="button"
@@ -88,6 +89,6 @@ const PostModal = forwardRef(({ setIsModal, postId, userId, commentId, setIsUplo
       </div>
     </section>
   );
-});
+};
 
 export default PostModal;
