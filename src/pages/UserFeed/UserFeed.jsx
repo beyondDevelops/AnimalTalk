@@ -156,12 +156,12 @@ const UserFeed = () => {
               {!postDataArray && <p className="mt-[30%] text-[2.4rem] text-center">아직 생성된 게시글이 없어요 ㅠㅠ</p>}
               {postDataArray ? (
                 list ? (
-                  postDataArray.map((post, idx) => <Post key={post.id} post={post} />)
+                  postDataArray.map((post) => <Post key={post.id} post={post} />)
                 ) : (
-                  <section className="flex flex-wrap my-[1.6rem] mx-[1.6rem]">
+                  <section className="flex flex-wrap gap-[0.8rem] my-[1.6rem] mx-[1.6rem]">
                     <h2 className="ir">앨범형</h2>
-                    {postDataArray.map((post, idx) => (
-                      <PostAlbum key={post.id} post={post} idx={idx} />
+                    {postDataArray.map((post) => (
+                      <PostAlbum key={post.id} post={post} />
                     ))}
                   </section>
                 )
