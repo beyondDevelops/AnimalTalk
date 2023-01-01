@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ModalPoast from "../../components/ModalModule/ModalPoast";
+import ModalPoast from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 import { UserContext } from "../../context/UserContext";
 

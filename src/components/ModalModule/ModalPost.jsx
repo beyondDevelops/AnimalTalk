@@ -88,8 +88,6 @@ const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
               to={"/postedit"}
               state={{ ...{ post } }}
               className="inline-block py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
-              // onClick={handlePostEdit}
-              // disabled={isDisabled}
             >
               수정
             </Link>
