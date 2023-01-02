@@ -16,7 +16,7 @@ const Post = ({ post, setIsUpload }) => {
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
 
   // 포스트 이미지 및 모달 처리
-  const postImg = !!post.image.split(",")[0] ? post.image : null;
+  const postImg = post.image && !!post.image.split(",")[0] ? post.image : null;
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalPostImg, setModalPostImg] = useState(false);
