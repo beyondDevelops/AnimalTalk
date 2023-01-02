@@ -90,7 +90,7 @@ const SignupProfile = () => {
     e.preventDefault();
 
     try {
-      const imageURL = await ImageFormData(imgRef.current.files[0]);
+      const imageURL = await ImageFormData(imgRef.current.files[0] || baseProfile);
 
       const res = await api.post(
         "/user",
@@ -128,7 +128,7 @@ const SignupProfile = () => {
 
   // 이미지 미리보기
   const imgPreview = () => {
-    const uploadFile = imgRef.current.files[0];
+    const uploadFile = imgRef.current.files[0] || baseProfile;
     const maxSize = 10 * 1024 * 1024;
     const imgSize = uploadFile.size;
 
@@ -158,7 +158,7 @@ const SignupProfile = () => {
               <img
                 src={profileImage ? profileImage : baseProfile}
                 alt=""
-                className="w-[11rem] h-[11rem] rounded-full"
+                className="w-[11rem] h-[11rem] rounded-full object-cover"
               />
               <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
             </label>
@@ -207,7 +207,7 @@ const SignupProfile = () => {
               onChange={handleIntroLength}
               id="intro"
               type="text"
-              placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
+              placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
               className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
             />
           </fieldset>
