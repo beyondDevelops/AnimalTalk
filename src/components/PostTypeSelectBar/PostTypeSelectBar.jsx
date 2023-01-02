@@ -11,7 +11,7 @@ const PostTypeSelectBar = ({ list, onListToggle }) => {
       <button className="w-[2.6rem] h-[2.6rem]" type="button" aria-label="리스트형" onClick={onListToggle}>
         <img src={list ? postListOn : postListOff} alt="" />
       </button>
-      <button className="w-[2.6rem] h-[2.6rem]" type="button" aria-label="앨범형" onClick={onListToggle}>
+      <button className="w-[2.6rem] h-[2.6rem] ml-[1.6rem]" type="button" aria-label="앨범형" onClick={onListToggle}>
         <img src={list ? postAlbumOff : postAlbumOn} alt="" />
       </button>
     </div>
