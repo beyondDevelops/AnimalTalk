@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-import ModalPoast from "../../components/ModalModule/ModalPost";
+import ModalPost from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 
 const Post = ({ post, setIsUpload }) => {
@@ -169,7 +169,7 @@ const Post = ({ post, setIsUpload }) => {
 
       {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
 
-      {modalPost ? <ModalPoast {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
+      {modalPost ? <ModalPost {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
     </>
   );
 };
