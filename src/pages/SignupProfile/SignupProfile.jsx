@@ -90,7 +90,7 @@ const SignupProfile = () => {
     e.preventDefault();
 
     try {
-      const imageURL = await ImageFormData(imgRef.current.files[0]);
+      const imageURL = await ImageFormData(imgRef.current.files[0] || baseProfile);
 
       const res = await api.post(
         "/user",
@@ -128,7 +128,7 @@ const SignupProfile = () => {
 
   // 이미지 미리보기
   const imgPreview = () => {
-    const uploadFile = imgRef.current.files[0];
+    const uploadFile = imgRef.current.files[0] || baseProfile;
     const maxSize = 10 * 1024 * 1024;
     const imgSize = uploadFile.size;
 
