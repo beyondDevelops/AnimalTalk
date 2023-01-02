@@ -71,7 +71,7 @@ const SimpleUserList = ({
       <img
         src={profileSmallImg}
         alt=""
-        className="w-[5rem] h-[5rem] cursor-pointer rounded-[50%]"
+        className="w-[5rem] h-[5rem] object-cover cursor-pointer rounded-[50%]"
         onClick={handleLink}
         onError={(e) => {
           e.target.src = defaultProfile;
