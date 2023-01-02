@@ -15,7 +15,7 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
   const handleSubmitForm = async (e) => {
     try {
       e.preventDefault();
-
+      setIsText(false);
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
@@ -33,7 +33,6 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
       );
       if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
       inpTextRef.current.value = "";
-      setIsText(false);
       setIsUpload(true);
     } catch (err) {
       console.log(err);
