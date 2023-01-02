@@ -1,22 +1,53 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import api from "../../api/axios";
 
-const UserProfile = ({ pageProfile, follow, setFollow }) => {
+const UserProfile = ({ pageProfile, setIsUpload }) => {
   const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
   const shareImg = `${process.env.PUBLIC_URL}/assets/img/icon-share.png`;
   const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
 
+  const [isFollow, setIsFollow] = useState(pageProfile.isfollow);
+  const [followers, setFollowers] = useState(pageProfile.followerCount);
+  const [followings, setFollowings] = useState(pageProfile.followingCount);
+
   const profileImg = pageProfile.image;
-  const followers = pageProfile.followerCount;
-  const followings = pageProfile.followingCount;
   const pageAccount = pageProfile.accountname;
   const intro = pageProfile.intro;
   const username = pageProfile.username;
 
   const { accountname } = useContext(UserContext);
+  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
+
+  const followReq = async () => {
+    // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
+    const res = await api.post(
+      `/profile/${pageAccount}/follow`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setIsFollow(res.data.profile.isfollow);
+    setFollowers(res.data.profile.followerCount);
+    setFollowings(res.data.profile.followingCount);
+  };
+
+  const unfollowReq = async () => {
+    const res = await api.delete(`/profile/${pageAccount}/unfollow`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setIsFollow(res.data.profile.isfollow);
+    setFollowers(res.data.profile.followerCount);
+    setFollowings(res.data.profile.followingCount);
+  };
 
   return (
     <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem]">
@@ -73,10 +104,13 @@ const UserProfile = ({ pageProfile, follow, setFollow }) => {
           </button>
           <button
             type="button"
-            onClick={() => setFollow(!follow)}
-            className={`h-[3.4rem] mx-[1rem] btn-lg ${follow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
+            onClick={() => {
+              isFollow ? unfollowReq() : followReq();
+              setIsUpload((prev) => !prev);
+            }}
+            className={`h-[3.4rem] mx-[1rem] btn-lg ${isFollow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
           >
-            {follow ? "언팔로우" : "팔로우"}
+            {isFollow ? "언팔로우" : "팔로우"}
           </button>
           <button
             type="button"
