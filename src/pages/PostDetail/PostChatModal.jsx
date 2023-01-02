@@ -104,7 +104,7 @@ const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
           <form className="absolute bottom-[40%] left-[50%] -translate-x-[50%] bg-white w-[25.2rem] rounded-[10px]">
             <fieldset>
               <legend className="px-[5.4rem] py-[2.2rem] text-[1.6rem] font-medium border-b-cst-light-gray border-b-[0.1rem]">
-                게시글을 삭제할까요?
+                댓글을 삭제할까요?
               </legend>
               <button
                 ref={(el) => (modalRef.current["cancle"] = el)}
