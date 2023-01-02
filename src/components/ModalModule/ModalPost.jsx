@@ -7,7 +7,6 @@ const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
   const modalRef = useRef([]);
 
   const [modalDelete, setModalDelete] = useState(false);
-  // const [modalDelete, setModalDelete] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
   const { _id } = useContext(UserContext);
   const token = localStorage.getItem("token");
