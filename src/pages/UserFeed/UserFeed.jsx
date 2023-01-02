@@ -11,6 +11,7 @@ import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
 import { UserContext } from "../../context/UserContext";
+import useIntersect from "../../hooks/useIntersect";
 
 const UserFeed = () => {
   const loadingImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
@@ -19,10 +20,11 @@ const UserFeed = () => {
 
   const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
-  const [postDataArray, setPostDataArray] = useState(null);
+  const [postDataArray, setPostDataArray] = useState([]);
   const [club, setClub] = useState(null);
   const [follow, setFollow] = useState(false);
-  const [isUpload, setIsUpload] = useState(true);
+  const [state, setState] = useState({ postNum: 0, moreFeed: true });
+  const [isUpload, setIsUpload] = useState(false);
 
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
@@ -41,12 +43,18 @@ const UserFeed = () => {
     },
     [modal]
   );
+
   const handleModalLogout = useCallback(() => {
     setLogout(!logout);
   }, [logout]);
+
   const handleCloseModal = useCallback(() => {
     setLogout(false);
   }, []);
+
+  const onListToggle = () => {
+    setList(!list);
+  };
 
   useEffect(() => {
     if (!pageProfile) {
@@ -69,28 +77,38 @@ const UserFeed = () => {
     }
   }, [pageAccount, token, pageProfile]);
 
+  const getUserFeeds = async () => {
+    try {
+      const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPostDataArray((prev) => [...prev, ...res.data.post]);
+      setState((prev) => ({
+        postNum: prev.postNum + 10,
+        moreFeed: postDataArray.length % 10 === 0,
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (postDataArray.length === 0) {
+      getUserFeeds();
+    }
+  }, []);
+
+  const observerTarget = useRef(null);
+
+  useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
+
   useEffect(() => {
     if (!isUpload) return;
-    const getUserFeeds = async () => {
-      try {
-        const res = await api.get(`/post/${pageAccount}/userpost`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setPostDataArray(res.data.post);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getUserFeeds();
-
     setIsUpload(false);
-  }, [pageAccount, isUpload, token, postDataArray]);
-
-  const onListToggle = () => {
-    setList(!list);
-  };
+  }, [isUpload]);
 
   useEffect(() => {
     if (!club) {
@@ -164,7 +182,7 @@ const UserFeed = () => {
                   <p className="inline-block align-[-1.2rem] ml-[0.5rem] text-m-color">작성된 게시글이 없어요...ㅠㅠ</p>
                 </>
               )}
-              {postDataArray ? (
+              {postDataArray.length > 0 ? (
                 list ? (
                   postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
                 ) : (
@@ -177,16 +195,17 @@ const UserFeed = () => {
                 )
               ) : (
                 <>
-                  <img
+                  {/*                   <img
                     src={loadingImg}
                     alt="잠시만 기다려 주세요."
                     className="inline-block ml-[2.9rem] w-[4rem] h-[4rem] mt-[2rem] animate-pulse"
                   />
                   <p className="inline-block align-[-1.2rem] ml-[0.5rem] text-m-color">
                     로딩중입니다. 잠시만 기다려주세요.
-                  </p>
+                  </p> */}
                 </>
               )}
+              {postDataArray.length > 0 && <div ref={observerTarget} className="h-[0.1rem]"></div>}
             </section>
           </>
         ) : (
