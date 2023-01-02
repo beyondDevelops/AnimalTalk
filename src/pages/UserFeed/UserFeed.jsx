@@ -13,7 +13,7 @@ import Modal from "../../components/ModalModule/Modal";
 import useIntersect from "../../hooks/useIntersect";
 
 const UserFeed = () => {
-  const loadingImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
+  const defaultCatImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
 
   const token = localStorage.getItem("token");
 
@@ -133,12 +133,8 @@ const UserFeed = () => {
               <h2 className="ir">유저 게시글</h2>
               {!postDataArray.length && (
                 <>
-                  <img
-                    src={loadingImg}
-                    alt="잠시만 기다려 주세요."
-                    className="inline-block ml-[2.9rem] w-[4rem] h-[4rem] mt-[2rem]"
-                  />
-                  <p className="inline-block align-[-1.2rem] ml-[0.5rem] text-m-color">작성된 게시글이 없어요...ㅠㅠ</p>
+                  <img src={defaultCatImg} alt="노트북을 들고 있는 고양이" className="mx-[auto] mt-[25%] mb-[3rem]" />
+                  <p className="text-[1.6rem] text-center text-m-color">작성된 게시글이 없어요...ㅠㅠ</p>
                 </>
               )}
               {postDataArray.length > 0 ? (
