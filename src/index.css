@@ -33,19 +33,19 @@ main {
 /* 디자인 공통 스타일 */
 /* 버튼 크기 */
 .btn-xl {
-  @apply rounded-[44px] p-[1.3rem] w-[32.2rem] font-medium;
+  @apply rounded-[44px] py-[1.3rem] w-[32.2rem] font-medium;
 }
 
 .btn-lg {
-  @apply rounded-[34px] p-[0.7rem] w-[12rem] font-medium;
+  @apply rounded-[34px] py-[0.8rem] w-[12rem] font-medium;
 }
 
 .btn-md {
-  @apply rounded-[44px] p-[0.6rem] w-[9rem] font-medium;
+  @apply rounded-[44px] py-[0.7rem] w-[9rem] font-medium;
 }
 
 .btn-sm {
-  @apply rounded-[26px] p-[0.5rem] w-[5.6rem] text-[1.2rem];
+  @apply rounded-[26px] py-[0.7rem] w-[5.6rem] text-[1.2rem];
 }
 
 /* 버튼 색상 */

@@ -52,53 +52,57 @@ const UserProfile = ({ pageProfile, setIsUpload }) => {
   return (
     <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem]">
       <h2 className="ir">유저 프로필</h2>
-      <Link to={`/profile/${pageAccount}/followers`} className="inline-block">
-        <button type="button" className="text-[1rem] text-cst-gray">
-          <span className="block text-[1.8rem] font-bold text-black">{followers}</span>
+      <section className="flex flex-row items-center mx-[auto]">
+        <Link
+          to={`/profile/${pageAccount}/followers`}
+          className="inline-block align-baseline text-[1rem] text-cst-gray"
+        >
+          <span className="block text-[1.8rem] font-bold text-center text-black">{followers}</span>
           followers
-        </button>
-      </Link>
-      <img
-        onError={(e) => {
-          e.target.src = defaultProfile;
-        }}
-        src={profileImg}
-        alt=""
-        className="inline-block w-[11rem] h-[11rem] ml-[4.3rem] mr-[3.6rem] rounded-[50%]"
-      />
-      <Link to={`/profile/${pageAccount}/followings`} className="inline-block">
-        <button type="button" className="text-[1rem] text-cst-gray">
-          <span className="block text-[1.8rem] font-bold text-black">{followings}</span>
+        </Link>
+        <img
+          onError={(e) => {
+            e.target.src = defaultProfile;
+          }}
+          src={profileImg}
+          alt=""
+          className="inline-block w-[11rem] h-[11rem] ml-[4.1rem] mr-[4.1rem] rounded-[50%]"
+        />
+        <Link
+          to={`/profile/${pageAccount}/followings`}
+          className="inline-block align-baseline text-[1rem] text-cst-gray"
+        >
+          <span className="block text-[1.8rem] font-bold text-center text-black">{followings}</span>
           followings
-        </button>
-      </Link>
+        </Link>
+      </section>
       <p className="w-fit mx-auto mt-[1.6rem] text-[1.6rem] font-bold">{username}</p>
       <p className="w-fit mx-auto text-[1.2rem] text-cst-gray">@ {pageAccount}</p>
       <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-cst-gray">{intro}</p>
 
       {pageAccount === accountname ? (
-        <>
+        <section className="block text-center">
           <button
             type="button"
             onClick={() => navigate(`/profile/${accountname}/edit`)}
-            className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
+            className="mr-[1.2rem] btn-lg btn-cancel text-cst-gray"
           >
             프로필 수정
           </button>
           <button
             type="button"
             onClick={() => navigate(`/profile/${accountname}/clubupload`)}
-            className="h-[3.4rem] mx-[1rem] btn-lg btn-cancel text-cst-gray"
+            className="btn-lg btn-cancel text-cst-gray"
           >
             모임 만들기
           </button>
-        </>
+        </section>
       ) : (
-        <>
+        <section className="block text-center mx-[auto]">
           <button
             type="button"
             onClick={() => navigate("/chat")}
-            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] ml-[3.6rem] align-bottom"
+            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
           >
             <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
           </button>
@@ -108,7 +112,7 @@ const UserProfile = ({ pageProfile, setIsUpload }) => {
               isFollow ? unfollowReq() : followReq();
               setIsUpload((prev) => !prev);
             }}
-            className={`h-[3.4rem] mx-[1rem] btn-lg ${isFollow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
+            className={`mx-[1rem] btn-lg ${isFollow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
           >
             {isFollow ? "언팔로우" : "팔로우"}
           </button>
@@ -118,7 +122,7 @@ const UserProfile = ({ pageProfile, setIsUpload }) => {
           >
             <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
           </button>
-        </>
+        </section>
       )}
     </section>
   );
