@@ -8,6 +8,7 @@ const SimpleUserList = ({
   isBtn,
   isChatMode,
   isfollowMode,
+  isSearchMode,
   chat,
   isfollow,
   userAccount,
@@ -26,10 +27,12 @@ const SimpleUserList = ({
   const [isFollow, setIsFollow] = useState(isfollow);
 
   const handleLink = () => {
-    if (chat) {
+    if (isChatMode) {
       navigate("/chat/1");
-    } else {
+    } else if (isfollowMode) {
       navigate(`/profile/${followAccount}`);
+    } else if (isSearchMode) {
+      navigate(`/profile/${userAccount}`);
     }
   };
 
@@ -68,7 +71,7 @@ const SimpleUserList = ({
       <img
         src={profileSmallImg}
         alt=""
-        className="w-[5rem] h-[5rem] cursor-pointer rounded-[50%]"
+        className="w-[5rem] h-[5rem] object-cover cursor-pointer rounded-[50%]"
         onClick={handleLink}
         onError={(e) => {
           e.target.src = defaultProfile;
