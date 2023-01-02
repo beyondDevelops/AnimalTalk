@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
-const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
+const ModalPost = ({ setModalPost, post, setIsUpload }) => {
   const modalRef = useRef();
   const [isDisabled, setIsDisabled] = useState(false);
   const { _id } = useContext(UserContext);
@@ -100,4 +100,4 @@ const ModalPoast = ({ setModalPost, post, setIsUpload }) => {
   );
 };
 
-export default ModalPoast;
+export default ModalPost;
