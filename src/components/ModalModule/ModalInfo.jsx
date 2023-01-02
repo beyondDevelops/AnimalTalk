@@ -13,12 +13,14 @@ const ModalInfo = ({ onModalAction, onModalInfo, contentOne, contentTwo, modalRe
         >
           {contentOne}
         </button>
-        <button
-          onClick={onModalAction}
-          className="border-t-[1px] p-[1.25rem]  w-[100%] text-left pl-[2.6rem] hover:bg-s-color"
-        >
-          {contentTwo}
-        </button>
+        {contentTwo ? (
+          <button
+            onClick={onModalAction}
+            className="border-t-[1px] p-[1.25rem]  w-[100%] text-left pl-[2.6rem] hover:bg-s-color"
+          >
+            {contentTwo}
+          </button>
+        ) : null}
       </div>
     </section>
   );
