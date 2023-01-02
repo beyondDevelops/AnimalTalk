@@ -1,8 +1,7 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ModalPoast from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
-import { UserContext } from "../../context/UserContext";
 
 const Post = ({ post, setIsUpload }) => {
   // 아래 이미지 변수는 기본 설정입니다.
@@ -40,8 +39,6 @@ const Post = ({ post, setIsUpload }) => {
   };
 
   const handleLink = () => navigate(`/profile/${post.author.accountname}`);
-
-  const { _id } = useContext(UserContext);
 
   return (
     <>
