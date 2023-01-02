@@ -1,6 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Modal = ({ content, value, onModalClose }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <section className="absolute inset-0 z-20 bg-gray-800 bg-opacity-50">
       <h2 className="ir">로그아웃 창</h2>
@@ -16,9 +23,9 @@ const Modal = ({ content, value, onModalClose }) => {
           <li className="basis-[12.6rem] text-center leading-[4.3rem] text-m-color">
             {value === "로그아웃" ? (
               // 이때 로그아웃 버튼을 클릭하면 Home으로 이동함과 동시에 userInfo를 false로 바꿔주면 될 것 같습니다.
-              <Link to="/login" className="w-[100%] inline-block">
+              <button onClick={handleLogout} className="w-[100%] inline-block">
                 {value}
-              </Link>
+              </button>
             ) : (
               <button className="w-[100%]">{value}</button>
             )}
