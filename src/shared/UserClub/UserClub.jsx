@@ -3,7 +3,6 @@ import SimpleClub from "../../components/SimpleClub/SimpleClub";
 
 const UserClub = ({ club }) => {
   const ulRef = useRef(null);
-  const btnRef = useRef([]);
   const [leftBtnVisible, setLeftBtnVisible] = useState(false);
   const [rightBtnVisible, setRightBtnVisible] = useState(true);
 
@@ -49,7 +48,6 @@ const UserClub = ({ club }) => {
             } bg-[#0000005d] leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-[#ffffff9a] rounded-[50%] cursor-pointer`}
             type="button"
             aria-label="prev"
-            ref={(el) => (btnRef.current[0] = el)}
             onClick={() => {
               handleHorizontalScroll(ulRef.current, 25, 150, -10);
               handleArrowBtnVisibility(ulRef.current.scrollLeft - 150);
@@ -63,7 +61,6 @@ const UserClub = ({ club }) => {
             } bg-[#0000005d] leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-[#ffffff9a] rounded-[50%] cursor-pointe`}
             type="button"
             aria-label="next"
-            ref={(el) => (btnRef.current[1] = el)}
             onClick={() => {
               handleHorizontalScroll(ulRef.current, 25, 150, 10);
               handleArrowBtnVisibility(ulRef.current.scrollLeft + 150);
