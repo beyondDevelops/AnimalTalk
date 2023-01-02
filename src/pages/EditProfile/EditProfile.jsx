@@ -7,6 +7,7 @@ import { HeaderSave } from "../../shared/Header/HeaderSave";
 
 const EditProfile = () => {
   const upload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
+  const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
   const regex = /[^0-9a-zA-Z._]/g;
 
   const [profileImage, setProfileImage] = useState(false);
@@ -171,6 +172,9 @@ const EditProfile = () => {
                 src={changeImage ? myProfileData.user.image : profileImage}
                 alt=""
                 className="w-[11rem] h-[11rem] rounded-full"
+                onError={(e) => {
+                  e.target.src = defaultProfile;
+                }}
               />
               <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
             </label>

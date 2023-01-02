@@ -45,8 +45,11 @@ const UserSearch = () => {
               isMessage={false}
               isBtn={false}
               isChatMode={false}
+              isfollowMode={false}
+              isSearchMode={true}
+              chat={null}
+              userAccount={user.accountname}
               username={user.username}
-              accountname={user.accountname}
               profileSmallImg={
                 user.image &&
                 user.image !== "http://146.56.183.55:5050/Ellipse.png" &&
