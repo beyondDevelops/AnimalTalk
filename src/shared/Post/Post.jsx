@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 import ModalPost from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 
@@ -14,7 +15,7 @@ const Post = ({ post, setIsUpload }) => {
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
   const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
 
-  // 포스트 이미지 관리 및 모달 처리
+  // 포스트 이미지 및 모달 처리
   const postImg = !!post.image.split(",")[0] ? post.image : null;
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,15 +30,38 @@ const Post = ({ post, setIsUpload }) => {
   const month = postDate.slice(4, 6);
   const date = postDate.slice(6, 8);
 
-  // 좋아요 관리x
-  const [isLike, setIsLike] = useState(post.hearted);
-
+  // 유저 클릭 시 페이지 이동
   const navigate = useNavigate();
-  const handleLikeBtn = () => {
-    setIsLike(!isLike);
-    // Note: 여기서 좋아요 데이터를 처리합니다.
+
+  // 좋아요 관리
+  const [isLike, setIsLike] = useState(post.hearted);
+  const [likeCount, setLikeCount] = useState(post.heartCount);
+
+  const handleLikeBtn = async (e) => {
+    try {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+
+      const res = isLike
+        ? await axios.delete(`/post/${post.id}/unheart`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        : await axios.post(`/post/${post.id}/heart`, [], {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
+      setIsLike(res.data.post.hearted);
+      setLikeCount(res.data.post.heartCount);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  // 유저 클릭 시 페이지 이동
   const handleLink = () => navigate(`/profile/${post.author.accountname}`);
 
   return (
@@ -121,21 +145,19 @@ const Post = ({ post, setIsUpload }) => {
           <></>
         )}
 
-        <button
-          type="button"
-          onClick={handleLikeBtn}
-          className="inline-flex items-center ml-[5.4rem] mr-[1.8rem] text-cst-gray align-bottom"
-        >
-          <img className="w-[2rem] h-[2rem]" src={`${isLike ? heartOnImg : heartOffImg}`} alt="좋아요" />
-          <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">{post.heartCount}</span>
-        </button>
+        <form className="inline-flex align-bottom">
+          <button onClick={handleLikeBtn} className="inline-flex items-center ml-[5.4rem] mr-[1.8rem] text-cst-gray">
+            <img className="w-[2rem] h-[2rem]" src={isLike ? heartOnImg : heartOffImg} alt="좋아요" />
+            <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">{likeCount}</span>
+          </button>
+        </form>
         <Link
           to={`/post/${post.id}`}
           state={{ ...{ post } }}
           className="inline-flex items-center text-cst-gray align-bottom"
         >
           <img className="w-[2rem] h-[2rem]" src={commentImg} alt="댓글 확인하기" />
-          <span className="text-[1.2rem leading-[1.2rem] ml-[0.6rem]">{post.commentCount}</span>
+          <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">{post.commentCount}</span>
         </Link>
         <time
           dateTime={`${year}-${month}-${date}`}
