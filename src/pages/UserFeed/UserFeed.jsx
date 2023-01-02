@@ -131,7 +131,7 @@ const UserFeed = () => {
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>
-              {postDataArray && !postDataArray.length && (
+              {!postDataArray.length && (
                 <>
                   <img
                     src={loadingImg}
@@ -153,16 +153,7 @@ const UserFeed = () => {
                   </section>
                 )
               ) : (
-                <>
-                  {/*                   <img
-                    src={loadingImg}
-                    alt="잠시만 기다려 주세요."
-                    className="inline-block ml-[2.9rem] w-[4rem] h-[4rem] mt-[2rem] animate-pulse"
-                  />
-                  <p className="inline-block align-[-1.2rem] ml-[0.5rem] text-m-color">
-                    로딩중입니다. 잠시만 기다려주세요.
-                  </p> */}
-                </>
+                <></>
               )}
               {postDataArray.length > 0 && <div ref={observerTarget} className="h-[0.1rem]"></div>}
             </section>
