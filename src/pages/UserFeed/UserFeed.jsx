@@ -96,7 +96,6 @@ const UserFeed = () => {
 
   useEffect(() => {
     if (postDataArray.length === 0) {
-      console.log("최초 렌더링 통신");
       getUserFeeds();
     }
   }, []);
