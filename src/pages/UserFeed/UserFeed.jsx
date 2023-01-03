@@ -90,7 +90,7 @@ const UserFeed = () => {
 
     const getUserFeeds = async () => {
       try {
-        const res = await api.get(`/post/${pageAccount}/userpost`, {
+        const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -118,19 +118,7 @@ const UserFeed = () => {
     getUserFeeds();
     getUserClub();
     setIsUpload(false);
-
-    // if (!observerTarget.current || !state.postNum) return;
-
-    // const observerCallback = (entries, observer) => {
-    //   if (entries[0].isIntersecting) {
-    //     getUserFeeds();
-    //   }
-    // };
-
-    // const observer = new IntersectionObserver(observerCallback);
-    // observer.observe(observerTarget.current);
-
-    // return () => observer.disconnect();
+    console.log("렌더링 확인");
   }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
 
   return (
