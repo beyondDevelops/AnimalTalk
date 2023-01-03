@@ -15,7 +15,6 @@ const UserClubModal = ({ setIsClubModal, clubData, comma }) => {
     }
   };
 
-  console.log(clubData);
   const clubImage = "https://mandarin.api.weniv.co.kr/" + clubData.itemImage;
   const clubName = clubData.itemName;
   const clubFee = comma(clubData.price);
@@ -38,7 +37,7 @@ const UserClubModal = ({ setIsClubModal, clubData, comma }) => {
         <Link
           className="relative inline-block ml-[27.5rem] mr-[2rem] mt-[1.5rem] text-[1.2rem] text-cst-gray before:absolute before:left-[3.1rem] before:bottom-[0.8rem] before:content-[''] before:w-[0.3rem] before:h-[0.3rem] before:rounded-full before:bg-cst-gray hover:text-m-color"
           to={`clubupload/${clubData.id}`}
-          state={{ clubData: `${clubData}` }}
+          state={{ clubData: clubData }}
         >
           수정
         </Link>

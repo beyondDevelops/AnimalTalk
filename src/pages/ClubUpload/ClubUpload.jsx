@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios, { axiosImgUpload } from "../../api/axios";
+import { UserContext } from "../../context/UserContext";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 
-const ClubUpload = ({ product }) => {
+const ClubUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
   const imgUploadFin = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
@@ -20,6 +21,9 @@ const ClubUpload = ({ product }) => {
   const clubLocation = useRef();
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const product = location.state?.clubData;
+  const { accountname } = useContext(UserContext);
 
   const convertURLtoFile = async (url) => {
     const res = await axios({
@@ -150,13 +154,12 @@ const ClubUpload = ({ product }) => {
           throw new Error(res.status, "통신에 실패했습니다.");
         }
 
-        // 네비게이트 추후 수정 필요 (useContext)
-        // navigate(`/profile/${res.data.product.author["accountname"]}`);
+        navigate(`/profile/${accountname}`);
       } catch (err) {
         console.log(err);
       }
     },
-    [image, navigate]
+    [accountname, image, navigate]
   );
 
   const onClubUpEdit = useCallback(
@@ -190,8 +193,7 @@ const ClubUpload = ({ product }) => {
           throw new Error(res.status, "통신에 실패했습니다.");
         }
 
-        // 네비게이트 추후 수정 필요 (useContext)
-        // navigate(`/profile/${res.data.product.author["accountname"]}`);
+        navigate(`/profile/${accountname}`);
       } catch (err) {
         console.log(err);
       }
