@@ -150,7 +150,7 @@ const EditProfile = () => {
         alert("계정 ID에 한글은 입력이 불가능합니다.");
         return;
       }
-      navigate(`/profile/${res.data.user.accountname}`);
+      navigate(`/profile/${res.data.user.accountname}`, { state: { editAccountname: `${res.data.user.accountname}` } });
     } catch (err) {
       if (err.response.data.message === "이미 사용중인 계정 ID입니다.") {
         setIsWrong(false);

@@ -15,20 +15,20 @@ import useIntersect from "../../hooks/useIntersect";
 const UserFeed = () => {
   const defaultCatImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
 
-  const token = localStorage.getItem("token");
-
   const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState([]);
   const [club, setClub] = useState(null);
   const [state, setState] = useState({ postNum: 0, moreFeed: true });
-  const [isUpload, setIsUpload] = useState(false);
+  const [isUpload, setIsUpload] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
   const modalRef = useRef();
 
   const location = useLocation();
+  const editAccountname = location.state?.editAccountname;
+  const myAccountname = location.state?.myAccountname;
   const pageAccount = location.pathname.split("/")[2];
 
   const handleModalInfo = useCallback(
@@ -53,72 +53,82 @@ const UserFeed = () => {
     setList(!list);
   };
 
-  useEffect(() => {
-    if (!pageProfile || isUpload) {
-      const getPageProfile = async () => {
-        try {
-          const res = await api.get(`/profile/${pageAccount}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setPageProfile(res.data.profile);
-          setIsUpload(false);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      getPageProfile();
-    }
-  }, [pageAccount, token, pageProfile, isUpload]);
-
-  const getUserFeeds = async () => {
-    try {
-      const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPostDataArray((prev) => [...prev, ...res.data.post]);
-      setState((prev) => ({
-        postNum: prev.postNum + 10,
-        moreFeed: postDataArray.length % 10 === 0,
-      }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    if (postDataArray.length === 0) {
-      getUserFeeds();
-    }
-  }, []);
+  // const getUserFeeds = async () => {
+  //   try {
+  //     const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setPostDataArray((prev) => [...prev, ...res.data.post]);
+  //     setState((prev) => ({
+  //       postNum: prev.postNum + 10,
+  //       moreFeed: postDataArray.length % 10 === 0,
+  //     }));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const observerTarget = useRef(null);
+  // useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
 
-  useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
+  // 프로필 계정 이름 수정 및 타 유저에서 내 프로필 넘어올 때 재렌더링 부분
+  useEffect(() => {
+    if (editAccountname || myAccountname) {
+      setIsUpload(true);
+    }
+  }, [editAccountname, myAccountname]);
 
+  // userFeed 렌더링 부분
   useEffect(() => {
     if (!isUpload) return;
-    getUserFeeds();
-    setIsUpload(false);
-  }, [isUpload]);
+    const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    if (!club) {
-      const getUserClub = async () => {
+    const getPageProfile = async () => {
+      try {
+        const res = await api.get(`/profile/${pageAccount}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPageProfile(res.data.profile);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const getUserFeeds = async () => {
+      try {
+        const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPostDataArray(res.data.post);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const getUserClub = async () => {
+      try {
         const res = await api.get(`/product/${pageAccount}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setClub(res.data.product);
-      };
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      getUserClub();
-    }
-  }, [club, pageAccount, token]);
+    getPageProfile();
+    getUserFeeds();
+    getUserClub();
+    setIsUpload(false);
+  }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
 
   return (
     <div className="page">
@@ -126,7 +136,7 @@ const UserFeed = () => {
       <main>
         {pageProfile ? (
           <>
-            <UserProfile pageProfile={pageProfile} setIsUpload={setIsUpload} />
+            <UserProfile pageProfile={pageProfile} setIsUpload={setIsUpload} editAccountname={editAccountname} />
             {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
