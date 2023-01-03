@@ -22,7 +22,7 @@ const UserFeed = () => {
   const [postDataArray, setPostDataArray] = useState([]);
   const [club, setClub] = useState(null);
   const [state, setState] = useState({ postNum: 0, moreFeed: true });
-  const [isUpload, setIsUpload] = useState(false);
+  const [isUpload, setIsUpload] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
@@ -54,23 +54,43 @@ const UserFeed = () => {
   };
 
   useEffect(() => {
-    if (!pageProfile || isUpload) {
-      const getPageProfile = async () => {
-        try {
-          const res = await api.get(`/profile/${pageAccount}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setPageProfile(res.data.profile);
-          setIsUpload(false);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      getPageProfile();
-    }
+    if (!isUpload) return;
+    const getPageProfile = async () => {
+      try {
+        const res = await api.get(`/profile/${pageAccount}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPageProfile(res.data.profile);
+        setIsUpload(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPageProfile();
+    setIsUpload(false);
   }, [pageAccount, token, pageProfile, isUpload]);
+
+  // 게시글 삭제 시 재렌더링
+  useEffect(() => {
+    if (!isUpload) return;
+    const getUserFeeds = async () => {
+      try {
+        const res = await api.get(`/post/${pageAccount}/userpost`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPostDataArray(res.data.post);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserFeeds();
+
+    setIsUpload(false);
+  }, [pageAccount, isUpload, token, postDataArray]);
 
   const getUserFeeds = async () => {
     try {
@@ -89,21 +109,22 @@ const UserFeed = () => {
     }
   };
 
-  useEffect(() => {
-    if (postDataArray.length === 0) {
-      getUserFeeds();
-    }
-  }, []);
+  // useEffect(() => {
+  //   // if (postDataArray.length === 0) {
+  //   if (!isUpload) return;
+  //   getUserFeeds();
+  //   // }
+  // }, [isUpload]);
 
   const observerTarget = useRef(null);
 
   useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
 
-  useEffect(() => {
-    if (!isUpload) return;
-    getUserFeeds();
-    setIsUpload(false);
-  }, [isUpload]);
+  // useEffect(() => {
+  //   if (!isUpload) return;
+  //   getUserFeeds();
+  //   setIsUpload(false);
+  // }, [isUpload]);
 
   useEffect(() => {
     if (!club) {
