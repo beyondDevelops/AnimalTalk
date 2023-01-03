@@ -15,8 +15,6 @@ import useIntersect from "../../hooks/useIntersect";
 const UserFeed = () => {
   const defaultCatImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
 
-  const token = localStorage.getItem("token");
-
   const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState([]);
@@ -53,8 +51,30 @@ const UserFeed = () => {
     setList(!list);
   };
 
+  // const getUserFeeds = async () => {
+  //   try {
+  //     const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setPostDataArray((prev) => [...prev, ...res.data.post]);
+  //     setState((prev) => ({
+  //       postNum: prev.postNum + 10,
+  //       moreFeed: postDataArray.length % 10 === 0,
+  //     }));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  const observerTarget = useRef(null);
+  // useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
+
   useEffect(() => {
     if (!isUpload) return;
+    const token = localStorage.getItem("token");
+
     const getPageProfile = async () => {
       try {
         const res = await api.get(`/profile/${pageAccount}`, {
@@ -63,18 +83,11 @@ const UserFeed = () => {
           },
         });
         setPageProfile(res.data.profile);
-        setIsUpload(false);
       } catch (err) {
         console.log(err);
       }
     };
-    getPageProfile();
-    setIsUpload(false);
-  }, [pageAccount, token, pageProfile, isUpload]);
 
-  // 게시글 삭제 시 재렌더링
-  useEffect(() => {
-    if (!isUpload) return;
     const getUserFeeds = async () => {
       try {
         const res = await api.get(`/post/${pageAccount}/userpost`, {
@@ -87,59 +100,38 @@ const UserFeed = () => {
         console.log(err);
       }
     };
-    getUserFeeds();
 
-    setIsUpload(false);
-  }, [pageAccount, isUpload, token, postDataArray]);
-
-  const getUserFeeds = async () => {
-    try {
-      const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPostDataArray((prev) => [...prev, ...res.data.post]);
-      setState((prev) => ({
-        postNum: prev.postNum + 10,
-        moreFeed: postDataArray.length % 10 === 0,
-      }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // useEffect(() => {
-  //   // if (postDataArray.length === 0) {
-  //   if (!isUpload) return;
-  //   getUserFeeds();
-  //   // }
-  // }, [isUpload]);
-
-  const observerTarget = useRef(null);
-
-  useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
-
-  // useEffect(() => {
-  //   if (!isUpload) return;
-  //   getUserFeeds();
-  //   setIsUpload(false);
-  // }, [isUpload]);
-
-  useEffect(() => {
-    if (!club) {
-      const getUserClub = async () => {
+    const getUserClub = async () => {
+      try {
         const res = await api.get(`/product/${pageAccount}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setClub(res.data.product);
-      };
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      getUserClub();
-    }
-  }, [club, pageAccount, token]);
+    getPageProfile();
+    getUserFeeds();
+    getUserClub();
+    setIsUpload(false);
+
+    // if (!observerTarget.current || !state.postNum) return;
+
+    // const observerCallback = (entries, observer) => {
+    //   if (entries[0].isIntersecting) {
+    //     getUserFeeds();
+    //   }
+    // };
+
+    // const observer = new IntersectionObserver(observerCallback);
+    // observer.observe(observerTarget.current);
+
+    // return () => observer.disconnect();
+  }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
 
   return (
     <div className="page">
