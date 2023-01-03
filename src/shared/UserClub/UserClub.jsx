@@ -45,7 +45,7 @@ const UserClub = ({ club }) => {
           <button
             className={`absolute z-10 left-[-1rem] ${
               leftBtnVisible ? "visible" : "hidden"
-            } bg-[#0000005d] leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-[#ffffff9a] rounded-[50%] cursor-pointer`}
+            } bg-[#0000005d] leading-[100%]  w-[3rem] h-[3rem] text-[2rem] text-m-color rounded-full hover:bg-m-color hover:text-s-color`}
             type="button"
             aria-label="prev"
             onClick={() => {
@@ -58,7 +58,7 @@ const UserClub = ({ club }) => {
           <button
             className={`absolute z-10 right-[-1rem] ${
               rightBtnVisible ? "visible" : "hidden"
-            } bg-[#0000005d] leading-[100%] w-[3rem] h-[3rem] text-[3rem] text-[#ffffff9a] rounded-[50%] cursor-pointe`}
+            } bg-[#0000005d] leading-[100%]  w-[3rem] h-[3rem] text-[2rem] text-m-color rounded-full hover:bg-m-color hover:text-s-color`}
             type="button"
             aria-label="next"
             onClick={() => {
