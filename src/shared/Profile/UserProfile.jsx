@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import api from "../../api/axios";
 
@@ -17,6 +17,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const intro = pageProfile.intro;
   const username = pageProfile.username;
 
+  const location = useLocation();
   const { accountname } = useContext(UserContext);
   const [myAccountname, setMyAccountname] = useState(accountname);
   const token = localStorage.getItem("token");
@@ -52,6 +53,13 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
     setIsFollow(res.data.profile.isfollow);
     setFollowers(res.data.profile.followerCount);
     setFollowings(res.data.profile.followingCount);
+  };
+
+  const handleCopyUrl = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      alert(`URL이 복사되었습니다.\n${url} `);
+    });
   };
 
   return (
@@ -124,6 +132,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
           <button
             type="button"
             className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom cursor-pointer"
+            onClick={() => handleCopyUrl()}
           >
             <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
           </button>
