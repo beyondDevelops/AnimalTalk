@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import api from "../../api/axios";
 
@@ -17,7 +17,6 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const intro = pageProfile.intro;
   const username = pageProfile.username;
 
-  const location = useLocation();
   const { accountname } = useContext(UserContext);
   const [myAccountname, setMyAccountname] = useState();
   const token = localStorage.getItem("token");
@@ -79,7 +78,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
           }}
           src={profileImg}
           alt=""
-          className="inline-block w-[11rem] h-[11rem] ml-[4.1rem] mr-[4.1rem] rounded-[50%]"
+          className="inline-block w-[11rem] h-[11rem] ml-[4.1rem] mr-[4.1rem] rounded-[50%] object-cover"
         />
         <Link
           to={`/profile/${pageAccount}/followings`}
