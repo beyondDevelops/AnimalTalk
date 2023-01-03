@@ -137,7 +137,7 @@ const UserFeed = () => {
         {pageProfile ? (
           <>
             <UserProfile pageProfile={pageProfile} setIsUpload={setIsUpload} editAccountname={editAccountname} />
-            {club ? <UserClub club={club} /> : <></>}
+            {club ? <UserClub club={club} {...{ setIsUpload }} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
               <h2 className="ir">유저 게시글</h2>

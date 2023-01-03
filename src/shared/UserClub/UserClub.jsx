@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import SimpleClub from "../../components/SimpleClub/SimpleClub";
 import UserClubModal from "./UserClubModal";
 
-const UserClub = ({ club }) => {
+const UserClub = ({ club, setIsUpload }) => {
   const ulRef = useRef(null);
   const [leftBtnVisible, setLeftBtnVisible] = useState(false);
   const [rightBtnVisible, setRightBtnVisible] = useState(true);
@@ -88,7 +88,11 @@ const UserClub = ({ club }) => {
           </div>
         )}
       </section>
-      {isClubModal ? <UserClubModal {...{ setIsClubModal }} {...{ clubData }} {...{ comma }} /> : <></>}
+      {isClubModal ? (
+        <UserClubModal {...{ setIsClubModal }} {...{ clubData }} {...{ comma }} {...{ setIsUpload }} />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
