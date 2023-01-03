@@ -42,6 +42,7 @@ function App() {
             <Route path="followers" element={<Follows />} />
             <Route path="followings" element={<Follows />} />
             <Route path="clubupload" element={<ClubUpload />} />
+            <Route path="clubupload/:id" element={<ClubUpload />} />
             <Route path="edit" element={<EditProfile />} />
           </Route>
 
