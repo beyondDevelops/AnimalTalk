@@ -115,7 +115,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
           <button
             type="button"
             onClick={() => navigate("/chat")}
-            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom cursor-pointer"
+            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
           >
             <img src={chatImg} alt="" className="w-[2rem] h-[2rem]" />
           </button>
@@ -131,7 +131,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
           </button>
           <button
             type="button"
-            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom cursor-pointer"
+            className="inline-flex justify-center items-center w-[3.4rem] h-[3.4rem] border-[0.1rem] border-cst-light-gray rounded-[30px] align-bottom"
             onClick={() => handleCopyUrl()}
           >
             <img src={shareImg} alt="" className="w-[2rem] h-[2rem]" />
