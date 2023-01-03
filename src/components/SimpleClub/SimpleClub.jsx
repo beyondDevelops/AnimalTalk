@@ -1,19 +1,9 @@
-const SimpleClub = ({ data, setIsClubModal, setClubData }) => {
+const SimpleClub = ({ data, setIsClubModal, setClubData, comma }) => {
   // Note: 아래 주석처리된 변수는 추가 기능에 사용됩니다.
   // const navigate = useNavigate();
   // const clubId = data.id;
   const clubThumbnailImg = data.itemImage;
   const clubTitle = data.itemName;
-
-  const comma = (money) => {
-    return money
-      .toString()
-      .split("")
-      .reverse("")
-      .map((val, idx) => (idx % 3 === 0 && idx !== 0 ? val + "," : val))
-      .reverse()
-      .join("");
-  };
 
   const clubFee = comma(data.price);
   const handleClubModa = () => {

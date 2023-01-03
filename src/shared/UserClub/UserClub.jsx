@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import SimpleClub from "../../components/SimpleClub/SimpleClub";
 import UserClubModal from "./UserClubModal";
 
@@ -31,6 +31,16 @@ const UserClub = ({ club }) => {
     }
   };
 
+  const comma = useCallback((money) => {
+    return money
+      .toString()
+      .split("")
+      .reverse("")
+      .map((val, idx) => (idx % 3 === 0 && idx !== 0 ? val + "," : val))
+      .reverse()
+      .join("");
+  }, []);
+
   const [isClubModal, setIsClubModal] = useState(false);
   const [clubData, setClubData] = useState();
 
@@ -40,7 +50,9 @@ const UserClub = ({ club }) => {
         <h2 className="mb-[1.6rem]">참여 중인 산책</h2>
         <ul className="flex flex-row overflow-hidden overflow-x-scroll scrollbar-hide" ref={ulRef}>
           {club.length > 0 ? (
-            club.map((item) => <SimpleClub key={item.id} data={item} {...{ setIsClubModal }} {...{ setClubData }} />)
+            club.map((item) => (
+              <SimpleClub key={item.id} data={item} {...{ setIsClubModal }} {...{ setClubData }} {...{ comma }} />
+            ))
           ) : (
             <li className="shrink-0 mr-[1rem] overflow-hidden text-m-color">현재 참여 중인 산책 모임이 없습니다.</li>
           )}
@@ -76,7 +88,7 @@ const UserClub = ({ club }) => {
           </div>
         )}
       </section>
-      {isClubModal ? <UserClubModal {...{ setIsClubModal }} {...{ clubData }} /> : <></>}
+      {isClubModal ? <UserClubModal {...{ setIsClubModal }} {...{ clubData }} {...{ comma }} /> : <></>}
     </>
   );
 };
