@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import api from "../../api/axios";
 
-const UserProfile = ({ pageProfile, setIsUpload }) => {
+const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
   const shareImg = `${process.env.PUBLIC_URL}/assets/img/icon-share.png`;
   const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
@@ -18,9 +18,14 @@ const UserProfile = ({ pageProfile, setIsUpload }) => {
   const username = pageProfile.username;
 
   const { accountname } = useContext(UserContext);
+  const [myAccountname, setMyAccountname] = useState(accountname);
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!editAccountname) return;
+    setMyAccountname(editAccountname);
+  }, [editAccountname]);
 
   const followReq = async () => {
     // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
@@ -80,18 +85,18 @@ const UserProfile = ({ pageProfile, setIsUpload }) => {
       <p className="w-fit mx-auto text-[1.2rem] text-cst-gray">@ {pageAccount}</p>
       <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-cst-gray">{intro}</p>
 
-      {pageAccount === accountname ? (
+      {pageAccount === myAccountname ? (
         <section className="block text-center">
           <button
             type="button"
-            onClick={() => navigate(`/profile/${accountname}/edit`)}
+            onClick={() => navigate(`/profile/${myAccountname}/edit`)}
             className="mr-[1.2rem] btn-lg btn-cancel text-cst-gray"
           >
             프로필 수정
           </button>
           <button
             type="button"
-            onClick={() => navigate(`/profile/${accountname}/clubupload`)}
+            onClick={() => navigate(`/profile/${myAccountname}/clubupload`)}
             className="btn-lg btn-cancel text-cst-gray"
           >
             모임 만들기

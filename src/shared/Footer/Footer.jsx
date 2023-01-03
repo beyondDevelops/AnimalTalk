@@ -47,7 +47,11 @@ const Footer = () => {
         <img src={postCreate} alt="게시글 작성" className="w-[2.4rem] h-[2.4rem]" />
         <span className="block mt-[0.4rem] text-[1rem] text-cst-gray">게시물 작성</span>
       </Link>
-      <Link className="flex flex-col items-center mx-[3rem]" to={`/profile/${accountname}`}>
+      <Link
+        className="flex flex-col items-center mx-[3rem]"
+        to={`/profile/${accountname}`}
+        state={{ myAccountname: `${accountname}` }}
+      >
         {location.pathname === `/profile/${accountname}` ? (
           <>
             <img src={myProfileFill} alt="프로필" className="w-[2.4rem] h-[2.4rem]" />

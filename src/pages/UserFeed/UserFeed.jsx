@@ -27,6 +27,8 @@ const UserFeed = () => {
   const modalRef = useRef();
 
   const location = useLocation();
+  const editAccountname = location.state?.editAccountname;
+  const myAccountname = location.state?.myAccountname;
   const pageAccount = location.pathname.split("/")[2];
 
   const handleModalInfo = useCallback(
@@ -71,6 +73,14 @@ const UserFeed = () => {
   const observerTarget = useRef(null);
   // useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
 
+  // 프로필 계정 이름 수정 및 타 유저에서 내 프로필 넘어올 때 재렌더링 부분
+  useEffect(() => {
+    if (editAccountname || myAccountname) {
+      setIsUpload(true);
+    }
+  }, [editAccountname, myAccountname]);
+
+  // userFeed 렌더링 부분
   useEffect(() => {
     if (!isUpload) return;
     const token = localStorage.getItem("token");
@@ -118,7 +128,6 @@ const UserFeed = () => {
     getUserFeeds();
     getUserClub();
     setIsUpload(false);
-    console.log("렌더링 확인");
   }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
 
   return (
@@ -127,7 +136,7 @@ const UserFeed = () => {
       <main>
         {pageProfile ? (
           <>
-            <UserProfile pageProfile={pageProfile} setIsUpload={setIsUpload} />
+            <UserProfile pageProfile={pageProfile} setIsUpload={setIsUpload} editAccountname={editAccountname} />
             {club ? <UserClub club={club} /> : <></>}
             <PostTypeSelectBar list={list} onListToggle={onListToggle} />
             <section>
