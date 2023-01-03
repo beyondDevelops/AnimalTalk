@@ -18,7 +18,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const username = pageProfile.username;
 
   const { accountname } = useContext(UserContext);
-  const [myAccountname, setMyAccountname] = useState(accountname);
+  const [myAccountname, setMyAccountname] = useState();
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -85,18 +85,18 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
       <p className="w-fit mx-auto text-[1.2rem] text-cst-gray">@ {pageAccount}</p>
       <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-cst-gray">{intro}</p>
 
-      {pageAccount === myAccountname ? (
+      {pageAccount === `${myAccountname ? myAccountname : accountname}` ? (
         <section className="block text-center">
           <button
             type="button"
-            onClick={() => navigate(`/profile/${myAccountname}/edit`)}
+            onClick={() => navigate(`/profile/${myAccountname ? myAccountname : accountname}/edit`)}
             className="mr-[1.2rem] btn-lg btn-cancel text-cst-gray"
           >
             프로필 수정
           </button>
           <button
             type="button"
-            onClick={() => navigate(`/profile/${myAccountname}/clubupload`)}
+            onClick={() => navigate(`/profile/${myAccountname ? myAccountname : accountname}/clubupload`)}
             className="btn-lg btn-cancel text-cst-gray"
           >
             모임 만들기
