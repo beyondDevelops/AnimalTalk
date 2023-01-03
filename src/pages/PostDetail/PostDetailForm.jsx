@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import axios from "../../api/axios";
 
@@ -39,6 +39,10 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
     }
   };
 
+  useEffect(() => {
+    inpTextRef.current.focus();
+  }, []);
+
   return (
     <form className="flex py-[1.2rem] px-[1.6rem] border-t-[1px] border-cst-light-gray z-0">
       <img src={image} alt="" className="w-[3.6rem] h-[3.6rem] object-cover rounded-full" />
@@ -53,7 +57,7 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
           id="text"
           type="text"
           placeholder="댓글 입력하기..."
-          className="mx-[0.8rem] rounded-[20px] px-[1.2rem] justify-center basis-full"
+          className="mx-[0.8rem] rounded-[20px] px-[1.2rem] justify-center basis-full outline-m-color"
           onChange={handleTextValid}
         />
       </fieldset>

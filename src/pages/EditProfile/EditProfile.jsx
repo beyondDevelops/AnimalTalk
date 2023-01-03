@@ -192,7 +192,7 @@ const EditProfile = () => {
               id="name"
               type="text"
               placeholder="2~10자 이내여야 합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
               maxLength="10"
               minLength="2"
               defaultValue={myProfileData.user.username}
@@ -211,7 +211,7 @@ const EditProfile = () => {
               id="userId"
               type="text"
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
               defaultValue={myProfileData.user.accountname}
               onChange={handleAccountnameLength}
               pattern="[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]"
@@ -229,7 +229,7 @@ const EditProfile = () => {
               id="intro"
               type="text"
               placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
               defaultValue={myProfileData.user.intro}
               onChange={handleIntroLength}
             />

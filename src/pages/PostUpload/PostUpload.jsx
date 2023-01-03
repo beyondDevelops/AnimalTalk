@@ -175,6 +175,10 @@ const PostUpload = () => {
     [images, navigate]
   );
 
+  useEffect(() => {
+    textareaRef.current.focus();
+  }, []);
+
   return (
     <div className="page">
       {/* Note: Header 수정 필요 */}

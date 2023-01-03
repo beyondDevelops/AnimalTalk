@@ -10,7 +10,7 @@ html {
 }
 
 #root {
-  @apply bg-cst-layout text-[1.4rem];
+  @apply bg-s-color/30 text-[1.4rem];
 }
 
 .ir {
@@ -19,11 +19,11 @@ html {
 
 /* 전체 페이지 레이아웃 */
 .page {
-  @apply w-[39rem] h-screen mx-auto bg-white flex flex-col shadow-[0_0px_10px_-5px_rgba(0,0,0,0.8)];
+  @apply w-[39rem] h-screen mx-auto bg-white flex flex-col shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
 }
 
 .login-page {
-  @apply w-[39rem] h-screen mx-auto bg-s-color flex flex-col justify-end shadow-[0_0px_10px_-5px_rgba(0,0,0,0.8)];
+  @apply w-[39rem] h-screen mx-auto bg-s-color flex flex-col justify-end shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
 }
 
 main {
