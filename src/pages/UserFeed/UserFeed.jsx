@@ -147,19 +147,16 @@ const UserFeed = () => {
                   <p className="text-[1.6rem] text-center text-m-color">작성된 게시글이 없어요...ㅠㅠ</p>
                 </>
               )}
-              {postDataArray.length > 0 ? (
-                list ? (
-                  postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
-                ) : (
-                  <section className="flex flex-wrap gap-[0.8rem] my-[1.6rem] mx-[1.6rem]">
-                    <h2 className="ir">앨범형</h2>
-                    {postDataArray.map((post) => (
-                      <PostAlbum key={post.id} post={post} />
-                    ))}
-                  </section>
-                )
+              {postDataArray.length === 0 && <></>}
+              {postDataArray.length > 0 && list ? (
+                postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
               ) : (
-                <></>
+                <section className="flex flex-wrap gap-[0.8rem] my-[1.6rem] mx-[1.6rem]">
+                  <h2 className="ir">앨범형</h2>
+                  {postDataArray.map((post) => (
+                    <PostAlbum key={post.id} post={post} />
+                  ))}
+                </section>
               )}
               {postDataArray.length > 0 && <div ref={observerTarget} className="h-[0.1rem]"></div>}
             </section>
