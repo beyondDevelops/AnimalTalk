@@ -47,7 +47,7 @@ const UserClub = ({ club, setIsUpload }) => {
   return (
     <>
       <section className="relative px-[1.6rem] py-[2rem]">
-        <h2 className="mb-[1.6rem]">참여 중인 산책</h2>
+        <h2 className="mb-[1.6rem]">참여 중인 모임</h2>
         <ul className="flex flex-row overflow-hidden overflow-x-scroll scrollbar-hide" ref={ulRef}>
           {club.length > 0 ? (
             club.map((item) => (

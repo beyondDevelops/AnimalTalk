@@ -10,7 +10,9 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
   const { _id } = useContext(UserContext);
   const token = localStorage.getItem("token");
 
-  const clubImage = "https://mandarin.api.weniv.co.kr/" + clubData.itemImage;
+  const clubImage = clubData.itemImage.includes("https")
+    ? clubData.itemImage
+    : "https://mandarin.api.weniv.co.kr/" + clubData.itemImage;
   const clubName = clubData.itemName;
   const clubFee = comma(clubData.price);
   const clubLocation = comma(clubData.link);
