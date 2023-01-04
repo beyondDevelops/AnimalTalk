@@ -6,14 +6,14 @@ const SimpleClub = ({ data, setIsClubModal, setClubData, comma }) => {
   const clubTitle = data.itemName;
 
   const clubFee = comma(data.price);
-  const handleClubModa = () => {
+  const handleClubModal = () => {
     setClubData(data);
     setIsClubModal(true);
   };
 
   return (
     <>
-      <li className="shrink-0 basis-[14rem] mr-[1rem] overflow-hidden cursor-pointer" onClick={handleClubModa}>
+      <li className="shrink-0 basis-[14rem] mr-[1rem] overflow-hidden cursor-pointer" onClick={handleClubModal}>
         <img
           className="w-[14rem] h-[9rem] object-cover border-[0.05rem] border-cst-light-gray rounded-[8px]"
           src={
