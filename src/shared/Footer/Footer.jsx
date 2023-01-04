@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
 const Footer = () => {
@@ -15,6 +16,28 @@ const Footer = () => {
   const location = useLocation();
   const { accountname } = useContext(UserContext);
   const { image } = useContext(UserContext);
+
+  const [userInfo, setUserInfo] = useState();
+  const editAccountname = userInfo?.accountname;
+
+  useEffect(() => {
+    if (!userInfo) {
+      const token = localStorage.getItem("token");
+      const getUserInfo = async () => {
+        try {
+          const res = await axios.get("/user/myinfo", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUserInfo({ ...res.data.user });
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getUserInfo();
+    }
+  }, [userInfo]);
 
   return (
     <nav className="flex px-[0.6rem] pt-[1.2rem] pb-[0.6rem]">
@@ -50,10 +73,10 @@ const Footer = () => {
       </Link>
       <Link
         className="flex flex-col items-center mx-[3rem]"
-        to={`/profile/${accountname}`}
-        state={{ myAccountname: `${accountname}` }}
+        to={`/profile/${editAccountname ? editAccountname : accountname}`}
+        state={{ myAccountname: `${editAccountname ? editAccountname : accountname}` }}
       >
-        {location.pathname === `/profile/${accountname}` ? (
+        {location.pathname === `/profile/${editAccountname ? editAccountname : accountname}` ? (
           <>
             <img src={myProfileFill} alt="프로필" className="w-[2.4rem] h-[2.4rem]" />
             <span className="block mt-[0.4rem] text-[1rem] text-m-color">프로필</span>

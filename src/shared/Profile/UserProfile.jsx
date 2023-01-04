@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import api from "../../api/axios";
+import axios from "../../api/axios";
 
 const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
@@ -19,6 +20,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
 
   const { accountname } = useContext(UserContext);
   const [myAccountname, setMyAccountname] = useState();
+  const [newAccountname, setNewAccountname] = useState(accountname);
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -26,6 +28,23 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
     if (!editAccountname) return;
     setMyAccountname(editAccountname);
   }, [editAccountname]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const getUserInfo = async () => {
+      try {
+        const res = await axios.get("/user/myinfo", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNewAccountname(res.data.user.accountname);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserInfo();
+  }, []);
 
   const followReq = async () => {
     // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
@@ -92,18 +111,18 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
       <p className="w-fit mx-auto text-[1.2rem] text-cst-gray">@ {pageAccount}</p>
       <p className="w-fit mx-auto mt-[1.6rem] mb-[2.4rem] text-cst-gray">{intro}</p>
 
-      {pageAccount === `${myAccountname ? myAccountname : accountname}` ? (
+      {pageAccount === `${myAccountname ? myAccountname : newAccountname}` ? (
         <section className="block text-center">
           <button
             type="button"
-            onClick={() => navigate(`/profile/${myAccountname ? myAccountname : accountname}/edit`)}
+            onClick={() => navigate(`/profile/${myAccountname ? myAccountname : newAccountname}/edit`)}
             className="mr-[1.2rem] btn-lg btn-cancel text-cst-gray"
           >
             프로필 수정
           </button>
           <button
             type="button"
-            onClick={() => navigate(`/profile/${myAccountname ? myAccountname : accountname}/clubupload`)}
+            onClick={() => navigate(`/profile/${myAccountname ? myAccountname : newAccountname}/clubupload`)}
             className="btn-lg btn-cancel text-cst-gray"
           >
             모임 만들기
