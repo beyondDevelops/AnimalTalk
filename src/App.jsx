@@ -19,7 +19,7 @@ import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename="AnimalTalk">
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/login">
