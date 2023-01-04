@@ -71,7 +71,6 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
             className="relative w-[100%] h-[3.6rem] border-b-[0.1rem] border-b-white before:absolute before:left-[50%] before:-translate-x-[50%] before:content-[''] before:w-[5rem] before:h-[0.4rem] before:bg-white before:hover:bg-m-color"
             onClick={handleModal}
           ></button>
-          {/* <div className="flex justify-end"> */}
           {clubData.author._id === _id ? (
             <Link
               className="relative inline-block ml-[27.5rem] mr-[2rem] mt-[1.5rem] text-[1.2rem] text-cst-gray before:absolute before:left-[3.1rem] before:bottom-[0.8rem] before:content-[''] before:w-[0.3rem] before:h-[0.3rem] before:rounded-full before:bg-cst-gray hover:text-m-color"
@@ -99,7 +98,6 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
               {clubData.author._id === _id ? "삭제" : "신고"}
             </button>
           </form>
-          {/* </div> */}
           <img src={clubImage} alt="" className="w-[30.4rem] h-[22.8rem] rounded-[10px] mx-auto mt-[1rem] mb-[2rem]" />
           <p className="mx-[5rem] text-[1.2rem] w-[29rem] font-medium text-cst-gray">
             모임명
