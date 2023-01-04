@@ -1,0 +1,62 @@
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 유틸리티 스타일 */
+html {
+  @apply font-spoqa text-[10px] font-normal;
+}
+
+#root {
+  @apply bg-s-color/30 text-[1.4rem];
+}
+
+.ir {
+  @apply overflow-hidden absolute w-0 h-0 leading-[0] indent-[-9999px];
+}
+
+/* 전체 페이지 레이아웃 */
+.page {
+  @apply w-[39rem] h-screen mx-auto bg-white flex flex-col shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
+}
+
+.login-page {
+  @apply w-[39rem] h-screen mx-auto bg-s-color flex flex-col justify-end shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
+}
+
+main {
+  @apply basis-full overflow-hidden overflow-y-auto scrollbar-hide;
+}
+
+/* 디자인 공통 스타일 */
+/* 버튼 크기 */
+.btn-xl {
+  @apply rounded-[44px] py-[1.3rem] w-[32.2rem] font-medium;
+}
+
+.btn-lg {
+  @apply rounded-[34px] py-[0.8rem] w-[12rem] font-medium;
+}
+
+.btn-md {
+  @apply rounded-[44px] py-[0.7rem] w-[9rem] font-medium;
+}
+
+.btn-sm {
+  @apply rounded-[26px] py-[0.7rem] w-[5.6rem] text-[1.2rem];
+}
+
+/* 버튼 색상 */
+.btn-on {
+  @apply bg-m-color;
+}
+
+.btn-off {
+  @apply bg-s-color;
+}
+
+.btn-cancel {
+  @apply bg-[#fff] border-[0.1rem] border-cst-light-gray;
+}
