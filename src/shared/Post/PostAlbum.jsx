@@ -3,7 +3,7 @@ import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 
 const PostAlbum = ({ post }) => {
   const imgLayersImg = `${process.env.PUBLIC_URL}/assets/img/icon-img-layers.png`;
-  const postImg = !!post.image.split(",")[0] ? post.image : null;
+  const postImg = post.image && !!post.image.split(",")[0] ? post.image : null;
   const [modalPostImg, setModalPostImg] = useState(false);
 
   return (

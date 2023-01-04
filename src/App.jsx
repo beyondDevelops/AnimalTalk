@@ -19,7 +19,7 @@ import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/login">
