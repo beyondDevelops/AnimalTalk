@@ -22,9 +22,6 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const [myAccountname, setMyAccountname] = useState();
   const [newAccountname, setNewAccountname] = useState(accountname);
   const token = localStorage.getItem("token");
-  // react-query 설명용 주석
-  // console.log("accountname", accountname);
-  // console.log("newAccountname", newAccountname);
 
   const navigate = useNavigate();
   useEffect(() => {
