@@ -73,6 +73,9 @@ const Post = ({ post, setIsUpload }) => {
           src={profileSmallImg}
           alt={`${post.author.username}님 프로필 사진입니다. 클릭 시 해당 프로필 유저 페이지로 이동합니다.`}
           onClick={handleLink}
+          onError={(e) => {
+            e.target.src = profileSmallImg;
+          }}
         />
         <p className="inline-block align-middle ml-[1.2rem] cursor-pointer" onClick={handleLink}>
           <strong className="leading-[1.8rem] font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">

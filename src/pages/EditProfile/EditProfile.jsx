@@ -171,7 +171,7 @@ const EditProfile = () => {
               <img
                 src={changeImage ? myProfileData.user.image : profileImage}
                 alt=""
-                className="w-[11rem] h-[11rem] rounded-full"
+                className="w-[11rem] h-[11rem] rounded-full object-cover"
                 onError={(e) => {
                   e.target.src = defaultProfile;
                 }}
@@ -228,7 +228,7 @@ const EditProfile = () => {
               ref={introRef}
               id="intro"
               type="text"
-              placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
+              placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
               className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
               defaultValue={myProfileData.user.intro}
               onChange={handleIntroLength}

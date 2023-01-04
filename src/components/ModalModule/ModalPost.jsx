@@ -8,6 +8,7 @@ const ModalPost = ({ setModalPost, post, setIsUpload }) => {
   const [modalDelete, setModalDelete] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const { _id } = useContext(UserContext);
+  const { image } = useContext(UserContext);
   const token = localStorage.getItem("token");
 
   const handleModal = (e) => {
@@ -97,7 +98,7 @@ const ModalPost = ({ setModalPost, post, setIsUpload }) => {
           {post.author._id === _id ? (
             <Link
               to={"/postedit"}
-              state={{ ...{ post } }}
+              state={{ ...{ post, image: `${image}` } }}
               className="inline-block py-[1.6rem] px-[2.6rem] w-[100%] hover:bg-s-color text-left hover:ease-in hover:transition hover:duration-300"
             >
               수정

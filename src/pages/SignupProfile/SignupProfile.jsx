@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useRef, useState } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 const SignupProfile = () => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
@@ -44,6 +45,18 @@ const SignupProfile = () => {
 
   const handleIntroLength = () => {
     setIntroLength(introRef.current.value.length);
+  };
+
+  const convertURLtoFile = async (url) => {
+    const res = await axios({
+      url,
+      method: "get",
+      responseType: "blob",
+    });
+    const ext = url.split(".").pop();
+    const filename = url.split("/").pop();
+    const metadata = { type: `image/${ext}` };
+    return new File([res.data], filename, metadata);
   };
 
   // 이미지를 파일로 변경하여 서버로 전송
@@ -90,7 +103,8 @@ const SignupProfile = () => {
     e.preventDefault();
 
     try {
-      const imageURL = await ImageFormData(imgRef.current.files[0] || baseProfile);
+      const defaultImg = await convertURLtoFile("https://mandarin.api.weniv.co.kr/1672734242192.png");
+      const imageURL = await ImageFormData(imgRef.current.files[0] || defaultImg);
 
       const res = await api.post(
         "/user",
