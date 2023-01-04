@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/beyonddevelops.github.io/animaltalk/static/css/main.398b0e0f.css",
-    "main.js": "/beyonddevelops.github.io/animaltalk/static/js/main.08d09050.js",
-    "index.html": "/beyonddevelops.github.io/animaltalk/index.html",
-    "main.398b0e0f.css.map": "/beyonddevelops.github.io/animaltalk/static/css/main.398b0e0f.css.map",
-    "main.08d09050.js.map": "/beyonddevelops.github.io/animaltalk/static/js/main.08d09050.js.map"
+    "main.css": "/animaltalk/static/css/main.398b0e0f.css",
+    "main.js": "/animaltalk/static/js/main.9630871d.js",
+    "index.html": "/animaltalk/index.html",
+    "main.398b0e0f.css.map": "/animaltalk/static/css/main.398b0e0f.css.map",
+    "main.9630871d.js.map": "/animaltalk/static/js/main.9630871d.js.map"
   },
   "entrypoints": [
     "static/css/main.398b0e0f.css",
-    "static/js/main.08d09050.js"
+    "static/js/main.9630871d.js"
   ]
 }
