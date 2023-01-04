@@ -8,27 +8,29 @@ const UserSearch = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
+  const findUser = async (search) => {
+    try {
+      const res = await api.get(`/user/searchuser/?keyword=${search}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const filterUsers = res.data.filter(
+        (user) =>
+          user.username.toLowerCase().includes(search.toLowerCase()) ||
+          user.accountname.toLowerCase().includes(search.toLowerCase())
+      );
+      setSearchResult(filterUsers);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (search) {
-      const findUser = async () => {
-        try {
-          const res = await api.get(`/user/searchuser/?keyword=${search}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const filterUsers = res.data.filter(
-            (user) =>
-              user.username.toLowerCase().includes(search.toLowerCase()) ||
-              user.accountname.toLowerCase().includes(search.toLowerCase())
-          );
-          setSearchResult(filterUsers);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-
-      findUser();
+      setTimeout(() => {
+        findUser(search);
+      }, 500);
     } else {
       setSearchResult([]);
     }
