@@ -34,11 +34,11 @@ const ModalPostImg = ({ imgArr, setModalPostImg, post }) => {
   return (
     <section className="absolute inset-0 z-10" ref={modalRef} onClick={handleModal}>
       <h3 className="ir">게시글 사진 모달</h3>
-      <div className="absolute bottom-0 left-[50%] -translate-x-[50%] w-[39rem] h-[60%] rounded-t-[10px] bg-orange-100/80 overflow-auto scrollbar-hide">
+      <div className="absolute bottom-0 left-[50%] -translate-x-[50%] w-[39rem] h-[63%] rounded-t-[10px] bg-orange-200 overflow-auto scrollbar-hide">
         <button
           type="button"
           aria-label="닫기창"
-          className="relative w-[100%] h-[3.6rem] border-b-[0.5rem] border-b-s-color/80 before:absolute before:left-[50%] before:-translate-x-[50%] before:content-[''] before:w-[5rem] before:h-[0.4rem] before:bg-s-color before:hover:bg-m-color"
+          className="relative w-[100%] h-[3.6rem] border-b-[0.1rem] border-white before:absolute before:left-[50%] before:-translate-x-[50%] before:content-[''] before:w-[5rem] before:h-[0.4rem] before:bg-white before:hover:bg-m-color"
           onClick={() => {
             setModalPostImg(false);
           }}
@@ -47,7 +47,7 @@ const ModalPostImg = ({ imgArr, setModalPostImg, post }) => {
         {imgArr.length > 1 ? (
           <div className="relative">
             <button
-              className="absolute top-[13rem] left-[2%] w-[3rem] h-[3rem] text-[2rem] text-m-color bg-s-color/60 rounded-full hover:bg-m-color hover:text-s-color"
+              className="absolute top-[13rem] left-[2%] w-[3rem] h-[3rem] text-[2rem] text-m-color bg-white rounded-full hover:bg-m-color hover:text-s-color"
               type="button"
               aria-label="prev"
               data-name="prev"
@@ -57,7 +57,7 @@ const ModalPostImg = ({ imgArr, setModalPostImg, post }) => {
               &lt;
             </button>
             <button
-              className="absolute top-[13rem] right-[2%] w-[3rem] h-[3rem] text-[2rem] text-m-color bg-s-color/60 rounded-full hover:bg-m-color hover:text-s-color"
+              className="absolute top-[13rem] right-[2%] w-[3rem] h-[3rem] text-[2rem] text-m-color bg-white rounded-full hover:bg-m-color hover:text-s-color"
               type="button"
               aria-label="next"
               data-name="next"

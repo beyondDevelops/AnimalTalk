@@ -6,7 +6,7 @@ export const HeaderChat = ({ onModalInfo }) => {
   let navigate = useNavigate();
 
   return (
-    <header className="flex justify-between items-center px-[1.6rem]">
+    <header className="flex justify-between items-center px-[1.6rem] border-b-cst-ligth-gray border-b-[0.1rem]">
       <button
         className="w-[2.2rem] h-[2.2rem]"
         type="button"

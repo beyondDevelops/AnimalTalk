@@ -62,7 +62,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   };
 
   return (
-    <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem]">
+    <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem] border-b-cst-light-gray border-b-[0.6rem]">
       <h2 className="ir">유저 프로필</h2>
       <section className="flex flex-row items-center mx-[auto]">
         <Link

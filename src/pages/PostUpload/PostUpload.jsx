@@ -5,7 +5,6 @@ import axios, { axiosImgUpload } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PostUpload = () => {
-  const myProfile = `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`;
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
   const imgCancle = `${process.env.PUBLIC_URL}/assets/img/icon-x.png`;
 
@@ -20,6 +19,7 @@ const PostUpload = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const post = location.state?.post;
+  const myProfile = location.state?.image;
 
   const convertURLtoFile = async (url) => {
     const res = await axios({
@@ -175,6 +175,10 @@ const PostUpload = () => {
     [images, navigate]
   );
 
+  useEffect(() => {
+    textareaRef.current.focus();
+  }, []);
+
   return (
     <div className="page">
       {/* Note: Header 수정 필요 */}
@@ -185,7 +189,11 @@ const PostUpload = () => {
       />
       <main className="pt-[2rem] px-[1.6rem]">
         {/* 프로필 및 텍스트 */}
-        <img src={myProfile} alt="" className="inline-block align-top w-[4.2rem] h-[4.2rem] object-cover" />
+        <img
+          src={myProfile}
+          alt=""
+          className="inline-block align-top w-[4.2rem] h-[4.2rem] object-cover rounded-full"
+        />
         <form className="inline-block">
           <Textarea ref={textareaRef} {...{ setIsText }} />
         </form>

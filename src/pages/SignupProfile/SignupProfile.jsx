@@ -1,8 +1,7 @@
-import React from "react";
-import { useEffect } from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 const SignupProfile = () => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
@@ -44,6 +43,18 @@ const SignupProfile = () => {
 
   const handleIntroLength = () => {
     setIntroLength(introRef.current.value.length);
+  };
+
+  const convertURLtoFile = async (url) => {
+    const res = await axios({
+      url,
+      method: "get",
+      responseType: "blob",
+    });
+    const ext = url.split(".").pop();
+    const filename = url.split("/").pop();
+    const metadata = { type: `image/${ext}` };
+    return new File([res.data], filename, metadata);
   };
 
   // 이미지를 파일로 변경하여 서버로 전송
@@ -90,7 +101,8 @@ const SignupProfile = () => {
     e.preventDefault();
 
     try {
-      const imageURL = await ImageFormData(imgRef.current.files[0] || baseProfile);
+      const defaultImg = await convertURLtoFile("https://mandarin.api.weniv.co.kr/1672734242192.png");
+      const imageURL = await ImageFormData(imgRef.current.files[0] || defaultImg);
 
       const res = await api.post(
         "/user",
@@ -146,6 +158,10 @@ const SignupProfile = () => {
     };
   };
 
+  useEffect(() => {
+    userNameRef.current.focus();
+  }, []);
+
   return (
     <div className="page">
       <main className="h-screen flex flex-col">
@@ -177,7 +193,7 @@ const SignupProfile = () => {
               id="name"
               type="text"
               placeholder="2~10자 이내여야 합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
 
@@ -192,7 +208,7 @@ const SignupProfile = () => {
               id="userId"
               type="text"
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
             {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
           </fieldset>
@@ -208,7 +224,7 @@ const SignupProfile = () => {
               id="intro"
               type="text"
               placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
 
