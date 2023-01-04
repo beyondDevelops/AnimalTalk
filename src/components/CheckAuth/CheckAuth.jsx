@@ -5,27 +5,25 @@ import api from "../../api/axios";
 
 const CheckAuth = () => {
   const token = localStorage.getItem("token");
-
   const [userInfo, setUserInfo] = useState(null);
-
-  const getUserInfo = async () => {
-    try {
-      const res = await api.get("/user/myinfo", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserInfo({ ...res.data.user });
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect(() => {
     if (!userInfo) {
+      const getUserInfo = async () => {
+        try {
+          const res = await api.get("/user/myinfo", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUserInfo({ ...res.data.user });
+        } catch (err) {
+          console.log(err);
+        }
+      };
       getUserInfo();
     }
-  }, [userInfo]);
+  }, [token, userInfo]);
 
   return (
     <UserContext.Provider value={{ ...userInfo }}>
