@@ -73,7 +73,7 @@ const ClubUpload = () => {
 
   // 모임명
   const handleClubName = (e) => {
-    if (e.target.value.length < 2 || e.target.value.length > 5) {
+    if (e.target.value.length < 2 || e.target.value.length > 15) {
       setIsClubName(false);
     } else {
       setIsClubName(true);
@@ -249,10 +249,10 @@ const ClubUpload = () => {
               className={`block w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
                 isClubName ? "border-b-m-color" : "border-b-cst-light-gray"
               }`}
-              placeholder="2~5자 이내여야 합니다."
+              placeholder="2~15자 이내여야 합니다."
               onChange={handleClubName}
               minLength="2"
-              maxLength="5"
+              maxLength="15"
             />
 
             <label htmlFor="price" className="text-[1.2rem] text-cst-gray font-medium">
