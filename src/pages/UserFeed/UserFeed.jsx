@@ -31,6 +31,8 @@ const UserFeed = () => {
   const myAccountname = location.state?.myAccountname;
   const pageAccount = location.pathname.split("/")[2];
 
+  const token = localStorage.getItem("token");
+
   const handleModalInfo = useCallback(
     (e) => {
       setModal(!modal);
@@ -53,25 +55,51 @@ const UserFeed = () => {
     setList(!list);
   };
 
-  // const getUserFeeds = async () => {
-  //   try {
-  //     const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setPostDataArray((prev) => [...prev, ...res.data.post]);
-  //     setState((prev) => ({
-  //       postNum: prev.postNum + 10,
-  //       moreFeed: postDataArray.length % 10 === 0,
-  //     }));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const getPageProfile = async () => {
+    try {
+      const res = await api.get(`/profile/${pageAccount}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPageProfile(res.data.profile);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUserClub = async () => {
+    try {
+      const res = await api.get(`/product/${pageAccount}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setClub(res.data.product);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUserFeeds = async () => {
+    try {
+      const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPostDataArray((prev) => [...prev, ...res.data.post]);
+      setState((prev) => ({
+        postNum: prev.postNum + 10,
+        moreFeed: postDataArray.length % 10 === 0,
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const observerTarget = useRef(null);
-  // useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
+  useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
 
   // 프로필 계정 이름 수정 및 타 유저에서 내 프로필 넘어올 때 재렌더링 부분
   useEffect(() => {
@@ -83,52 +111,12 @@ const UserFeed = () => {
   // userFeed 렌더링 부분
   useEffect(() => {
     if (!isUpload) return;
-    const token = localStorage.getItem("token");
-
-    const getPageProfile = async () => {
-      try {
-        const res = await api.get(`/profile/${pageAccount}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setPageProfile(res.data.profile);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    const getUserFeeds = async () => {
-      try {
-        const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setPostDataArray(res.data.post);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    const getUserClub = async () => {
-      try {
-        const res = await api.get(`/product/${pageAccount}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setClub(res.data.product);
-      } catch (err) {
-        console.log(err);
-      }
-    };
 
     getPageProfile();
-    getUserFeeds();
     getUserClub();
+    getUserFeeds();
     setIsUpload(false);
-  }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
+  }, [pageAccount, isUpload, postDataArray, pageProfile]);
 
   return (
     <div className="page">
