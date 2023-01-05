@@ -100,7 +100,11 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
               {clubData.author._id === _id ? "삭제" : "신고"}
             </button>
           </form>
-          <img src={clubImage} alt="" className="w-[30.4rem] h-[22.8rem] rounded-[10px] mx-auto mt-[1rem] mb-[2rem]" />
+          <img
+            src={clubImage}
+            alt=""
+            className="w-[30.4rem] h-[22.8rem] rounded-[10px] mx-auto mt-[1rem] mb-[2rem] object-cover"
+          />
           <p className="mx-[5rem] text-[1.2rem] w-[29rem] font-medium text-cst-gray">
             모임명
             <strong className="block text-[1.4rem] mt-[0.4rem] mb-[1.8rem] py-[0.4rem] text-black font-normal border-b-[0.1rem] border-b-white">
