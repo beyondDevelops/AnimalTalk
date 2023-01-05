@@ -11,28 +11,21 @@ import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
 import useIntersect from "../../hooks/useIntersect";
-
 const UserFeed = () => {
   const defaultCatImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
-
   const [pageProfile, setPageProfile] = useState(null);
   const [list, setList] = useState(true);
   const [postDataArray, setPostDataArray] = useState([]);
   const [club, setClub] = useState(null);
   const [state, setState] = useState({ postNum: 0, moreFeed: true });
   const [isUpload, setIsUpload] = useState(true);
-
   const [modal, setModal] = useState(false);
   const [logout, setLogout] = useState(false);
   const modalRef = useRef();
-
   const location = useLocation();
   const editAccountname = location.state?.editAccountname;
   const myAccountname = location.state?.myAccountname;
   const pageAccount = location.pathname.split("/")[2];
-
-  const token = localStorage.getItem("token");
-
   const handleModalInfo = useCallback(
     (e) => {
       setModal(!modal);
@@ -42,82 +35,84 @@ const UserFeed = () => {
     },
     [modal]
   );
-
   const handleModalLogout = useCallback(() => {
     setLogout(!logout);
   }, [logout]);
-
   const handleCloseModal = useCallback(() => {
     setLogout(false);
   }, []);
-
   const onListToggle = () => {
     setList(!list);
   };
-
-  const getPageProfile = async () => {
-    try {
-      const res = await api.get(`/profile/${pageAccount}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPageProfile(res.data.profile);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getUserClub = async () => {
-    try {
-      const res = await api.get(`/product/${pageAccount}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setClub(res.data.product);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getUserFeeds = async () => {
-    try {
-      const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPostDataArray((prev) => [...prev, ...res.data.post]);
-      setState((prev) => ({
-        postNum: prev.postNum + 10,
-        moreFeed: postDataArray.length % 10 === 0,
-      }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  // const getUserFeeds = async () => {
+  //   try {
+  //     const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setPostDataArray((prev) => [...prev, ...res.data.post]);
+  //     setState((prev) => ({
+  //       postNum: prev.postNum + 10,
+  //       moreFeed: postDataArray.length % 10 === 0,
+  //     }));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const observerTarget = useRef(null);
-  useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
-
+  // useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
   // 프로필 계정 이름 수정 및 타 유저에서 내 프로필 넘어올 때 재렌더링 부분
   useEffect(() => {
     if (editAccountname || myAccountname) {
       setIsUpload(true);
     }
   }, [editAccountname, myAccountname]);
-
   // userFeed 렌더링 부분
   useEffect(() => {
     if (!isUpload) return;
-
+    const token = localStorage.getItem("token");
+    const getPageProfile = async () => {
+      try {
+        const res = await api.get(`/profile/${pageAccount}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPageProfile(res.data.profile);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const getUserFeeds = async () => {
+      try {
+        const res = await api.get(`/post/${pageAccount}/userpost/?limit=10&skip=${state.postNum}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPostDataArray(res.data.post);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    const getUserClub = async () => {
+      try {
+        const res = await api.get(`/product/${pageAccount}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setClub(res.data.product);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     getPageProfile();
-    getUserClub();
     getUserFeeds();
+    getUserClub();
     setIsUpload(false);
-  }, [pageAccount, isUpload, postDataArray, pageProfile]);
-
+  }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
   return (
     <div className="page">
       <HeaderBasic onModalInfo={handleModalInfo} />
@@ -169,5 +164,4 @@ const UserFeed = () => {
     </div>
   );
 };
-
 export default UserFeed;
