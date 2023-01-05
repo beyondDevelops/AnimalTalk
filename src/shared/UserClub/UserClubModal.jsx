@@ -15,7 +15,7 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
     : "https://mandarin.api.weniv.co.kr/" + clubData.itemImage;
   const clubName = clubData.itemName;
   const clubFee = comma(clubData.price);
-  const clubLocation = comma(clubData.link);
+  const clubLocation = clubData.link;
 
   const handleModal = (e) => {
     if (e.target === modalRef.current["background"]) {
