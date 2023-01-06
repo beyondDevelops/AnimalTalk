@@ -407,6 +407,7 @@ AnimalTalk
   <br/>
 
 2.  무한 스크롤 기능을 구현하기 위해 Intersection Observer API를 이용하며 겪은 API 데이터 요청 이슈
+
     - 기능 구현 1: Observe Target 요소가 viewport 안에 intersect 되었을 때 추가 데이터를 얻기 위해 API 요청이 진행되도록 Home 페이지에서 기능 구현하였음
 
     ```jsx
@@ -477,27 +478,27 @@ AnimalTalk
     - 이슈3: useIntersect 커스텀 훅을 이용하여 UserFeed 페이지 구현시 무한 스크롤 기능을 구현하였으나, 마지막 게시글에 대해 이슈1번과 동일한 문제가 발생하였음
 
     - 이슈3 해결방법: 프로필 수정시 계정 ID를 수정하기 위해 재영님이 적용한 isUpload 상태가 Target 요소가 나타났을 때 API 요청을 지속하는 문제를 해결하는 핵심 기능이 되었음. 해결이 진행된 이유를 명확하게 파악해야하는 이슈가 아직 남아있음
-    
+
     ```jsx
     const getPageProfile = async () => {
       try {
-         const res = await api.get(`/profile/${pageAccount}`, {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         });
-         setPageProfile(res.data.profile);
-       } catch (err) {
-         console.log(err);
-       }
+        const res = await api.get(`/profile/${pageAccount}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setPageProfile(res.data.profile);
+      } catch (err) {
+        console.log(err);
+      }
     };
-    
+
     //.. 중략
-    
+
     const observerTarget = useRef(null);
-    
+
     useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
-    
+
     useEffect(() => {
       if (!isUpload) return;
       getPageProfile();
@@ -542,7 +543,8 @@ AnimalTalk
       <img width="344" alt="image" src="https://user-images.githubusercontent.com/103429329/210586263-7658724b-b4e0-45d2-9393-ae312ee9f07d.png">
 
 - 프로젝트 목표 중 하나인 웹 접근성을 고려하여 시맨틱한 코드를 작성하였으나 아직 부족한 부분이 있습니다. 추후 접근성과 성능 개선이 필요합니다.
-- 권장사항의 낮은 점수는 폰트를 import 할 때 사용한 url의 안정성이 낮아서 나타난 문제입니다. 추후 수정이 필요합니다.
+- 권장사항 : HTTPS 사용하지 않음 (폰트 사용 시 안전하지 않은 URL)
+  <img width="698" alt="image" src="https://user-images.githubusercontent.com/103429329/210906907-4c4a17ad-1c6b-47ce-8b15-5fceece4cef0.png">
 
 2. 중복된 api 요청 관리하기
 
