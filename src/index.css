@@ -1,10 +1,9 @@
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 유틸리티 스타일 */
 html {
   @apply font-spoqa text-[10px] font-normal;
 }

@@ -540,11 +540,15 @@ AnimalTalk
 
 1.  성능 테스트 (Lighthouse)
 
-      <img width="344" alt="image" src="https://user-images.githubusercontent.com/103429329/210586263-7658724b-b4e0-45d2-9393-ae312ee9f07d.png">
+      <img width="350" alt="image" src="https://user-images.githubusercontent.com/103429329/210586263-7658724b-b4e0-45d2-9393-ae312ee9f07d.png">
 
 - 프로젝트 목표 중 하나인 웹 접근성을 고려하여 시맨틱한 코드를 작성하였으나 아직 부족한 부분이 있습니다. 추후 접근성과 성능 개선이 필요합니다.
-- 권장사항 : HTTPS 사용하지 않음 (폰트 사용 시 안전하지 않은 URL)
-  <img width="698" alt="image" src="https://user-images.githubusercontent.com/103429329/210906907-4c4a17ad-1c6b-47ce-8b15-5fceece4cef0.png">
+- 권장사항 :
+  1. HTTPS 사용하지 않음 (폰트 사용 시 안전하지 않은 URL)
+  2. 이미지가 낮은 해상도로 제공
+- 해결 방법 : import url 누락된 https를 입력 및 이미지 파일 svg로 변경
+
+  <img width="350" alt="image" src="https://user-images.githubusercontent.com/103429329/211232767-b834d04a-93e8-4166-b1a5-7672ae041e0f.png">
 
 2. 중복된 api 요청 관리하기
 
