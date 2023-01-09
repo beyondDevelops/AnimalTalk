@@ -407,7 +407,6 @@ AnimalTalk
   <br/>
 
 2.  무한 스크롤 기능을 구현하기 위해 Intersection Observer API를 이용하며 겪은 API 데이터 요청 이슈
-
     - 기능 구현 1: Observe Target 요소가 viewport 안에 intersect 되었을 때 추가 데이터를 얻기 위해 API 요청이 진행되도록 Home 페이지에서 기능 구현하였음
 
     ```jsx
@@ -478,27 +477,27 @@ AnimalTalk
     - 이슈3: useIntersect 커스텀 훅을 이용하여 UserFeed 페이지 구현시 무한 스크롤 기능을 구현하였으나, 마지막 게시글에 대해 이슈1번과 동일한 문제가 발생하였음
 
     - 이슈3 해결방법: 프로필 수정시 계정 ID를 수정하기 위해 재영님이 적용한 isUpload 상태가 Target 요소가 나타났을 때 API 요청을 지속하는 문제를 해결하는 핵심 기능이 되었음. 해결이 진행된 이유를 명확하게 파악해야하는 이슈가 아직 남아있음
-
+    
     ```jsx
     const getPageProfile = async () => {
       try {
-        const res = await api.get(`/profile/${pageAccount}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setPageProfile(res.data.profile);
-      } catch (err) {
-        console.log(err);
-      }
+         const res = await api.get(`/profile/${pageAccount}`, {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         });
+         setPageProfile(res.data.profile);
+       } catch (err) {
+         console.log(err);
+       }
     };
-
+    
     //.. 중략
-
+    
     const observerTarget = useRef(null);
-
+    
     useIntersect(observerTarget, state.postNum, state.moreFeed, getUserFeeds);
-
+    
     useEffect(() => {
       if (!isUpload) return;
       getPageProfile();
@@ -540,15 +539,10 @@ AnimalTalk
 
 1.  성능 테스트 (Lighthouse)
 
-      <img width="350" alt="image" src="https://user-images.githubusercontent.com/103429329/210586263-7658724b-b4e0-45d2-9393-ae312ee9f07d.png">
+      <img width="344" alt="image" src="https://user-images.githubusercontent.com/103429329/210586263-7658724b-b4e0-45d2-9393-ae312ee9f07d.png">
 
 - 프로젝트 목표 중 하나인 웹 접근성을 고려하여 시맨틱한 코드를 작성하였으나 아직 부족한 부분이 있습니다. 추후 접근성과 성능 개선이 필요합니다.
-- 권장사항 :
-  1. HTTPS 사용하지 않음 (폰트 사용 시 안전하지 않은 URL)
-  2. 이미지가 낮은 해상도로 제공
-- 해결 방법 : import url 누락된 https를 입력 및 이미지 파일 svg로 변경
-
-  <img width="350" alt="image" src="https://user-images.githubusercontent.com/103429329/211232767-b834d04a-93e8-4166-b1a5-7672ae041e0f.png">
+- 권장사항의 낮은 점수는 폰트를 import 할 때 사용한 url의 안정성이 낮아서 나타난 문제입니다. 추후 수정이 필요합니다.
 
 2. 중복된 api 요청 관리하기
 
