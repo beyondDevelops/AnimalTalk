@@ -13,7 +13,7 @@ const Post = ({ post, setIsUpload }) => {
   const moreVerticalSmallImg = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-small.png`;
   const heartOffImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-off.png`;
   const heartOnImg = `${process.env.PUBLIC_URL}/assets/img/icon-heart-on.png`;
-  const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
+  const commentImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.svg`;
 
   // 포스트 이미지 및 모달 처리
   const postImg = post.image && !!post.image.split(",")[0] ? post.image : null;
