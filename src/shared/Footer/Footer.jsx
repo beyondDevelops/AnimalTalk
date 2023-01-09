@@ -5,9 +5,9 @@ import axios from "../../api/axios";
 import { UserContext } from "../../context/UserContext";
 
 const Footer = () => {
-  const home = `${process.env.PUBLIC_URL}/assets/img/icon-home.png`;
+  const home = `${process.env.PUBLIC_URL}/assets/img/icon-home.svg`;
   const homeFill = `${process.env.PUBLIC_URL}/assets/img/icon-home-fill.png`;
-  const chat = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
+  const chat = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.svg`;
   const chatFill = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-fill.png`;
   const postCreate = `${process.env.PUBLIC_URL}/assets/img/icon-edit.png`;
   const myProfile = `${process.env.PUBLIC_URL}/assets/img/icon-user.png`;
