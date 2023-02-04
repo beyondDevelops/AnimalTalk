@@ -18,6 +18,8 @@ const SimpleUserList = ({
   content,
 }) => {
   const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
+
+  // 채팅리스트에서만 사용됩니다. 읽지 않은 메시지 알람을 관립합니다.
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const { accountname } = useContext(UserContext);
@@ -34,11 +36,11 @@ const SimpleUserList = ({
     }
   };
 
-  const handleFollow = async () => {
-    const isFollowNow = !isFollow;
-    setIsFollow(isFollowNow);
-    const res = await api[isFollowNow ? "post" : "delete"](
-      `/profile/${followAccount}/${isFollowNow ? "follow" : "unfollow"}`,
+  // followReq, unfollowReq 함수는 중복으로 사용되고 있습니다. api에서 관리할 필요가 있습니다.
+  const followReq = async () => {
+    // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
+    const res = await api.post(
+      `/profile/${followAccount}/follow`,
       {},
       {
         headers: {
@@ -46,6 +48,15 @@ const SimpleUserList = ({
         },
       }
     );
+    setIsFollow(res.data.profile.isfollow);
+  };
+
+  const unfollowReq = async () => {
+    const res = await api.delete(`/profile/${followAccount}/unfollow`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setIsFollow(res.data.profile.isfollow);
   };
 
@@ -87,7 +98,9 @@ const SimpleUserList = ({
 
       {followAccount !== accountname && isBtn ? (
         <button
-          onClick={handleFollow}
+          onClick={() => {
+            isFollow ? unfollowReq() : followReq();
+          }}
           type="button"
           className={`btn-sm ${
             isFollow ? "btn-cancel text-cst-gray" : "btn-on text-white"
