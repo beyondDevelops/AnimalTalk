@@ -18,8 +18,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "babel src --out-dir lib",
+    "test": "jest",
     "eject": "react-scripts eject",
     "serve": "serve -s build",
     "build-and-serve": "npm run build && npm run serve",
@@ -44,6 +44,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
     "tailwind-scrollbar-hide": "^1.1.7",
