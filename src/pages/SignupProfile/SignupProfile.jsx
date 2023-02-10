@@ -7,9 +7,9 @@ const SignupProfile = () => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
   const upload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
-  const [profileImage, setProfileImage] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true);
   const [isWrong, setIsWrong] = useState(true);
+  const [profileImage, setProfileImage] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [usernameLenght, setUsernameLenght] = useState(0);
   const [accountnameLength, setAccountnameLength] = useState(0);
@@ -26,11 +26,7 @@ const SignupProfile = () => {
   const userPassword = localStorage.getItem("password");
 
   useEffect(() => {
-    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
-    }
+    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) setIsActive(true);
   }, [usernameLenght, accountnameLength, introLength]);
 
   const handleUsernameLength = () => {
@@ -231,7 +227,7 @@ const SignupProfile = () => {
           <button
             onClick={handleProfileSetting}
             className={`${
-              btnDisabled ? "pointer-events-none btn-off" : "btn-on"
+              isActive ? "btn-on" : "pointer-events-none btn-off"
             } btn-xl text-[#fff] mt-[3rem] mb-[2rem] text-center`}
           >
             애니멀톡 시작하기
