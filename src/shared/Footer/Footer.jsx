@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Footer = () => {
   const home = `${process.env.PUBLIC_URL}/assets/img/icon-home.svg`;
@@ -14,8 +14,8 @@ const Footer = () => {
   const myProfileFill = `${process.env.PUBLIC_URL}/assets/img/icon-user-fill.png`;
 
   const location = useLocation();
-  const { accountname } = useContext(UserContext);
-  const { image } = useContext(UserContext);
+  const { accountname } = useContext(AuthContext);
+  const { image } = useContext(AuthContext);
 
   const [userInfo, setUserInfo] = useState();
   const editAccountname = userInfo?.accountname;

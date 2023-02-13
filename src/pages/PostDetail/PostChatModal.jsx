@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import axios from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 // Note: userId에 따라 댓글 신고와 삭제 구분
 const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
@@ -18,7 +18,7 @@ const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
     }
   };
 
-  const { _id } = useContext(UserContext);
+  const { _id } = useContext(AuthContext);
 
   const token = localStorage.getItem("token");
 

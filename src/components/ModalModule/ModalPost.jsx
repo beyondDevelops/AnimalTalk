@@ -1,14 +1,14 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const ModalPost = ({ setModalPost, post, setIsUpload }) => {
   const modalRef = useRef([]);
   const [modalDelete, setModalDelete] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { _id } = useContext(UserContext);
-  const { image } = useContext(UserContext);
+  const { _id } = useContext(AuthContext);
+  const { image } = useContext(AuthContext);
   const token = localStorage.getItem("token");
 
   const handleModal = (e) => {

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const SimpleUserList = ({
   isMessage,
@@ -22,7 +22,7 @@ const SimpleUserList = ({
   // 채팅리스트에서만 사용됩니다. 읽지 않은 메시지 알람을 관립합니다.
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const { accountname } = useContext(UserContext);
+  const { accountname } = useContext(AuthContext);
 
   const [isFollow, setIsFollow] = useState(isfollow);
 
@@ -102,9 +102,7 @@ const SimpleUserList = ({
             isFollow ? unfollowReq() : followReq();
           }}
           type="button"
-          className={`btn-sm ${
-            isFollow ? "btn-cancel text-cst-gray" : "btn-on text-white"
-          }`}
+          className={`btn-sm ${isFollow ? "btn-cancel text-cst-gray" : "btn-on text-white"}`}
         >
           {isFollow ? "취소" : "팔로우"}
         </button>
@@ -112,10 +110,7 @@ const SimpleUserList = ({
         <></>
       )}
       {isChatMode ? (
-        <time
-          dateTime="2022-12-21"
-          className="mt-[2.3rem] text-[1rem] text-cst-light-gray"
-        >
+        <time dateTime="2022-12-21" className="mt-[2.3rem] text-[1rem] text-cst-light-gray">
           2022.12.21
         </time>
       ) : (

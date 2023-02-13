@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 import api from "../../api/axios";
 import axios from "../../api/axios";
 
@@ -18,7 +18,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   const intro = pageProfile.intro;
   const username = pageProfile.username;
 
-  const { accountname } = useContext(UserContext);
+  const { accountname } = useContext(AuthContext);
   const [myAccountname, setMyAccountname] = useState();
   const [newAccountname, setNewAccountname] = useState(accountname);
   const token = localStorage.getItem("token");
