@@ -11,7 +11,8 @@ const EditProfile = () => {
   const regex = /[^0-9a-zA-Z._]/g;
 
   const [profileImage, setProfileImage] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const [isActive, setIsActive] = useState(false);
+
   const [isWrong, setIsWrong] = useState(true);
   const [errMsg, setErrMsg] = useState("");
   const [changeImage, setChangeImage] = useState(true);
@@ -30,11 +31,7 @@ const EditProfile = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
-    }
+    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) setIsActive(true);
   }, [usernameLenght, accountnameLength, introLength]);
 
   const handleUsernameLength = () => {
@@ -150,7 +147,9 @@ const EditProfile = () => {
         alert("계정 ID에 한글은 입력이 불가능합니다.");
         return;
       }
-      navigate(`/profile/${res.data.user.accountname}`, { state: { editAccountname: `${res.data.user.accountname}` } });
+      navigate(`/profile/${res.data.user.accountname}`, {
+        state: { editAccountname: `${res.data.user.accountname}` },
+      });
     } catch (err) {
       if (err.response.data.message === "이미 사용중인 계정 ID입니다.") {
         setIsWrong(false);
@@ -162,7 +161,7 @@ const EditProfile = () => {
 
   return (
     <div className="page">
-      <HeaderSave isActive={btnDisabled ? false : true} btnText="저장" onSubmitForm={handleEditProfile} />
+      <HeaderSave isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
       <main className="h-screen flex flex-col">
         <form action="" className="flex flex-col items-center">
           <fieldset>
