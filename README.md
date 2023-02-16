@@ -2,7 +2,12 @@
 
 <!-- 추후 수정 필요 -->
 
-[🔗 배포 URL](https://beyonddevelops.github.io/AnimalTalk/)
+[🔗 배포 URL: https://beyonddevelops.github.io/AnimalTalk/](https://beyonddevelops.github.io/AnimalTalk/)
+
+## 테스트 계정
+
+- email: 123toyomori@gmail.com
+- pw: 123123!@#
 
 ## 개요
 
