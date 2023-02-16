@@ -5,39 +5,70 @@ import api from "../../api/axios";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+
+  const inputRef = useRef([]);
 
   const [isWrong, setIswrong] = useState(true);
-  const [emailLength, setEmailLength] = useState(0);
-  const [passwordLength, setPasswordLength] = useState(0);
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) setIsActive(true);
-  }, [emailLength, passwordLength]);
-
-  const handleEmailLength = () => {
-    setEmailLength(emailRef.current.value.length);
+  const leastLength = {
+    emailleast: 1,
+    passwordleast: 6,
   };
 
-  const handlePasswordLength = () => {
-    setPasswordLength(passwordRef.current.value.length);
+  useEffect(() => {
+    inputRef.current["email"].focus();
+  }, []);
+
+  const handleFormData = (e) => {
+    if (e.target.id === "email") {
+      setFormData({ ...formData, email: inputRef.current["email"].value });
+    } else if (e.target.id === "password") {
+      setFormData({ ...formData, password: inputRef.current["password"].value });
+    }
+  };
+
+  const handleEmailLengthCheck = () => {
+    if (inputRef.current["email"].value.length < leastLength.emailleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handlePasswordLengthCheck = () => {
+    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleBtnControl = () => {
+    const emailValidationResult = handleEmailLengthCheck();
+    const passwordValidationResult = handlePasswordLengthCheck();
+
+    if (emailValidationResult && passwordValidationResult) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
+    const userInfo = {
+      email: formData.email,
+      password: formData.password,
+    };
+    console.log(userInfo);
 
     try {
       const res = await api.post(
         "/user/emailvalid",
         JSON.stringify({
           user: {
-            email: emailRef.current.value,
+            email: formData.email,
           },
         })
       );
@@ -49,8 +80,7 @@ const Signup = () => {
 
       navigate("/signup/profile", {
         state: {
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
+          userInfo,
         },
       });
     } catch (err) {
@@ -72,12 +102,16 @@ const Signup = () => {
               이메일
             </label>
             <input
-              placeholder="ex. animal@talk.com"
               required
-              ref={emailRef}
-              onChange={handleEmailLength}
-              id="emailId"
+              id="email"
               type="email"
+              ref={(el) => (inputRef.current["email"] = el)}
+              placeholder="ex. animal@talk.com"
+              onChange={(e) => {
+                handleFormData(e);
+                handleEmailLengthCheck();
+                handleBtnControl();
+              }}
               pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
@@ -94,12 +128,16 @@ const Signup = () => {
               비밀번호
             </label>
             <input
-              placeholder="6자리 이상 입력해주세요."
               required
-              ref={passwordRef}
-              onChange={handlePasswordLength}
-              id="pw"
+              id="password"
               type="password"
+              ref={(el) => (inputRef.current["password"] = el)}
+              placeholder="6자리 이상 입력해주세요."
+              onChange={(e) => {
+                handleFormData(e);
+                handlePasswordLengthCheck();
+                handleBtnControl();
+              }}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
