@@ -47,10 +47,12 @@ const Signup = () => {
         return;
       }
 
-      localStorage.setItem("email", emailRef.current.value);
-      localStorage.setItem("password", passwordRef.current.value);
-
-      navigate("/signup/profile");
+      navigate("/signup/profile", {
+        state: {
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        },
+      });
     } catch (err) {
       setIswrong(!isWrong);
       console.log(err.response.status);
@@ -99,7 +101,6 @@ const Signup = () => {
               id="pw"
               type="password"
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-              // onChange={}
             />
           </fieldset>
 
