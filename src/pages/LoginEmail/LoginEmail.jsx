@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../api/axios";
 
@@ -10,28 +10,14 @@ const LoginEmail = () => {
   const [isWrong, setIswrong] = useState(true);
   const [emailLength, setEmailLength] = useState(0);
   const [passwordLength, setPasswordLength] = useState(0);
-  const [btnColor, setBtnColor] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
-  /* 이메일, 비밀번호 타이핑할 때 바로 추적하면서 유효성 검사 */
-
-  /* 유효성 일치하지 않은 경우 빨간색으로 밑줄 및 안내 문구 작성 */
-
-  /* 이메일, 비밀번호가 유효성 통과시 로그인 버튼의 색깔을 진하게 만든다. */
-
-  /* 최초 렌더링 시 email input에 커서가 이동되게 설정 */
   useEffect(() => {
     emailRef.current.focus();
   }, []);
 
   useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) {
-      setBtnColor(true);
-      setBtnDisabled(false);
-    } else {
-      setBtnColor(false);
-      setBtnDisabled(true);
-    }
+    if (emailLength >= 1 && passwordLength >= 6) setIsActive(true);
   }, [emailLength, passwordLength]);
 
   const handleEmailLength = () => {
@@ -43,9 +29,6 @@ const LoginEmail = () => {
   };
 
   const handleUserLoginSubmit = async (e) => {
-    /* 로그인 버튼을 누르면 https://mandarin.api.weniv.co.kr/user/login 에 post 메서드로 데이터 서버로 송신 */
-    /* 서버에서 응답코드 200 받으면 /home으로 이동 */
-    /* 그 이외의 서버 응답코드는 일치하지 않는 이메일, 비밀번호라고 안내 */
     e.preventDefault();
 
     try {
@@ -116,8 +99,8 @@ const LoginEmail = () => {
           </fieldset>
 
           <button
-            disabled={btnDisabled}
-            className={`btn-xl ${btnColor ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
+            disabled={!isActive}
+            className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
           >
             로그인
           </button>

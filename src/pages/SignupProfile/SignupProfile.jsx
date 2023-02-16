@@ -1,48 +1,42 @@
 import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
 
 const SignupProfile = () => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
   const upload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
-  const [profileImage, setProfileImage] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const inputRef = useRef([]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [isWrong, setIsWrong] = useState(true);
+  const [profileImage, setProfileImage] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [usernameLenght, setUsernameLenght] = useState(0);
   const [accountnameLength, setAccountnameLength] = useState(0);
   const [introLength, setIntroLength] = useState(0);
 
-  const imgRef = useRef();
-  const userNameRef = useRef();
-  const accountNameRef = useRef();
-  const introRef = useRef();
-
-  const navigate = useNavigate();
-
-  const userEmail = localStorage.getItem("email");
-  const userPassword = localStorage.getItem("password");
+  const userEmail = location.state.email;
+  const userPassword = location.state.password;
 
   useEffect(() => {
-    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
-    }
+    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) setIsActive(true);
   }, [usernameLenght, accountnameLength, introLength]);
 
   const handleUsernameLength = () => {
-    setUsernameLenght(userNameRef.current.value.length);
+    setUsernameLenght(inputRef.current["username"].value.length);
   };
 
   const handleAccountnameLength = () => {
-    setAccountnameLength(accountNameRef.current.value.length);
+    setAccountnameLength(inputRef.current["accountname"].value.length);
   };
 
   const handleIntroLength = () => {
-    setIntroLength(introRef.current.value.length);
+    setIntroLength(inputRef.current["intro"].value.length);
   };
 
   const convertURLtoFile = async (url) => {
@@ -102,17 +96,17 @@ const SignupProfile = () => {
 
     try {
       const defaultImg = await convertURLtoFile("https://mandarin.api.weniv.co.kr/1672734242192.png");
-      const imageURL = await ImageFormData(imgRef.current.files[0] || defaultImg);
+      const imageURL = await ImageFormData(inputRef.current["image"].files[0] || defaultImg);
 
       const res = await api.post(
         "/user",
         JSON.stringify({
           user: {
-            username: userNameRef.current.value,
+            username: inputRef.current["username"].value,
             email: userEmail,
             password: userPassword,
-            accountname: accountNameRef.current.value,
-            intro: introRef.current.value,
+            accountname: inputRef.current["accountname"].value,
+            intro: inputRef.current["intro"].value,
             image: imageURL,
           },
         })
@@ -120,7 +114,6 @@ const SignupProfile = () => {
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
 
       if (res.data.message === "회원가입 성공") {
-        window.localStorage.clear();
         await loginControl();
         navigate("/home");
       }
@@ -140,7 +133,7 @@ const SignupProfile = () => {
 
   // 이미지 미리보기
   const imgPreview = () => {
-    const uploadFile = imgRef.current.files[0] || baseProfile;
+    const uploadFile = inputRef.current["image"].files[0] || baseProfile;
     const maxSize = 10 * 1024 * 1024;
     const imgSize = uploadFile.size;
 
@@ -159,7 +152,7 @@ const SignupProfile = () => {
   };
 
   useEffect(() => {
-    userNameRef.current.focus();
+    inputRef.current["username"].focus();
   }, []);
 
   return (
@@ -178,7 +171,14 @@ const SignupProfile = () => {
               />
               <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
             </label>
-            <input ref={imgRef} id="imgUpload" type="file" accept="image/*" className="hidden" onChange={imgPreview} />
+            <input
+              ref={(el) => (inputRef.current["image"] = el)}
+              id="imgUpload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={imgPreview}
+            />
           </fieldset>
 
           <fieldset className="mb-[1.6rem]">
@@ -188,7 +188,7 @@ const SignupProfile = () => {
               사용자 이름
             </label>
             <input
-              ref={userNameRef}
+              ref={(el) => (inputRef.current["username"] = el)}
               onChange={handleUsernameLength}
               id="name"
               type="text"
@@ -203,7 +203,7 @@ const SignupProfile = () => {
               계정 ID
             </label>
             <input
-              ref={accountNameRef}
+              ref={(el) => (inputRef.current["accountname"] = el)}
               onChange={handleAccountnameLength}
               id="userId"
               type="text"
@@ -219,7 +219,7 @@ const SignupProfile = () => {
               소개
             </label>
             <input
-              ref={introRef}
+              ref={(el) => (inputRef.current["intro"] = el)}
               onChange={handleIntroLength}
               id="intro"
               type="text"
@@ -231,7 +231,7 @@ const SignupProfile = () => {
           <button
             onClick={handleProfileSetting}
             className={`${
-              btnDisabled ? "pointer-events-none btn-off" : "btn-on"
+              isActive ? "btn-on" : "pointer-events-none btn-off"
             } btn-xl text-[#fff] mt-[3rem] mb-[2rem] text-center`}
           >
             애니멀톡 시작하기

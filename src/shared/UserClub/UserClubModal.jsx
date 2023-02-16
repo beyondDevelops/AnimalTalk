@@ -1,13 +1,13 @@
 import React, { useState, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
   const modalRef = useRef([]);
   const [modalDelete, setModalDelete] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { _id } = useContext(UserContext);
+  const { _id } = useContext(AuthContext);
   const token = localStorage.getItem("token");
 
   const clubImage = clubData.itemImage.includes("https")

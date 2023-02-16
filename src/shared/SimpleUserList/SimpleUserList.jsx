@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const SimpleUserList = ({
   isMessage,
@@ -22,7 +22,7 @@ const SimpleUserList = ({
   // 채팅리스트에서만 사용됩니다. 읽지 않은 메시지 알람을 관립합니다.
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const { accountname } = useContext(UserContext);
+  const { accountname } = useContext(AuthContext);
 
   const [isFollow, setIsFollow] = useState(isfollow);
 

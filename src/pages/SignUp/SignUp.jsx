@@ -4,27 +4,21 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
   const [isWrong, setIswrong] = useState(true);
   const [emailLength, setEmailLength] = useState(0);
   const [passwordLength, setPasswordLength] = useState(0);
-  const [btnDisabled, setBtnDisabled] = useState(true);
-  const [btnColor, setBtnColor] = useState(false);
-  const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     emailRef.current.focus();
   }, []);
 
   useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) {
-      setBtnColor(true);
-      setBtnDisabled(false);
-    } else {
-      setBtnColor(false);
-      setBtnDisabled(true);
-    }
+    if (emailLength >= 1 && passwordLength >= 6) setIsActive(true);
   }, [emailLength, passwordLength]);
 
   const handleEmailLength = () => {
@@ -53,10 +47,12 @@ const Signup = () => {
         return;
       }
 
-      localStorage.setItem("email", emailRef.current.value);
-      localStorage.setItem("password", passwordRef.current.value);
-
-      navigate("/signup/profile");
+      navigate("/signup/profile", {
+        state: {
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        },
+      });
     } catch (err) {
       setIswrong(!isWrong);
       console.log(err.response.status);
@@ -105,13 +101,12 @@ const Signup = () => {
               id="pw"
               type="password"
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-              // onChange={}
             />
           </fieldset>
 
           <button
-            disabled={btnDisabled}
-            className={`btn-xl ${btnColor ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
+            disabled={!isActive}
+            className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
           >
             다음
           </button>
