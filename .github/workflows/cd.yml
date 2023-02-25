@@ -35,8 +35,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          CD: ""
+          CI: ""
       - run: npm run deploy - add
         env:
-          CD: ""
+          CI: ""
           
