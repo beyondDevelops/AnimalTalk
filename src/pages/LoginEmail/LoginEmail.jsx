@@ -1,51 +1,59 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../api/axios";
 
 const LoginEmail = () => {
   const navigate = useNavigate();
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+
+  const inputRef = useRef([]);
 
   const [isWrong, setIswrong] = useState(true);
-  const [emailLength, setEmailLength] = useState(0);
-  const [passwordLength, setPasswordLength] = useState(0);
-  const [btnColor, setBtnColor] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isActive, setIsActive] = useState(false);
 
-  /* 이메일, 비밀번호 타이핑할 때 바로 추적하면서 유효성 검사 */
-
-  /* 유효성 일치하지 않은 경우 빨간색으로 밑줄 및 안내 문구 작성 */
-
-  /* 이메일, 비밀번호가 유효성 통과시 로그인 버튼의 색깔을 진하게 만든다. */
-
-  /* 최초 렌더링 시 email input에 커서가 이동되게 설정 */
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) {
-      setBtnColor(true);
-      setBtnDisabled(false);
-    } else {
-      setBtnColor(false);
-      setBtnDisabled(true);
-    }
-  }, [emailLength, passwordLength]);
-
-  const handleEmailLength = () => {
-    setEmailLength(emailRef.current.value.length);
+  const leastLength = {
+    emailleast: 1,
+    passwordleast: 6,
   };
 
-  const handlePasswordLength = () => {
-    setPasswordLength(passwordRef.current.value.length);
+  useEffect(() => {
+    inputRef.current["email"].focus();
+  }, []);
+
+  const handleFormData = (e) => {
+    if (e.target.id === "email") {
+      setFormData({ ...formData, email: inputRef.current["email"].value });
+    } else if (e.target.id === "password") {
+      setFormData({ ...formData, password: inputRef.current["password"].value });
+    }
+  };
+
+  const handleEmailLengthCheck = () => {
+    if (inputRef.current["email"].value.length < leastLength.emailleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handlePasswordLengthCheck = () => {
+    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleBtnControl = () => {
+    const emailValidationResult = handleEmailLengthCheck();
+    const passwordValidationResult = handlePasswordLengthCheck();
+
+    if (emailValidationResult && passwordValidationResult) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const handleUserLoginSubmit = async (e) => {
-    /* 로그인 버튼을 누르면 https://mandarin.api.weniv.co.kr/user/login 에 post 메서드로 데이터 서버로 송신 */
-    /* 서버에서 응답코드 200 받으면 /home으로 이동 */
-    /* 그 이외의 서버 응답코드는 일치하지 않는 이메일, 비밀번호라고 안내 */
     e.preventDefault();
 
     try {
@@ -53,8 +61,8 @@ const LoginEmail = () => {
         "/user/login",
         JSON.stringify({
           user: {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
+            email: formData.email,
+            password: formData.password,
           },
         })
       );
@@ -87,10 +95,14 @@ const LoginEmail = () => {
             </label>
             <input
               required
-              ref={emailRef}
-              onChange={handleEmailLength}
-              id="emailId"
+              id="email"
               type="email"
+              ref={(el) => (inputRef.current["email"] = el)}
+              onChange={(e) => {
+                handleFormData(e);
+                handleEmailLengthCheck();
+                handleBtnControl();
+              }}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
@@ -102,10 +114,16 @@ const LoginEmail = () => {
             </label>
             <input
               required
-              id="pw"
-              ref={passwordRef}
-              onChange={handlePasswordLength}
+              id="password"
               type="password"
+              ref={(el) => {
+                inputRef.current["password"] = el;
+              }}
+              onChange={(e) => {
+                handleFormData(e);
+                handlePasswordLengthCheck();
+                handleBtnControl();
+              }}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (
@@ -116,8 +134,8 @@ const LoginEmail = () => {
           </fieldset>
 
           <button
-            disabled={btnDisabled}
-            className={`btn-xl ${btnColor ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
+            disabled={!isActive}
+            className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
           >
             로그인
           </button>

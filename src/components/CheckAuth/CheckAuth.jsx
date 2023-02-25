@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 import api from "../../api/axios";
 
 const CheckAuth = () => {
@@ -26,9 +26,9 @@ const CheckAuth = () => {
   }, [token, userInfo]);
 
   return (
-    <UserContext.Provider value={{ ...userInfo }}>
+    <AuthContext.Provider value={{ ...userInfo }}>
       {token ? <Outlet /> : <Navigate to="/login" replace="true" />}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 

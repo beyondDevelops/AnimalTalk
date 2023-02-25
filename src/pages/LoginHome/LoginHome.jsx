@@ -63,6 +63,7 @@ const LoginHome = () => {
           </li>
           <li className="first:mt-[5rem] mb-[1rem] last:mb-0">
             <Link
+              role="login_link"
               to="/login/email"
               className="inline-block rounded-[44px] min-w-[32rem] leading-[4.4rem] border-[green] border-[1px] bg-white text-center relative text-cst-gray"
             >
@@ -76,6 +77,7 @@ const LoginHome = () => {
           </li>
         </ul>
         <Link
+          role="signup_link"
           className="block text-center text-cst-gray absolute left-[50%] translate-x-[-50%] bottom-[3.5rem]"
           to="/signup"
         >

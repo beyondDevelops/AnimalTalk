@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 import axios from "../../api/axios";
 
 const PostDetailForm = ({ postId, setIsUpload }) => {
   const inpTextRef = useRef();
   const [isText, setIsText] = useState(false);
 
-  const { image } = useContext(UserContext);
+  const { image } = useContext(AuthContext);
 
   const handleTextValid = (e) => {
     e.target.value ? setIsText(true) : setIsText(false);

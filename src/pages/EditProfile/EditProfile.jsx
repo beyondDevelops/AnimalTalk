@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
@@ -10,43 +8,74 @@ const EditProfile = () => {
   const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
   const regex = /[^0-9a-zA-Z._]/g;
 
-  const [profileImage, setProfileImage] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true);
-  const [isWrong, setIsWrong] = useState(true);
-  const [errMsg, setErrMsg] = useState("");
-  const [changeImage, setChangeImage] = useState(true);
-  const [usernameLenght, setUsernameLenght] = useState(0);
-  const [accountnameLength, setAccountnameLength] = useState(0);
-  const [introLength, setIntroLength] = useState(0);
-
-  const [myProfileData, setMyProfileData] = useState([]);
+  const navigate = useNavigate();
 
   const imgRef = useRef();
-  const userNameRef = useRef();
-  const accountNameRef = useRef();
-  const introRef = useRef();
+  const inputRef = useRef([]);
 
-  const navigate = useNavigate();
+  const [profileImage, setProfileImage] = useState(false);
+  const [changeImage, setChangeImage] = useState(true);
+
+  const [myProfileData, setMyProfileData] = useState([]);
+  const [errMsg, setErrMsg] = useState("");
+  const [isWrong, setIsWrong] = useState(true);
+  const [formData, setFormData] = useState({
+    username: "",
+    accountname: "",
+    intro: "",
+  });
+
+  const [isActive, setIsActive] = useState(false);
+
+  const leastLength = {
+    usernameleast: 2,
+    accountnameleast: 1,
+    introleast: 5,
+  };
+
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
+  const handleFormData = (e) => {
+    if (e.target.id === "username") {
+      setFormData({ ...formData, username: inputRef.current["username"].value });
+    } else if (e.target.id === "accountname") {
+      setFormData({ ...formData, accountname: inputRef.current["accountname"].value });
+    } else if (e.target.id === "intro") {
+      setFormData({ ...formData, intro: inputRef.current["intro"].value });
     }
-  }, [usernameLenght, accountnameLength, introLength]);
-
-  const handleUsernameLength = () => {
-    setUsernameLenght(userNameRef.current.value.length);
   };
 
-  const handleAccountnameLength = () => {
-    setAccountnameLength(accountNameRef.current.value.length);
+  const handleUsernameLengthCheck = () => {
+    if (inputRef.current["username"].value.length < leastLength.usernameleast) {
+      return false;
+    }
+    return true;
   };
 
-  const handleIntroLength = () => {
-    setIntroLength(introRef.current.value.length);
+  const handleAccountnameLengthCheck = () => {
+    if (inputRef.current["accountname"].value.length < leastLength.accountnameleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleIntroLengthCheck = () => {
+    if (inputRef.current["intro"].value.length < leastLength.introleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleBtnControl = () => {
+    const usernameValidationResult = handleUsernameLengthCheck();
+    const accountnameValidationResult = handleAccountnameLengthCheck();
+    const introValidationResult = handleIntroLengthCheck();
+
+    if (usernameValidationResult && accountnameValidationResult && introValidationResult) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   useEffect(() => {
@@ -59,9 +88,6 @@ const EditProfile = () => {
         });
         if (res) {
           setMyProfileData(res.data);
-          setUsernameLenght(res.data.user.username.length);
-          setAccountnameLength(res.data.user.accountname.length);
-          setIntroLength(res.data.user.intro.length);
         }
       } catch (err) {
         console.log(err);
@@ -118,22 +144,22 @@ const EditProfile = () => {
     try {
       let imageURL = "";
 
-      // 파일의 길이가 0이란소리는 이미지를 수정하지 않고 바로 저장했을 경우를 말합니다.
-      // 따라서 이와같은 경우에는 기존에 저장되어있던 정보를 image에 그대로 보내주면 됩니다.
+      // 파일의 길이가 0인 경우는 미지를 수정하지 않고 바로 저장한 경우에 해당합니다.
+      // 따라서 이 경우에는 기존 정보를 image에 그대로 보내줍니다.
       if (imgRef.current.files.length === 0) {
         imageURL = myProfileData.user.image;
       }
 
-      // 그게 아닌 경우라면 프로필 이미지를 수정한 경우라 수정한 데이터를 ImageFormData로 보내주어 수정을 진행합니다.
+      // 프로필 이미지를 수정한 경우, 수정한 데이터를 ImageFormData로 보내줍니다.
       imageURL = await ImageFormData(imgRef.current.files[0]);
 
       const res = await api.put(
         "/user",
         {
           user: {
-            username: userNameRef.current.value,
-            accountname: accountNameRef.current.value,
-            intro: introRef.current.value,
+            username: inputRef.current["username"].value,
+            accountname: inputRef.current["accountname"].value,
+            intro: inputRef.current["intro"].value,
             image: imageURL,
           },
         },
@@ -146,11 +172,13 @@ const EditProfile = () => {
 
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
 
-      if (regex.test(accountNameRef.current.value)) {
+      if (regex.test(inputRef.current["accountname"].value)) {
         alert("계정 ID에 한글은 입력이 불가능합니다.");
         return;
       }
-      navigate(`/profile/${res.data.user.accountname}`, { state: { editAccountname: `${res.data.user.accountname}` } });
+      navigate(`/profile/${res.data.user.accountname}`, {
+        state: { editAccountname: `${res.data.user.accountname}` },
+      });
     } catch (err) {
       if (err.response.data.message === "이미 사용중인 계정 ID입니다.") {
         setIsWrong(false);
@@ -162,7 +190,7 @@ const EditProfile = () => {
 
   return (
     <div className="page">
-      <HeaderSave isActive={btnDisabled ? false : true} btnText="저장" onSubmitForm={handleEditProfile} />
+      <HeaderSave isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
       <main className="h-screen flex flex-col">
         <form action="" className="flex flex-col items-center">
           <fieldset>
@@ -188,16 +216,20 @@ const EditProfile = () => {
               사용자 이름
             </label>
             <input
-              ref={userNameRef}
-              id="name"
+              required
+              id="username"
               type="text"
               placeholder="2~10자 이내여야 합니다."
+              ref={(el) => (inputRef.current["username"] = el)}
               className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
               maxLength="10"
               minLength="2"
               defaultValue={myProfileData.user.username}
-              onChange={handleUsernameLength}
-              required
+              onChange={(e) => {
+                handleFormData(e);
+                handleUsernameLengthCheck();
+                handleBtnControl();
+              }}
             />
           </fieldset>
 
@@ -207,14 +239,18 @@ const EditProfile = () => {
               계정 ID
             </label>
             <input
-              ref={accountNameRef}
-              id="userId"
+              id="accountname"
               type="text"
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              ref={(el) => (inputRef.current["accountname"] = el)}
+              onChange={(e) => {
+                handleFormData(e);
+                handleAccountnameLengthCheck();
+                handleBtnControl();
+              }}
               defaultValue={myProfileData.user.accountname}
-              onChange={handleAccountnameLength}
               pattern="[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]"
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
             {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
           </fieldset>
@@ -225,13 +261,17 @@ const EditProfile = () => {
               소개
             </label>
             <input
-              ref={introRef}
               id="intro"
               type="text"
               placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              ref={(el) => (inputRef.current["intro"] = el)}
+              onChange={(e) => {
+                handleFormData(e);
+                handleIntroLengthCheck();
+                handleBtnControl();
+              }}
               defaultValue={myProfileData.user.intro}
-              onChange={handleIntroLength}
+              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
         </form>

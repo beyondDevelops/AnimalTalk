@@ -4,46 +4,71 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
 const Signup = () => {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const [isWrong, setIswrong] = useState(true);
-  const [emailLength, setEmailLength] = useState(0);
-  const [passwordLength, setPasswordLength] = useState(0);
-  const [btnDisabled, setBtnDisabled] = useState(true);
-  const [btnColor, setBtnColor] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
+  const inputRef = useRef([]);
 
-  useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) {
-      setBtnColor(true);
-      setBtnDisabled(false);
-    } else {
-      setBtnColor(false);
-      setBtnDisabled(true);
-    }
-  }, [emailLength, passwordLength]);
+  const [isWrong, setIswrong] = useState(true);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isActive, setIsActive] = useState(false);
 
-  const handleEmailLength = () => {
-    setEmailLength(emailRef.current.value.length);
+  const leastLength = {
+    emailleast: 1,
+    passwordleast: 6,
   };
 
-  const handlePasswordLength = () => {
-    setPasswordLength(passwordRef.current.value.length);
+  useEffect(() => {
+    inputRef.current["email"].focus();
+  }, []);
+
+  const handleFormData = (e) => {
+    if (e.target.id === "email") {
+      setFormData({ ...formData, email: inputRef.current["email"].value });
+    } else if (e.target.id === "password") {
+      setFormData({ ...formData, password: inputRef.current["password"].value });
+    }
+  };
+
+  const handleEmailLengthCheck = () => {
+    if (inputRef.current["email"].value.length < leastLength.emailleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handlePasswordLengthCheck = () => {
+    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleBtnControl = () => {
+    const emailValidationResult = handleEmailLengthCheck();
+    const passwordValidationResult = handlePasswordLengthCheck();
+
+    if (emailValidationResult && passwordValidationResult) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
+    const userInfo = {
+      email: formData.email,
+      password: formData.password,
+    };
+    console.log(userInfo);
 
     try {
       const res = await api.post(
         "/user/emailvalid",
         JSON.stringify({
           user: {
-            email: emailRef.current.value,
+            email: formData.email,
           },
         })
       );
@@ -53,10 +78,11 @@ const Signup = () => {
         return;
       }
 
-      localStorage.setItem("email", emailRef.current.value);
-      localStorage.setItem("password", passwordRef.current.value);
-
-      navigate("/signup/profile");
+      navigate("/signup/profile", {
+        state: {
+          userInfo,
+        },
+      });
     } catch (err) {
       setIswrong(!isWrong);
       console.log(err.response.status);
@@ -76,12 +102,16 @@ const Signup = () => {
               이메일
             </label>
             <input
-              placeholder="ex. animal@talk.com"
               required
-              ref={emailRef}
-              onChange={handleEmailLength}
-              id="emailId"
+              id="email"
               type="email"
+              ref={(el) => (inputRef.current["email"] = el)}
+              placeholder="ex. animal@talk.com"
+              onChange={(e) => {
+                handleFormData(e);
+                handleEmailLengthCheck();
+                handleBtnControl();
+              }}
               pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
@@ -98,20 +128,23 @@ const Signup = () => {
               비밀번호
             </label>
             <input
-              placeholder="6자리 이상 입력해주세요."
               required
-              ref={passwordRef}
-              onChange={handlePasswordLength}
-              id="pw"
+              id="password"
               type="password"
+              ref={(el) => (inputRef.current["password"] = el)}
+              placeholder="6자리 이상 입력해주세요."
+              onChange={(e) => {
+                handleFormData(e);
+                handlePasswordLengthCheck();
+                handleBtnControl();
+              }}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-              // onChange={}
             />
           </fieldset>
 
           <button
-            disabled={btnDisabled}
-            className={`btn-xl ${btnColor ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
+            disabled={!isActive}
+            className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
           >
             다음
           </button>

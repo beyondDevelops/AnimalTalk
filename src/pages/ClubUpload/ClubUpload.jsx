@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios, { axiosImgUpload } from "../../api/axios";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
 
 const ClubUpload = () => {
@@ -23,7 +23,7 @@ const ClubUpload = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const product = location.state?.clubData;
-  const { accountname } = useContext(UserContext);
+  const { accountname } = useContext(AuthContext);
 
   const convertURLtoFile = async (url) => {
     const res = await axios({
