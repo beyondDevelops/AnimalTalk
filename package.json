@@ -1,5 +1,6 @@
 {
   "homepage": "https://beyondDevelops.github.io/AnimalTalk",
+  "author": "beyondDevelops",
   "name": "animaltalk",
   "version": "0.1.0",
   "private": true,
