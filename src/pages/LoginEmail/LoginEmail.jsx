@@ -4,28 +4,53 @@ import api from "../../api/axios";
 
 const LoginEmail = () => {
   const navigate = useNavigate();
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+
+  const inputRef = useRef([]);
 
   const [isWrong, setIswrong] = useState(true);
-  const [emailLength, setEmailLength] = useState(0);
-  const [passwordLength, setPasswordLength] = useState(0);
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) setIsActive(true);
-  }, [emailLength, passwordLength]);
-
-  const handleEmailLength = () => {
-    setEmailLength(emailRef.current.value.length);
+  const leastLength = {
+    emailleast: 1,
+    passwordleast: 6,
   };
 
-  const handlePasswordLength = () => {
-    setPasswordLength(passwordRef.current.value.length);
+  useEffect(() => {
+    inputRef.current["email"].focus();
+  }, []);
+
+  const handleFormData = (e) => {
+    if (e.target.id === "email") {
+      setFormData({ ...formData, email: inputRef.current["email"].value });
+    } else if (e.target.id === "password") {
+      setFormData({ ...formData, password: inputRef.current["password"].value });
+    }
+  };
+
+  const handleEmailLengthCheck = () => {
+    if (inputRef.current["email"].value.length < leastLength.emailleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handlePasswordLengthCheck = () => {
+    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleBtnControl = () => {
+    const emailValidationResult = handleEmailLengthCheck();
+    const passwordValidationResult = handlePasswordLengthCheck();
+
+    if (emailValidationResult && passwordValidationResult) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const handleUserLoginSubmit = async (e) => {
@@ -36,8 +61,8 @@ const LoginEmail = () => {
         "/user/login",
         JSON.stringify({
           user: {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
+            email: formData.email,
+            password: formData.password,
           },
         })
       );
@@ -70,10 +95,14 @@ const LoginEmail = () => {
             </label>
             <input
               required
-              ref={emailRef}
-              onChange={handleEmailLength}
-              id="emailId"
+              id="email"
               type="email"
+              ref={(el) => (inputRef.current["email"] = el)}
+              onChange={(e) => {
+                handleFormData(e);
+                handleEmailLengthCheck();
+                handleBtnControl();
+              }}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
@@ -85,10 +114,16 @@ const LoginEmail = () => {
             </label>
             <input
               required
-              id="pw"
-              ref={passwordRef}
-              onChange={handlePasswordLength}
+              id="password"
               type="password"
+              ref={(el) => {
+                inputRef.current["password"] = el;
+              }}
+              onChange={(e) => {
+                handleFormData(e);
+                handlePasswordLengthCheck();
+                handleBtnControl();
+              }}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (
