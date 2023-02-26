@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const LoginEmail = () => {
   const navigate = useNavigate();
@@ -9,12 +10,7 @@ const LoginEmail = () => {
 
   const [isWrong, setIswrong] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [isActive, setIsActive] = useState(false);
-
-  const leastLength = {
-    emailleast: 1,
-    passwordleast: 6,
-  };
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   useEffect(() => {
     inputRef.current["email"].focus();
@@ -25,31 +21,6 @@ const LoginEmail = () => {
       setFormData({ ...formData, email: inputRef.current["email"].value });
     } else if (e.target.id === "password") {
       setFormData({ ...formData, password: inputRef.current["password"].value });
-    }
-  };
-
-  const handleEmailLengthCheck = () => {
-    if (inputRef.current["email"].value.length < leastLength.emailleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handlePasswordLengthCheck = () => {
-    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleBtnControl = () => {
-    const emailValidationResult = handleEmailLengthCheck();
-    const passwordValidationResult = handlePasswordLengthCheck();
-
-    if (emailValidationResult && passwordValidationResult) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
     }
   };
 
@@ -98,11 +69,7 @@ const LoginEmail = () => {
               id="email"
               type="email"
               ref={(el) => (inputRef.current["email"] = el)}
-              onChange={(e) => {
-                handleFormData(e);
-                handleEmailLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
@@ -119,11 +86,7 @@ const LoginEmail = () => {
               ref={(el) => {
                 inputRef.current["password"] = el;
               }}
-              onChange={(e) => {
-                handleFormData(e);
-                handlePasswordLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (

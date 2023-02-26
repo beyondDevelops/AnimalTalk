@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -10,12 +11,7 @@ const Signup = () => {
 
   const [isWrong, setIswrong] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [isActive, setIsActive] = useState(false);
-
-  const leastLength = {
-    emailleast: 1,
-    passwordleast: 6,
-  };
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   useEffect(() => {
     inputRef.current["email"].focus();
@@ -26,31 +22,6 @@ const Signup = () => {
       setFormData({ ...formData, email: inputRef.current["email"].value });
     } else if (e.target.id === "password") {
       setFormData({ ...formData, password: inputRef.current["password"].value });
-    }
-  };
-
-  const handleEmailLengthCheck = () => {
-    if (inputRef.current["email"].value.length < leastLength.emailleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handlePasswordLengthCheck = () => {
-    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleBtnControl = () => {
-    const emailValidationResult = handleEmailLengthCheck();
-    const passwordValidationResult = handlePasswordLengthCheck();
-
-    if (emailValidationResult && passwordValidationResult) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
     }
   };
 
@@ -107,11 +78,7 @@ const Signup = () => {
               type="email"
               ref={(el) => (inputRef.current["email"] = el)}
               placeholder="ex. animal@talk.com"
-              onChange={(e) => {
-                handleFormData(e);
-                handleEmailLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
               pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
@@ -133,11 +100,7 @@ const Signup = () => {
               type="password"
               ref={(el) => (inputRef.current["password"] = el)}
               placeholder="6자리 이상 입력해주세요."
-              onChange={(e) => {
-                handleFormData(e);
-                handlePasswordLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
