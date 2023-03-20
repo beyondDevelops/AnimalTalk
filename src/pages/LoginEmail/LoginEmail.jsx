@@ -1,31 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const LoginEmail = () => {
   const navigate = useNavigate();
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+
+  const inputRef = useRef([]);
 
   const [isWrong, setIswrong] = useState(true);
-  const [emailLength, setEmailLength] = useState(0);
-  const [passwordLength, setPasswordLength] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   useEffect(() => {
-    emailRef.current.focus();
+    inputRef.current["email"].focus();
   }, []);
 
-  useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) setIsActive(true);
-  }, [emailLength, passwordLength]);
-
-  const handleEmailLength = () => {
-    setEmailLength(emailRef.current.value.length);
-  };
-
-  const handlePasswordLength = () => {
-    setPasswordLength(passwordRef.current.value.length);
+  const handleFormData = (e) => {
+    if (e.target.id === "email") {
+      setFormData({ ...formData, email: inputRef.current["email"].value });
+    } else if (e.target.id === "password") {
+      setFormData({ ...formData, password: inputRef.current["password"].value });
+    }
   };
 
   const handleUserLoginSubmit = async (e) => {
@@ -36,8 +32,8 @@ const LoginEmail = () => {
         "/user/login",
         JSON.stringify({
           user: {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
+            email: formData.email,
+            password: formData.password,
           },
         })
       );
@@ -70,10 +66,10 @@ const LoginEmail = () => {
             </label>
             <input
               required
-              ref={emailRef}
-              onChange={handleEmailLength}
-              id="emailId"
+              id="email"
               type="email"
+              ref={(el) => (inputRef.current["email"] = el)}
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
@@ -85,10 +81,12 @@ const LoginEmail = () => {
             </label>
             <input
               required
-              id="pw"
-              ref={passwordRef}
-              onChange={handlePasswordLength}
+              id="password"
               type="password"
+              ref={(el) => {
+                inputRef.current["password"] = el;
+              }}
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (

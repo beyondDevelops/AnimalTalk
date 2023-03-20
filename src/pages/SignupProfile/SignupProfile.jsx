@@ -2,41 +2,41 @@ import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const SignupProfile = () => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
   const upload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
 
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const { email, password } = location.state;
+
   const inputRef = useRef([]);
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const [isWrong, setIsWrong] = useState(true);
   const [profileImage, setProfileImage] = useState(false);
-  const [isActive, setIsActive] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const [usernameLenght, setUsernameLenght] = useState(0);
-  const [accountnameLength, setAccountnameLength] = useState(0);
-  const [introLength, setIntroLength] = useState(0);
-
-  const userEmail = location.state.email;
-  const userPassword = location.state.password;
+  const [isWrong, setIsWrong] = useState(true);
+  const [formData, setFormData] = useState({
+    username: "",
+    accountname: "",
+    intro: "",
+  });
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   useEffect(() => {
-    if (usernameLenght >= 2 && accountnameLength >= 1 && introLength >= 5) setIsActive(true);
-  }, [usernameLenght, accountnameLength, introLength]);
+    inputRef.current["username"].focus();
+  }, []);
 
-  const handleUsernameLength = () => {
-    setUsernameLenght(inputRef.current["username"].value.length);
-  };
-
-  const handleAccountnameLength = () => {
-    setAccountnameLength(inputRef.current["accountname"].value.length);
-  };
-
-  const handleIntroLength = () => {
-    setIntroLength(inputRef.current["intro"].value.length);
+  const handleFormData = (e) => {
+    if (e.target.id === "username") {
+      setFormData({ ...formData, username: inputRef.current["username"].value });
+    } else if (e.target.id === "accountname") {
+      setFormData({ ...formData, accountname: inputRef.current["accountname"].value });
+    } else if (e.target.id === "intro") {
+      setFormData({ ...formData, intro: inputRef.current["intro"].value });
+    }
   };
 
   const convertURLtoFile = async (url) => {
@@ -75,8 +75,8 @@ const SignupProfile = () => {
         "/user/login",
         JSON.stringify({
           user: {
-            email: userEmail,
-            password: userPassword,
+            email,
+            password,
           },
         })
       );
@@ -103,8 +103,8 @@ const SignupProfile = () => {
         JSON.stringify({
           user: {
             username: inputRef.current["username"].value,
-            email: userEmail,
-            password: userPassword,
+            email,
+            password,
             accountname: inputRef.current["accountname"].value,
             intro: inputRef.current["intro"].value,
             image: imageURL,
@@ -151,10 +151,6 @@ const SignupProfile = () => {
     };
   };
 
-  useEffect(() => {
-    inputRef.current["username"].focus();
-  }, []);
-
   return (
     <div className="page">
       <main className="h-screen flex flex-col">
@@ -166,18 +162,18 @@ const SignupProfile = () => {
             <label htmlFor="imgUpload" className="block relative my-[3rem] cursor-pointer">
               <img
                 src={profileImage ? profileImage : baseProfile}
-                alt=""
+                alt="프로필 이미지 업로드"
                 className="w-[11rem] h-[11rem] rounded-full object-cover"
               />
               <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
             </label>
             <input
-              ref={(el) => (inputRef.current["image"] = el)}
               id="imgUpload"
               type="file"
+              ref={(el) => (inputRef.current["image"] = el)}
               accept="image/*"
-              className="hidden"
               onChange={imgPreview}
+              className="hidden"
             />
           </fieldset>
 
@@ -188,11 +184,12 @@ const SignupProfile = () => {
               사용자 이름
             </label>
             <input
-              ref={(el) => (inputRef.current["username"] = el)}
-              onChange={handleUsernameLength}
-              id="name"
+              required
+              id="username"
               type="text"
+              ref={(el) => (inputRef.current["username"] = el)}
               placeholder="2~10자 이내여야 합니다."
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
@@ -203,11 +200,12 @@ const SignupProfile = () => {
               계정 ID
             </label>
             <input
-              ref={(el) => (inputRef.current["accountname"] = el)}
-              onChange={handleAccountnameLength}
-              id="userId"
+              required
+              id="accountname"
               type="text"
+              ref={(el) => (inputRef.current["accountname"] = el)}
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
             {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
@@ -219,11 +217,11 @@ const SignupProfile = () => {
               소개
             </label>
             <input
-              ref={(el) => (inputRef.current["intro"] = el)}
-              onChange={handleIntroLength}
               id="intro"
               type="text"
+              ref={(el) => (inputRef.current["intro"] = el)}
               placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>

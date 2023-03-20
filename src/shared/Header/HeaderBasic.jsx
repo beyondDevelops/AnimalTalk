@@ -8,7 +8,7 @@ export const HeaderBasic = ({ onModalInfo }) => {
     <header className="flex justify-between items-center pl-[1.6rem] pr-[1.2rem] border-b-cst-ligth-gray border-b-[0.1rem]">
       <button
         className="w-[2.2rem] h-[2.2rem]"
-        type="type"
+        type="button"
         onClick={() => {
           navigate(-1);
         }}

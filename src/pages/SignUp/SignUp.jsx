@@ -2,42 +2,44 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+
+  const inputRef = useRef([]);
 
   const [isWrong, setIswrong] = useState(true);
-  const [emailLength, setEmailLength] = useState(0);
-  const [passwordLength, setPasswordLength] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   useEffect(() => {
-    emailRef.current.focus();
+    inputRef.current["email"].focus();
   }, []);
 
-  useEffect(() => {
-    if (emailLength >= 1 && passwordLength >= 6) setIsActive(true);
-  }, [emailLength, passwordLength]);
-
-  const handleEmailLength = () => {
-    setEmailLength(emailRef.current.value.length);
-  };
-
-  const handlePasswordLength = () => {
-    setPasswordLength(passwordRef.current.value.length);
+  const handleFormData = (e) => {
+    if (e.target.id === "email") {
+      setFormData({ ...formData, email: inputRef.current["email"].value });
+    } else if (e.target.id === "password") {
+      setFormData({ ...formData, password: inputRef.current["password"].value });
+    }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
+    const userInfo = {
+      email: formData.email,
+      password: formData.password,
+    };
+    console.log(userInfo);
 
     try {
       const res = await api.post(
         "/user/emailvalid",
         JSON.stringify({
           user: {
-            email: emailRef.current.value,
+            email: formData.email,
           },
         })
       );
@@ -49,8 +51,7 @@ const Signup = () => {
 
       navigate("/signup/profile", {
         state: {
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
+          userInfo,
         },
       });
     } catch (err) {
@@ -72,12 +73,12 @@ const Signup = () => {
               이메일
             </label>
             <input
-              placeholder="ex. animal@talk.com"
               required
-              ref={emailRef}
-              onChange={handleEmailLength}
-              id="emailId"
+              id="email"
               type="email"
+              ref={(el) => (inputRef.current["email"] = el)}
+              placeholder="ex. animal@talk.com"
+              onChange={handleFormData}
               pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
@@ -94,12 +95,12 @@ const Signup = () => {
               비밀번호
             </label>
             <input
-              placeholder="6자리 이상 입력해주세요."
               required
-              ref={passwordRef}
-              onChange={handlePasswordLength}
-              id="pw"
+              id="password"
               type="password"
+              ref={(el) => (inputRef.current["password"] = el)}
+              placeholder="6자리 이상 입력해주세요."
+              onChange={handleFormData}
               className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>

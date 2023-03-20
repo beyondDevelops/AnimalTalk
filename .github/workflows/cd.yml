@@ -1,0 +1,42 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm test
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://npm.pkg.github.com/
+      - run: npm ci
+      - run: npm run build
+        env:
+          CI: ""
+      - name: Deploy
+        env:
+          user_email: beyond_develops@naver.com
+          user_name: beyondDevelops
+        run: |
+          git config --global user.email $user_email
+          git config --global user.name $user_name
+          git remote set-url origin https://$user_name:${{ secrets.GHPR_TOKEN }}@github.com/beyondDevelops/AnimalTalk.git
+          npm run deploy - add  

@@ -1,7 +1,7 @@
 {
   "homepage": "https://beyondDevelops.github.io/AnimalTalk",
+  "author": "beyondDevelops",
   "name": "animaltalk",
-  "type": "module",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
