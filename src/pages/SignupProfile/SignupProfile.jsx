@@ -233,7 +233,7 @@ const SignupProfile = () => {
                 handleUsernameLengthCheck();
                 handleBtnControl();
               }}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
 
@@ -253,7 +253,7 @@ const SignupProfile = () => {
                 handleAccountnameLengthCheck();
                 handleBtnControl();
               }}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
             {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
           </fieldset>
@@ -273,7 +273,7 @@ const SignupProfile = () => {
                 handleIntroLengthCheck();
                 handleBtnControl();
               }}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              className="xs:w-[100%] md:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
 

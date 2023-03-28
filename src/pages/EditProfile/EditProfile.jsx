@@ -221,7 +221,7 @@ const EditProfile = () => {
               type="text"
               placeholder="2~10자 이내여야 합니다."
               ref={(el) => (inputRef.current["username"] = el)}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
               maxLength="10"
               minLength="2"
               defaultValue={myProfileData.user.username}
@@ -250,7 +250,7 @@ const EditProfile = () => {
               }}
               defaultValue={myProfileData.user.accountname}
               pattern="[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]"
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
             {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
           </fieldset>
@@ -271,7 +271,7 @@ const EditProfile = () => {
                 handleBtnControl();
               }}
               defaultValue={myProfileData.user.intro}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
         </form>

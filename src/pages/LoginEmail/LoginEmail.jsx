@@ -103,7 +103,7 @@ const LoginEmail = () => {
                 handleEmailLengthCheck();
                 handleBtnControl();
               }}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
 
@@ -124,7 +124,7 @@ const LoginEmail = () => {
                 handlePasswordLengthCheck();
                 handleBtnControl();
               }}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (
               <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">
