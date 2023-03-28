@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { HeaderSave } from "../../shared/Header/HeaderSave";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const EditProfile = () => {
   const upload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
@@ -24,14 +25,7 @@ const EditProfile = () => {
     accountname: "",
     intro: "",
   });
-
-  const [isActive, setIsActive] = useState(false);
-
-  const leastLength = {
-    usernameleast: 2,
-    accountnameleast: 1,
-    introleast: 5,
-  };
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   const token = localStorage.getItem("token");
 
@@ -42,39 +36,6 @@ const EditProfile = () => {
       setFormData({ ...formData, accountname: inputRef.current["accountname"].value });
     } else if (e.target.id === "intro") {
       setFormData({ ...formData, intro: inputRef.current["intro"].value });
-    }
-  };
-
-  const handleUsernameLengthCheck = () => {
-    if (inputRef.current["username"].value.length < leastLength.usernameleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleAccountnameLengthCheck = () => {
-    if (inputRef.current["accountname"].value.length < leastLength.accountnameleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleIntroLengthCheck = () => {
-    if (inputRef.current["intro"].value.length < leastLength.introleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleBtnControl = () => {
-    const usernameValidationResult = handleUsernameLengthCheck();
-    const accountnameValidationResult = handleAccountnameLengthCheck();
-    const introValidationResult = handleIntroLengthCheck();
-
-    if (usernameValidationResult && accountnameValidationResult && introValidationResult) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
     }
   };
 
@@ -225,11 +186,7 @@ const EditProfile = () => {
               maxLength="10"
               minLength="2"
               defaultValue={myProfileData.user.username}
-              onChange={(e) => {
-                handleFormData(e);
-                handleUsernameLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
             />
           </fieldset>
 
@@ -243,11 +200,7 @@ const EditProfile = () => {
               type="text"
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
               ref={(el) => (inputRef.current["accountname"] = el)}
-              onChange={(e) => {
-                handleFormData(e);
-                handleAccountnameLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
               defaultValue={myProfileData.user.accountname}
               pattern="[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]"
               className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
@@ -265,11 +218,7 @@ const EditProfile = () => {
               type="text"
               placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
               ref={(el) => (inputRef.current["intro"] = el)}
-              onChange={(e) => {
-                handleFormData(e);
-                handleIntroLengthCheck();
-                handleBtnControl();
-              }}
+              onChange={handleFormData}
               defaultValue={myProfileData.user.intro}
               className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />

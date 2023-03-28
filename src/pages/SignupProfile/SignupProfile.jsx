@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const SignupProfile = () => {
   const baseProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
@@ -14,10 +15,6 @@ const SignupProfile = () => {
 
   const inputRef = useRef([]);
 
-  useEffect(() => {
-    inputRef.current["username"].focus();
-  }, []);
-
   const [profileImage, setProfileImage] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [isWrong, setIsWrong] = useState(true);
@@ -26,14 +23,11 @@ const SignupProfile = () => {
     accountname: "",
     intro: "",
   });
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
-  const [isActive, setIsActive] = useState(false);
-
-  const leastLength = {
-    usernameleast: 2,
-    accountnameleast: 1,
-    introleast: 5,
-  };
+  useEffect(() => {
+    inputRef.current["username"].focus();
+  }, []);
 
   const handleFormData = (e) => {
     if (e.target.id === "username") {
@@ -42,39 +36,6 @@ const SignupProfile = () => {
       setFormData({ ...formData, accountname: inputRef.current["accountname"].value });
     } else if (e.target.id === "intro") {
       setFormData({ ...formData, intro: inputRef.current["intro"].value });
-    }
-  };
-
-  const handleUsernameLengthCheck = () => {
-    if (inputRef.current["username"].value.length < leastLength.usernameleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleAccountnameLengthCheck = () => {
-    if (inputRef.current["accountname"].value.length < leastLength.accountnameleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleIntroLengthCheck = () => {
-    if (inputRef.current["intro"].value.length < leastLength.introleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleBtnControl = () => {
-    const usernameValidationResult = handleUsernameLengthCheck();
-    const accountnameValidationResult = handleAccountnameLengthCheck();
-    const introValidationResult = handleIntroLengthCheck();
-
-    if (usernameValidationResult && accountnameValidationResult && introValidationResult) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
     }
   };
 
@@ -207,12 +168,12 @@ const SignupProfile = () => {
               <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
             </label>
             <input
-              ref={(el) => (inputRef.current["image"] = el)}
               id="imgUpload"
               type="file"
+              ref={(el) => (inputRef.current["image"] = el)}
               accept="image/*"
-              className="hidden"
               onChange={imgPreview}
+              className="hidden"
             />
           </fieldset>
 
