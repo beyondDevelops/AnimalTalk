@@ -81,9 +81,9 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   };
 
   return (
-    <section className="pt-[3rem] px-[5.5rem] pb-[2.6rem] border-b-cst-light-gray border-b-[0.6rem]">
+    <section className="pt-[3rem] xs:px-[2.4rem] sm:px-[5.5rem] pb-[2.6rem] border-b-cst-light-gray border-b-[0.6rem]">
       <h2 className="ir">유저 프로필</h2>
-      <section className="flex flex-row items-center mx-[auto]">
+      <section className="flex flex-row justify-center items-center ml-auto">
         <Link
           to={`/profile/${pageAccount}/followers`}
           className="inline-block align-baseline text-[1rem] text-cst-gray"
@@ -97,7 +97,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
           }}
           src={profileImg}
           alt=""
-          className="inline-block w-[11rem] h-[11rem] ml-[4.1rem] mr-[4.1rem] rounded-[50%] object-cover"
+          className="inline-block w-[10rem] h-[10rem] xs:w-[8rem] sm:w-[11rem] xs:h-[8rem] sm:h-[11rem] mx-[2.4rem] xs:mx-[3rem] sm:mx-[4.1rem] rounded-[50%] object-cover"
         />
         <Link
           to={`/profile/${pageAccount}/followings`}
