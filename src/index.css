@@ -18,11 +18,11 @@ html {
 
 /* 전체 페이지 레이아웃 */
 .page {
-  @apply w-[39rem] h-screen mx-auto bg-white flex flex-col shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
+  @apply xs:w-[100%] md:w-[39rem] h-screen mx-auto bg-white flex flex-col shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
 }
 
 .login-page {
-  @apply w-[39rem] h-screen mx-auto bg-s-color flex flex-col justify-end shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
+  @apply xs:w-[100%] md:w-[39rem] h-screen mx-auto bg-s-color flex flex-col justify-end shadow-[0_0px_15px_-5px_rgba(0,0,0,0.8)];
 }
 
 main {
@@ -32,19 +32,19 @@ main {
 /* 디자인 공통 스타일 */
 /* 버튼 크기 */
 .btn-xl {
-  @apply rounded-[44px] py-[1.3rem] w-[32.2rem] font-medium;
+  @apply rounded-[44px] py-[1.3rem] xs:w-[28rem] sm:w-[32.2rem] md:w-[40rem] font-medium;
 }
 
 .btn-lg {
-  @apply rounded-[34px] py-[0.8rem] w-[12rem] font-medium;
+  @apply rounded-[34px] py-[0.8rem] w-[8rem] xs:w-[9rem] sm:w-[12rem] md:w-[12rem] font-medium;
 }
 
 .btn-md {
-  @apply rounded-[44px] py-[0.7rem] w-[9rem] font-medium;
+  @apply rounded-[44px] py-[0.7rem] xs:w-[7.8rem] sm:w-[9rem] md:w-[9rem]  font-medium;
 }
 
-.btn-sm {
-  @apply rounded-[26px] py-[0.7rem] w-[5.6rem] text-[1.2rem];
+.btn-xs {
+  @apply rounded-[26px] py-[0.7rem] xs:w-[3.8rem] sm:w-[5.6rem] md:w-[5.6rem] text-[1.2rem];
 }
 
 /* 버튼 색상 */
