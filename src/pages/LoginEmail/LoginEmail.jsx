@@ -69,8 +69,12 @@ const LoginEmail = () => {
               id="email"
               type="email"
               ref={(el) => (inputRef.current["email"] = el)}
-              onChange={handleFormData}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+              onChange={(e) => {
+                handleFormData(e);
+                handleEmailLengthCheck();
+                handleBtnControl();
+              }}
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
 
@@ -86,8 +90,12 @@ const LoginEmail = () => {
               ref={(el) => {
                 inputRef.current["password"] = el;
               }}
-              onChange={handleFormData}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+              onChange={(e) => {
+                handleFormData(e);
+                handlePasswordLengthCheck();
+                handleBtnControl();
+              }}
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (
               <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">

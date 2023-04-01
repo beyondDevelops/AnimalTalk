@@ -189,8 +189,12 @@ const SignupProfile = () => {
               type="text"
               ref={(el) => (inputRef.current["username"] = el)}
               placeholder="2~10자 이내여야 합니다."
-              onChange={handleFormData}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              onChange={(e) => {
+                handleFormData(e);
+                handleUsernameLengthCheck();
+                handleBtnControl();
+              }}
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
 
@@ -205,8 +209,12 @@ const SignupProfile = () => {
               type="text"
               ref={(el) => (inputRef.current["accountname"] = el)}
               placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
-              onChange={handleFormData}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              onChange={(e) => {
+                handleFormData(e);
+                handleAccountnameLengthCheck();
+                handleBtnControl();
+              }}
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
             {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
           </fieldset>
@@ -221,8 +229,12 @@ const SignupProfile = () => {
               type="text"
               ref={(el) => (inputRef.current["intro"] = el)}
               placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
-              onChange={handleFormData}
-              className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+              onChange={(e) => {
+                handleFormData(e);
+                handleIntroLengthCheck();
+                handleBtnControl();
+              }}
+              className="xs:w-[100%] md:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
             />
           </fieldset>
 

@@ -134,7 +134,7 @@ const UserFeed = () => {
               {postDataArray.length > 0 && list ? (
                 postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
               ) : (
-                <section className="flex flex-wrap gap-[0.8rem] my-[1.6rem] mx-[1.6rem]">
+                <section className="sm:grid sm:grid-cols-3 sm:gap-[0.8rem] my-[1.6rem] mx-[2rem]">
                   <h2 className="ir">앨범형</h2>
                   {postDataArray.map((post) => (
                     <PostAlbum key={post.id} post={post} />

@@ -80,7 +80,7 @@ const Signup = () => {
               placeholder="ex. animal@talk.com"
               onChange={handleFormData}
               pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
             {isWrong ? null : (
               <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">
@@ -100,8 +100,12 @@ const Signup = () => {
               type="password"
               ref={(el) => (inputRef.current["password"] = el)}
               placeholder="6자리 이상 입력해주세요."
-              onChange={handleFormData}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+              onChange={(e) => {
+                handleFormData(e);
+                handlePasswordLengthCheck();
+                handleBtnControl();
+              }}
+              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
             />
           </fieldset>
 
