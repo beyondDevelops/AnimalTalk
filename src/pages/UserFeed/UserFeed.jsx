@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { api } from "../../api/axios";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
 import UserClub from "../../shared/UserClub/UserClub";
 import PostTypeSelectBar from "../../components/PostTypeSelectBar/PostTypeSelectBar";
@@ -10,7 +10,7 @@ import PostAlbum from "../../shared/Post/PostAlbum";
 import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
-import useIntersect from "../../hooks/useIntersect";
+import useIntersect from "../../hooks/useFeeds";
 const UserFeed = () => {
   const defaultCatImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
   const [pageProfile, setPageProfile] = useState(null);

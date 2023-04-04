@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";

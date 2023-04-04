@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from "rea
 import { useLocation, useNavigate } from "react-router-dom";
 import { api, axiosImgUpload } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 
 const ClubUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
