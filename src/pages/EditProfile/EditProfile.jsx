@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import api, { axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
-import { HeaderSave } from "../../shared/Header/HeaderSave";
+import { Header } from "../../shared/Header/Header";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const EditProfile = () => {
@@ -151,7 +151,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <HeaderSave isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
+      <Header headerFor="save" isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
       <main className="h-screen flex flex-col">
         <form action="" className="flex flex-col items-center">
           <fieldset>

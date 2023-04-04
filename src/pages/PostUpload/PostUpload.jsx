@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { HeaderSave } from "../../shared/Header/HeaderSave";
+import { Header } from "../../shared/Header/Header";
 import Textarea from "../../components/Textarea/Textarea";
 import axios, { axiosImgUpload } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -182,7 +182,8 @@ const PostUpload = () => {
   return (
     <>
       {/* Note: Header 수정 필요 */}
-      <HeaderSave
+      <Header
+        headerFor="save"
         btnText="업로드"
         isActive={uploadPossible && (isText || imageURLs.length)}
         onSubmitForm={post ? onPostEdit : onPostCreate}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HeaderBasic } from "../../shared/Header/HeaderBasic";
+import { Header } from "../../shared/Header/Header";
 import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";
@@ -67,7 +67,7 @@ const PostDetail = () => {
     <>
       {!!post && (
         <>
-          <HeaderBasic />
+          <Header headerFor="basic" />
 
           <main>
             <Post {...{ post }} />

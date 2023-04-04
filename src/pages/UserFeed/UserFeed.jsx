@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import api from "../../api/axios";
-import { HeaderBasic } from "../../shared/Header/HeaderBasic";
+import { Header } from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
 import UserClub from "../../shared/UserClub/UserClub";
 import PostTypeSelectBar from "../../components/PostTypeSelectBar/PostTypeSelectBar";
@@ -115,7 +115,7 @@ const UserFeed = () => {
   }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
   return (
     <>
-      <HeaderBasic onModalInfo={handleModalInfo} />
+      <Header headerFor="basic" onModalInfo={handleModalInfo} />
       <main>
         {pageProfile ? (
           <>

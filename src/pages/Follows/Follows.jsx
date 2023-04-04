@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { HeaderFollow } from "../../shared/Header/HeaderFollow";
+import { Header } from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import Footer from "../../shared/Footer/Footer";
 import { useLocation } from "react-router-dom";
@@ -43,7 +43,7 @@ const Follow = () => {
 
   return (
     <>
-      <HeaderFollow title={pageName} />
+      <Header headerFor="follow" title={pageName} />
       <main>
         {pageName === "followers" && followerList && followerList.length > 0 ? (
           followerList.map((follower) => (
