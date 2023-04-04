@@ -79,8 +79,6 @@ const Signup = () => {
             placeholder="ex. animal@talk.com"
             onChange={(e) => {
               handleFormData(e);
-              handleEmailLengthCheck();
-              handleBtnControl();
             }}
             pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
             className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
@@ -105,8 +103,6 @@ const Signup = () => {
             placeholder="6자리 이상 입력해주세요."
             onChange={(e) => {
               handleFormData(e);
-              handlePasswordLengthCheck();
-              handleBtnControl();
             }}
             className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
           />

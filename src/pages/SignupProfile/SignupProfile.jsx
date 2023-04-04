@@ -190,8 +190,6 @@ const SignupProfile = () => {
             placeholder="2~10자 이내여야 합니다."
             onChange={(e) => {
               handleFormData(e);
-              handleUsernameLengthCheck();
-              handleBtnControl();
             }}
             className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
           />
@@ -210,8 +208,6 @@ const SignupProfile = () => {
             placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
             onChange={(e) => {
               handleFormData(e);
-              handleAccountnameLengthCheck();
-              handleBtnControl();
             }}
             className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
           />
@@ -230,8 +226,6 @@ const SignupProfile = () => {
             placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
             onChange={(e) => {
               handleFormData(e);
-              handleIntroLengthCheck();
-              handleBtnControl();
             }}
             className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
           />
