@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from "rea
 import { useLocation, useNavigate } from "react-router-dom";
 import axios, { axiosImgUpload } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
-import { HeaderSave } from "../../shared/Header/HeaderSave";
+import { Header } from "../../shared/Header/Header";
 
 const ClubUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
@@ -204,7 +204,8 @@ const ClubUpload = () => {
 
   return (
     <>
-      <HeaderSave
+      <Header
+        headerFor="save"
         btnText="저장"
         isActive={uploadPossible && isClubName && isClubLocation && isClubPrice && imageURL.length}
         onSubmitForm={product ? onClubUpEdit : onClubUpload}

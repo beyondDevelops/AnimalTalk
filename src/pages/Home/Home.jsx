@@ -1,4 +1,4 @@
-import { HeaderFeed } from "../../shared/Header/HeaderFeed";
+import { Header } from "../../shared/Header/Header";
 import Post from "../../shared/Post/Post";
 import NoFeed from "../../components/NoFeed/NoFeed";
 import Footer from "../../shared/Footer/Footer";
@@ -37,7 +37,7 @@ const Home = () => {
 
   return (
     <>
-      <HeaderFeed />
+      <Header headerFor="feed" />
       <main>
         <>
           {posts.length > 0 ? posts.map((post) => <Post key={post.id} post={post} />) : <NoFeed />}

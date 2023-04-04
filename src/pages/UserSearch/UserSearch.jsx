@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HeaderSearch } from "../../shared/Header/HeaderSearch";
+import { Header } from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import api from "../../api/axios";
 
@@ -38,7 +38,7 @@ const UserSearch = () => {
 
   return (
     <>
-      <HeaderSearch search={search} setSearch={setSearch} />
+      <Header headerFor="search" search={search} setSearch={setSearch} />
       <main>
         <ul>
           {searchResult.map((user) => (
