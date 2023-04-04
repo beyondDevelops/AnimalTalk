@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 import axios from "../../api/axios";
 
 const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
@@ -33,7 +33,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
     const token = localStorage.getItem("token");
     const getUserInfo = async () => {
       try {
-        const res = await axios.get("/user/myinfo", {
+        const res = await api.get("/user/myinfo", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

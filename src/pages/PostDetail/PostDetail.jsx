@@ -4,7 +4,7 @@ import Post from "../../shared/Post/Post";
 import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";
 import PostChatModal from "./PostChatModal";
-import axios from "../../api/axios";
+import { api } from "../../api/axios";
 import { useLocation } from "react-router-dom";
 
 const PostDetail = () => {
@@ -28,7 +28,7 @@ const PostDetail = () => {
     // 채팅 정보 업데이트
     const getChatList = async () => {
       try {
-        const res = await axios.get(`/post/${postId}/comments/?limit=${Infinity}&skip=0`, {
+        const res = await api.get(`/post/${postId}/comments/?limit=${Infinity}&skip=0`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,7 +46,7 @@ const PostDetail = () => {
     // 게시글 정보 업데이트
     const getPost = async () => {
       try {
-        const res = await axios.get(`/post/${postId}`, {
+        const res = await api.get(`/post/${postId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

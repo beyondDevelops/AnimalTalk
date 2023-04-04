@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "../../api/axios";
+import { api } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
@@ -35,7 +35,7 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
       e.preventDefault();
       setIsDisabled(true);
 
-      const res = await axios.delete(`/product/${clubData.id}`, {
+      const res = await api.delete(`/product/${clubData.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

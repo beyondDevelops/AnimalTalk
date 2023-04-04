@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const SimpleUserList = ({

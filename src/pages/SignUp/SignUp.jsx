@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const Signup = () => {

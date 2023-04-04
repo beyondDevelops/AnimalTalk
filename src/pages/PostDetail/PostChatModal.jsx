@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import axios from "../../api/axios";
+import { api } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 // Note: userId에 따라 댓글 신고와 삭제 구분
@@ -28,7 +28,7 @@ const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
       e.preventDefault();
       setIsDisabled(true);
 
-      const res = await axios.delete(`/post/${postId}/comments/${commentId}`, {
+      const res = await api.delete(`/post/${postId}/comments/${commentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,7 +51,7 @@ const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
       e.preventDefault();
       setIsDisabled(true);
 
-      const res = await axios.post(`/post/${postId}/comments/${commentId}/report`, [], {
+      const res = await api.post(`/post/${postId}/comments/${commentId}/report`, [], {
         headers: {
           Authorization: `Bearer ${token}`,
         },
