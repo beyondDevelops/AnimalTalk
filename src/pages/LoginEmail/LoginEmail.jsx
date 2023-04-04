@@ -70,8 +70,6 @@ const LoginEmail = () => {
             ref={(el) => (inputRef.current["email"] = el)}
             onChange={(e) => {
               handleFormData(e);
-              handleEmailLengthCheck();
-              handleBtnControl();
             }}
             className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
           />
@@ -91,8 +89,6 @@ const LoginEmail = () => {
             }}
             onChange={(e) => {
               handleFormData(e);
-              handlePasswordLengthCheck();
-              handleBtnControl();
             }}
             className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
           />
