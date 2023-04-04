@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 import { Header } from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
 import UserClub from "../../shared/UserClub/UserClub";

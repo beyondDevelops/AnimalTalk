@@ -3,7 +3,7 @@ import { Header } from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import Footer from "../../shared/Footer/Footer";
 import { useLocation } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 
 const Follow = () => {
   const [followerList, setFollowerList] = useState(null);

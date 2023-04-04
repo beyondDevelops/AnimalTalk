@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const LoginEmail = () => {

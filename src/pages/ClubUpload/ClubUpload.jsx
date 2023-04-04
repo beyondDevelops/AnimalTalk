@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios, { axiosImgUpload } from "../../api/axios";
+import { api, axiosImgUpload } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Header } from "../../shared/Header/Header";
 
@@ -26,7 +26,8 @@ const ClubUpload = () => {
   const { accountname } = useContext(AuthContext);
 
   const convertURLtoFile = async (url) => {
-    const res = await axios({
+    // axios? api?
+    const res = await api({
       url,
       method: "get",
       responseType: "blob",
@@ -132,7 +133,7 @@ const ClubUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(image);
 
-        const res = await axios.post(
+        const res = await api.post(
           "/product",
           {
             product: {
@@ -171,7 +172,7 @@ const ClubUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(image);
 
-        const res = await axios.put(
+        const res = await api.put(
           `/product/${product.id}`,
           {
             product: {

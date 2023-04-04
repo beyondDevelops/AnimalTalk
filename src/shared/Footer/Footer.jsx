@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import axios from "../../api/axios";
+import { api } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const Footer = () => {
@@ -25,7 +25,7 @@ const Footer = () => {
       const token = localStorage.getItem("token");
       const getUserInfo = async () => {
         try {
-          const res = await axios.get("/user/myinfo", {
+          const res = await api.get("/user/myinfo", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

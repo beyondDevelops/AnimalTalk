@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 
 const UserSearch = () => {
   const token = localStorage.getItem("token");

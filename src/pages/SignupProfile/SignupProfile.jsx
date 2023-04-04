@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import api, { axiosImgUpload } from "../../api/axios";
+import { api, axiosImgUpload } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
@@ -40,7 +40,8 @@ const SignupProfile = () => {
   };
 
   const convertURLtoFile = async (url) => {
-    const res = await axios({
+    // axios? api?
+    const res = await api({
       url,
       method: "get",
       responseType: "blob",

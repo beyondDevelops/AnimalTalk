@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import api, { axiosImgUpload } from "../../api/axios";
+import { api, axiosImgUpload } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../shared/Header/Header";
 import useLengthCheck from "../../hooks/useLengthCheck";
