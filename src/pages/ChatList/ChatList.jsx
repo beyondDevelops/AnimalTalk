@@ -6,7 +6,7 @@ import ChatDummyData from "../../components/ChatDummyData/ChatDummyData";
 
 const Chat = () => {
   return (
-    <div className="page">
+    <>
       <HeaderBasic />
       <main>
         <ul className="mt-[2rem]">
@@ -14,7 +14,7 @@ const Chat = () => {
         </ul>
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

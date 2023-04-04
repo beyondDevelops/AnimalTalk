@@ -21,7 +21,7 @@ const ChatRoom = () => {
   };
 
   return (
-    <div className="page">
+    <>
       <HeaderChat onModalInfo={handleModal} />
       <main className="bg-[#F2F2F2] pb-[1rem] flex flex-col justify-end">
         <UserChat user="your" />
@@ -29,7 +29,7 @@ const ChatRoom = () => {
       </main>
       <ChatRoomFooter />
       {onModal ? <ModalInfo modalRef={modalRef} contentOne="채팅방 나가기" onModalInfo={handleModalInfo} /> : null}
-    </div>
+    </>
   );
 };
 

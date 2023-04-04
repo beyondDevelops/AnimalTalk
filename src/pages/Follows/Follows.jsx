@@ -42,7 +42,7 @@ const Follow = () => {
   }, [pageName, followerList, followingList]);
 
   return (
-    <div className="page">
+    <>
       <HeaderFollow title={pageName} />
       <main>
         {pageName === "followers" && followerList && followerList.length > 0 ? (
@@ -81,7 +81,7 @@ const Follow = () => {
         )}
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

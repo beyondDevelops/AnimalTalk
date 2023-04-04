@@ -37,7 +37,7 @@ const UserSearch = () => {
   }, [search, token]);
 
   return (
-    <div className="page">
+    <>
       <HeaderSearch search={search} setSearch={setSearch} />
       <main>
         <ul>
@@ -63,7 +63,7 @@ const UserSearch = () => {
           ))}
         </ul>
       </main>
-    </div>
+    </>
   );
 };
 

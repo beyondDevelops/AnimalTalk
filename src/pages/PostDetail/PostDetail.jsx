@@ -66,7 +66,7 @@ const PostDetail = () => {
   return (
     <>
       {!!post && (
-        <div className="page">
+        <>
           <HeaderBasic />
 
           <main>
@@ -112,7 +112,7 @@ const PostDetail = () => {
           ) : (
             <></>
           )}
-        </div>
+        </>
       )}
     </>
   );

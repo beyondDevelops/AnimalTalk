@@ -36,7 +36,7 @@ const Home = () => {
   useIntersect(observerTarget, state.postNum, state.moreFeed, getFollowersFeeds);
 
   return (
-    <div className="page">
+    <>
       <HeaderFeed />
       <main>
         <>
@@ -45,7 +45,7 @@ const Home = () => {
         </>
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

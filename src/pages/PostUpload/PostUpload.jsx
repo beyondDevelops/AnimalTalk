@@ -180,7 +180,7 @@ const PostUpload = () => {
   }, []);
 
   return (
-    <div className="page">
+    <>
       {/* Note: Header 수정 필요 */}
       <HeaderSave
         btnText="업로드"
@@ -243,7 +243,7 @@ const PostUpload = () => {
           <input id="imgUpload" multiple accept="image/*" type="file" className="hidden" onChange={handleImgUpload} />
         </fieldset>
       </form>
-    </div>
+    </>
   );
 };
 

@@ -150,7 +150,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="page">
+    <>
       <HeaderSave isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
       <main className="h-screen flex flex-col">
         <form action="" className="flex flex-col items-center">
@@ -225,7 +225,7 @@ const EditProfile = () => {
           </fieldset>
         </form>
       </main>
-    </div>
+    </>
   );
 };
 
