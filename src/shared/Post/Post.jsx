@@ -100,7 +100,7 @@ const Post = ({ post, setIsUpload }) => {
 
         {/* 이미지 캐러셀 부분 */}
         {postImg ? (
-          <div className="relative overflow-hidden w-[30.4rem] h-[22.8rem] mt-[1.6rem] ml-[5.4rem] mb-[1.4rem] rounded-[10px]">
+          <div className="relative overflow-hidden xs:w-[auto] sm:w-[30.4rem] h-[22.8rem] mt-[1.6rem] ml-[5.4rem] mb-[1.4rem] rounded-[10px]">
             {postImg.includes(",") ? (
               <>
                 <div className="flex flex-row h-full overflow-x-scroll scrollbar-hide" ref={imgRef}>
