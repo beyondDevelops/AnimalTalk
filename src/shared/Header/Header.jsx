@@ -2,8 +2,9 @@ import { PreviousButton } from "../../components/Parts/PreviousButton";
 import { MoreButton } from "../../components/Parts/MoreButton";
 import { SearchLink } from "../../components/Parts/SearchLink";
 
-export const Header = ({ headerFor, title, onModalInfo, isActive, btnText, onSubmitForm, search, setSearch }) => {
+export default function Header({ headerFor, title, onModalInfo, isActive, btnText, onSubmitForm, search, setSearch }) {
   const state = headerFor;
+
   return (
     <header
       className={`flex justify-between items-center ${
@@ -73,4 +74,4 @@ export const Header = ({ headerFor, title, onModalInfo, isActive, btnText, onSub
       }
     </header>
   );
-};
+}
