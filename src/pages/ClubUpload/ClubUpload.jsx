@@ -203,7 +203,7 @@ const ClubUpload = () => {
   );
 
   return (
-    <div className="page">
+    <>
       <HeaderSave
         btnText="저장"
         isActive={uploadPossible && isClubName && isClubLocation && isClubPrice && imageURL.length}
@@ -285,7 +285,7 @@ const ClubUpload = () => {
           </fieldset>
         </form>
       </main>
-    </div>
+    </>
   );
 };
 

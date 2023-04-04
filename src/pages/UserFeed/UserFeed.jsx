@@ -114,7 +114,7 @@ const UserFeed = () => {
     setIsUpload(false);
   }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
   return (
-    <div className="page">
+    <>
       <HeaderBasic onModalInfo={handleModalInfo} />
       <main>
         {pageProfile ? (
@@ -161,7 +161,7 @@ const UserFeed = () => {
       {logout === true ? (
         <Modal modalRef={modalRef} content="로그아웃하시겠어요?" value="로그아웃" onModalClose={handleCloseModal} />
       ) : null}
-    </div>
+    </>
   );
 };
 export default UserFeed;

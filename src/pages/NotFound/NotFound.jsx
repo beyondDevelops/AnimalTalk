@@ -6,7 +6,7 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="page">
+    <>
       <img
         src={notFoundImg}
         alt="페이지를 찾을 수 없습니다."
@@ -21,7 +21,7 @@ const NotFound = () => {
       >
         이전 페이지
       </button>
-    </div>
+    </>
   );
 };
 

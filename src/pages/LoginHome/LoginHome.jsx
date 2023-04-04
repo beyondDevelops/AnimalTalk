@@ -8,7 +8,7 @@ const LoginHome = () => {
   const basicImg = `${process.env.PUBLIC_URL}/assets/img/char-loading-cat.svg`;
 
   return (
-    <section className="login-page">
+    <section data-testid="loginHome" className="login-page">
       <h1 className="ir">메인 로그인 화면</h1>
       <div className="flex justify-center items-center h-[100%]">
         <img src={loginImg} alt="애니멀톡" className="w-[14.5rem] my-50%" />
