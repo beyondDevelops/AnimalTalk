@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/AnimalTalk/static/css/main.c65c6e37.css",
-    "main.js": "/AnimalTalk/static/js/main.15a92616.js",
+    "main.css": "/AnimalTalk/static/css/main.9f3732d1.css",
+    "main.js": "/AnimalTalk/static/js/main.6a99110f.js",
     "index.html": "/AnimalTalk/index.html",
-    "main.c65c6e37.css.map": "/AnimalTalk/static/css/main.c65c6e37.css.map",
-    "main.15a92616.js.map": "/AnimalTalk/static/js/main.15a92616.js.map"
+    "main.9f3732d1.css.map": "/AnimalTalk/static/css/main.9f3732d1.css.map",
+    "main.6a99110f.js.map": "/AnimalTalk/static/js/main.6a99110f.js.map"
   },
   "entrypoints": [
-    "static/css/main.c65c6e37.css",
-    "static/js/main.15a92616.js"
+    "static/css/main.9f3732d1.css",
+    "static/js/main.6a99110f.js"
   ]
 }
