@@ -28,3 +28,13 @@ export const getFollowersFeeds = async (feedParam = 1, options = {}) => {
   );
   return res.data.posts;
 };
+
+export const getSearchUser = async (search) => {
+  const res = await api.get(`/user/searchuser/?keyword=${search}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return res.data;
+};
