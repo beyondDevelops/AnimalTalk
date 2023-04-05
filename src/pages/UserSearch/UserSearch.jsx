@@ -27,14 +27,15 @@ const UserSearch = () => {
   };
 
   useEffect(() => {
-    if (search) {
-      setTimeout(() => {
+    const debounce = setTimeout(() => {
+      if (search) {
         findUser(search);
-      }, 500);
-    } else {
-      setSearchResult([]);
-    }
-  }, [search, token]);
+      } else {
+        setSearchResult([]);
+      }
+    }, 300);
+    return () => clearTimeout(debounce);
+  }, [search]);
 
   return (
     <>
