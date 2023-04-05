@@ -28,21 +28,12 @@ const Signup = () => {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    const userInfo = {
-      email: formData.email,
-      password: formData.password,
+    const data = {
+      user: { ...formData },
     };
-    console.log(userInfo);
 
     try {
-      const res = await api.post(
-        "/user/emailvalid",
-        JSON.stringify({
-          user: {
-            email: formData.email,
-          },
-        })
-      );
+      const res = await api.post("/user/emailvalid", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
       if (res.data.message === "이미 가입된 이메일 주소 입니다.") {
         setIswrong(!isWrong);
@@ -51,7 +42,7 @@ const Signup = () => {
 
       navigate("/signup/profile", {
         state: {
-          userInfo,
+          data,
         },
       });
     } catch (err) {

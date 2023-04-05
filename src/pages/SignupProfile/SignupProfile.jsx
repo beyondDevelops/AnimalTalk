@@ -11,7 +11,7 @@ const SignupProfile = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { email, password } = location.state;
+  const { email, password } = location.state.data.user;
 
   const inputRef = useRef([]);
 
@@ -71,17 +71,15 @@ const SignupProfile = () => {
 
   // 회원가입시 바로 로그인이 될 수 있게
   const loginControl = async () => {
-    try {
-      const res = await api.post(
-        "/user/login",
-        JSON.stringify({
-          user: {
-            email,
-            password,
-          },
-        })
-      );
+    const data = {
+      user: {
+        email,
+        password,
+      },
+    };
 
+    try {
+      const res = await api.post("/user/login", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
 
       const accessToken = res.data.user.token;
@@ -98,22 +96,18 @@ const SignupProfile = () => {
     try {
       const defaultImg = await convertURLtoFile("https://mandarin.api.weniv.co.kr/1672734242192.png");
       const imageURL = await ImageFormData(inputRef.current["image"].files[0] || defaultImg);
-
-      const res = await api.post(
-        "/user",
-        JSON.stringify({
-          user: {
-            username: inputRef.current["username"].value,
-            email,
-            password,
-            accountname: inputRef.current["accountname"].value,
-            intro: inputRef.current["intro"].value,
-            image: imageURL,
-          },
-        })
-      );
+      const data = {
+        user: {
+          username: inputRef.current["username"].value,
+          email,
+          password,
+          accountname: inputRef.current["accountname"].value,
+          intro: inputRef.current["intro"].value,
+          image: imageURL,
+        },
+      };
+      const res = await api.post("/user", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
-
       if (res.data.message === "회원가입 성공") {
         await loginControl();
         navigate("/home");
