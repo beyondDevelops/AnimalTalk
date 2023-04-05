@@ -10,17 +10,16 @@ const SplashScreen = () => {
     }
     let time = setTimeout(() => {
       navigate("/login", { replace: true });
-    }, 2200);
+    }, 2500);
     return () => {
       clearTimeout(time);
     };
   });
   return (
-    <div className="animate-fade-in">
-      <main className="flex">
-        <img src={splashImg} alt="" className="w-[14.5rem] mx-auto h-[20.2rem] my-[auto]" />
+    <div className="mt-auto animate-fade-in">
+      <main className="flex justify-center items-center h-screen">
+        <img src={splashImg} alt="" className="w-[14.5rem] mx-auto h-[20.2rem]" />
       </main>
-      <div className="h-[49.5rem] bg-s-color"></div>
     </div>
   );
 };
