@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getFollowersFeeds } from "../api/axios";
 
 export default function useFeeds(pageNum = 1) {
+  const token = localStorage.getItem("token");
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -16,18 +17,21 @@ export default function useFeeds(pageNum = 1) {
     const controller = new AbortController();
     const { signal } = controller;
 
-    getFollowersFeeds(pageNum, { signal })
-      .then((data) => {
-        setResults((prev) => [...prev, ...data]);
-        setHasMore(Boolean(data.length));
+    const getFeeds = async () => {
+      try {
+        const res = await getFollowersFeeds(pageNum, token, { signal });
+        setResults((prev) => [...prev, ...res]);
+        setHasMore(Boolean(res.length));
         setIsLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         setIsLoading(false);
         if (signal.aborted) return;
         setIsError(true);
         setError({ message: err.message });
-      });
+      }
+    };
+
+    getFeeds();
 
     return () => controller.abort();
   }, [pageNum]);
