@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 import Footer from "../../shared/Footer/Footer";
 // import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import ChatDummyData from "../../components/ChatDummyData/ChatDummyData";

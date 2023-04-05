@@ -4,7 +4,7 @@ import { useState } from "react";
 import ChatRoomFooter from "../../components/ChatModule/ChatRoomFooter";
 import UserChat from "../../components/ChatModule/UserChat";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 
 const ChatRoom = () => {
   const [onModal, setOnModal] = useState(false);

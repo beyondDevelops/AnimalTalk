@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import Footer from "../../shared/Footer/Footer";
 import { useLocation } from "react-router-dom";

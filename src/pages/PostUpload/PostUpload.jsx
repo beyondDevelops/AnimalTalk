@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Header } from "../../shared/Header/Header";
+import Header from "../../shared/Header/Header";
 import Textarea from "../../components/Textarea/Textarea";
 import { api, axiosImgUpload } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
