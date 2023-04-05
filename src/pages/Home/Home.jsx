@@ -1,49 +1,53 @@
-import { Header } from "../../shared/Header/Header";
-import Post from "../../shared/Post/Post";
-import NoFeed from "../../components/NoFeed/NoFeed";
+import { useState, useRef, useCallback } from "react";
+import Header from "../../shared/Header/Header";
 import Footer from "../../shared/Footer/Footer";
-import axios from "../../api/axios";
-import { useState, useRef, useEffect } from "react";
-import useIntersect from "../../hooks/useIntersect";
+import Post from "../../shared/Post/Post";
+import ErrorFeed from "../../components/ErrorFeed/ErrorFeed";
+import NoFeed from "../../components/NoFeed/NoFeed";
+import useFeeds from "../../hooks/useFeeds";
+import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
-  const token = localStorage.getItem("token");
-  const [posts, setPosts] = useState([]);
-  const [state, setState] = useState({ postNum: 0, moreFeed: true });
-
-  const getFollowersFeeds = async () => {
-    try {
-      const res = await axios.get(`/post/feed?limit=10&skip=${state.postNum}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPosts((prev) => [...prev, ...res.data.posts]);
-      setState((prev) => ({ postNum: prev.postNum + 10, moreFeed: posts.length % 10 === 0 }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    if (posts.length === 0) {
-      getFollowersFeeds();
-    }
-  }, []);
-
+  const [pageNum, setPageNum] = useState(1);
+  const { results, isLoading, isError, error, hasMore } = useFeeds(pageNum);
   const observerTarget = useRef(null);
+  const lastFeedRef = useCallback(
+    (post) => {
+      if (isLoading) return;
+      if (observerTarget.current) observerTarget.current.disconnect();
+      observerTarget.current = new IntersectionObserver((feeds) => {
+        if (feeds[0].isIntersecting && hasMore) {
+          setPageNum((prev) => prev + 1);
+        }
+      });
+      if (post) observerTarget.current.observe(post);
+    },
+    [isLoading, hasMore]
+  );
 
-  useIntersect(observerTarget, state.postNum, state.moreFeed, getFollowersFeeds);
+  if (isError) {
+    return (
+      <>
+        <Header headerFor="feed" />
+        <ErrorFeed errorMsg={error.message} />
+        <Footer />
+      </>
+    );
+  }
+
+  const content = results.map((post, idx) => {
+    if (results.length === 0) return <NoFeed key={post.id} />;
+    if (results.length === idx + 1) {
+      return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
+    } else {
+      return <Post key={post.id + uuidv4()} post={post} />;
+    }
+  });
 
   return (
     <>
       <Header headerFor="feed" />
-      <main>
-        <>
-          {posts.length > 0 ? posts.map((post) => <Post key={post.id} post={post} />) : <NoFeed />}
-          {posts.length > 0 && <div ref={observerTarget}></div>}
-        </>
-      </main>
+      <main>{content}</main>
       <Footer />
     </>
   );
