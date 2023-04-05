@@ -27,16 +27,12 @@ const LoginEmail = () => {
   const handleUserLoginSubmit = async (e) => {
     e.preventDefault();
 
+    const data = {
+      user: { ...formData },
+    };
+
     try {
-      const res = await api.post(
-        "/user/login",
-        JSON.stringify({
-          user: {
-            email: formData.email,
-            password: formData.password,
-          },
-        })
-      );
+      const res = await api.post("/user/login", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
       if (res.data.status) {
         setIswrong(!isWrong);
