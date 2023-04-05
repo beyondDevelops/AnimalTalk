@@ -5,6 +5,9 @@ const token = localStorage.getItem("token");
 
 export const api = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 export const axiosImgUpload = axios.create({
