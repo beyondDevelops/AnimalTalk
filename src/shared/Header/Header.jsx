@@ -2,7 +2,7 @@ import { PreviousButton } from "../../components/Parts/PreviousButton";
 import { MoreButton } from "../../components/Parts/MoreButton";
 import { SearchLink } from "../../components/Parts/SearchLink";
 
-export default function Header({ headerFor, title, onModalInfo, isActive, btnText, onSubmitForm, search, onSearch }) {
+export default function Header({ headerFor, title, onModalInfo, isActive, btnText, onSubmitForm, search, setSearch }) {
   const state = headerFor;
 
   return (
@@ -64,7 +64,7 @@ export default function Header({ headerFor, title, onModalInfo, isActive, btnTex
                     className="w-[31.6rem] bg-[#F2F2F2] rounded-[32px] px-[1.6rem] py-[0.7rem] text-[1.4rem] outline-none"
                     placeholder="계정 검색"
                     value={search}
-                    onChange={onSearch}
+                    onChange={(e) => setSearch(e.target.value)}
                   />
                 </fieldset>
               </form>
