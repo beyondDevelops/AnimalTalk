@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios, { axiosImgUpload } from "../../api/axios";
+import { api, axiosImgUpload } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
-import { HeaderSave } from "../../shared/Header/HeaderSave";
+import Header from "../../shared/Header/Header";
 
 const ClubUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
@@ -26,7 +26,8 @@ const ClubUpload = () => {
   const { accountname } = useContext(AuthContext);
 
   const convertURLtoFile = async (url) => {
-    const res = await axios({
+    // axios? api?
+    const res = await api({
       url,
       method: "get",
       responseType: "blob",
@@ -132,7 +133,7 @@ const ClubUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(image);
 
-        const res = await axios.post(
+        const res = await api.post(
           "/product",
           {
             product: {
@@ -171,7 +172,7 @@ const ClubUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(image);
 
-        const res = await axios.put(
+        const res = await api.put(
           `/product/${product.id}`,
           {
             product: {
@@ -203,8 +204,9 @@ const ClubUpload = () => {
   );
 
   return (
-    <div className="page">
-      <HeaderSave
+    <>
+      <Header
+        headerFor="save"
         btnText="저장"
         isActive={uploadPossible && isClubName && isClubLocation && isClubPrice && imageURL.length}
         onSubmitForm={product ? onClubUpEdit : onClubUpload}
@@ -214,7 +216,7 @@ const ClubUpload = () => {
           <fieldset className="relative mb-[3rem]">
             <legend className="text-[1.2rem] text-cst-gray mb-[1.8rem]">이미지 등록</legend>
 
-            <section className="w-[32.2rem] h-[20.4rem] bg-[#F2F2F2] border-solid-[0.5rem] border-cst-light-gray rounded-[10px]">
+            <section className="xs:w-[100%] md:w-[32.2rem] h-[20.4rem] bg-[#F2F2F2] border-solid-[0.5rem] border-cst-light-gray rounded-[10px] mx-auto">
               <h2 className="ir">이미지 미리보기</h2>
               {!!imageURL.length ? (
                 <img src={imageURL[0]} alt="" className="w-[32.2rem] h-[20.4rem] object-cover rounded-[10px]" />
@@ -225,7 +227,7 @@ const ClubUpload = () => {
 
             <label
               htmlFor="imgUpload"
-              className="absolute block w-[3.6rem] h-[3.6rem] bottom-0 right-0 mr-[1.2rem] mb-[1.2rem]"
+              className="absolute inline-block w-[3.6rem] h-[3.6rem] bottom-0 right-0 mr-[1.2rem] mb-[1.2rem]"
             >
               <img
                 src={imageURL.length ? imgUploadFin : imgUpload}
@@ -246,7 +248,7 @@ const ClubUpload = () => {
               ref={clubName}
               id="name"
               type="text"
-              className={`block w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
+              className={`block xs:w-[100%] md:w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
                 isClubName ? "border-b-m-color" : "border-b-cst-light-gray"
               }`}
               placeholder="2~15자 이내여야 합니다."
@@ -262,7 +264,7 @@ const ClubUpload = () => {
               ref={clubPrice}
               id="proce"
               type="text"
-              className={`block w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
+              className={`block xs:w-[100%] md:w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
                 isClubPrice ? "border-b-m-color" : "border-b-cst-light-gray"
               }`}
               placeholder="숫자만 입력 가능합니다."
@@ -276,7 +278,7 @@ const ClubUpload = () => {
               ref={clubLocation}
               id="text"
               type="text"
-              className={`block w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
+              className={`block xs:w-[100%] md:w-[32.2rem] py-[0.8rem] border-b-[0.1rem]  mb-[1.6rem] focus:outline-none ${
                 isClubLocation ? "border-b-m-color" : "border-b-cst-light-gray"
               }`}
               placeholder="장소를 입력해주세요."
@@ -285,7 +287,7 @@ const ClubUpload = () => {
           </fieldset>
         </form>
       </main>
-    </div>
+    </>
   );
 };
 

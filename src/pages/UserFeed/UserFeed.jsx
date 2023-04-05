@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import api from "../../api/axios";
-import { HeaderBasic } from "../../shared/Header/HeaderBasic";
+import { api } from "../../api/axios";
+import Header from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
 import UserClub from "../../shared/UserClub/UserClub";
 import PostTypeSelectBar from "../../components/PostTypeSelectBar/PostTypeSelectBar";
@@ -10,7 +10,7 @@ import PostAlbum from "../../shared/Post/PostAlbum";
 import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
-import useIntersect from "../../hooks/useIntersect";
+import useIntersect from "../../hooks/useFeeds";
 const UserFeed = () => {
   const defaultCatImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
   const [pageProfile, setPageProfile] = useState(null);
@@ -114,8 +114,8 @@ const UserFeed = () => {
     setIsUpload(false);
   }, [pageAccount, isUpload, postDataArray, pageProfile, state.postNum]);
   return (
-    <div className="page">
-      <HeaderBasic onModalInfo={handleModalInfo} />
+    <>
+      <Header headerFor="basic" onModalInfo={handleModalInfo} />
       <main>
         {pageProfile ? (
           <>
@@ -134,7 +134,7 @@ const UserFeed = () => {
               {postDataArray.length > 0 && list ? (
                 postDataArray.map((post) => <Post key={post.id} {...{ post }} {...{ setIsUpload }} />)
               ) : (
-                <section className="flex flex-wrap gap-[0.8rem] my-[1.6rem] mx-[1.6rem]">
+                <section className="sm:grid sm:grid-cols-3 sm:gap-[0.8rem] my-[1.6rem] mx-[2rem]">
                   <h2 className="ir">앨범형</h2>
                   {postDataArray.map((post) => (
                     <PostAlbum key={post.id} post={post} />
@@ -161,7 +161,7 @@ const UserFeed = () => {
       {logout === true ? (
         <Modal modalRef={modalRef} content="로그아웃하시겠어요?" value="로그아웃" onModalClose={handleCloseModal} />
       ) : null}
-    </div>
+    </>
   );
 };
 export default UserFeed;

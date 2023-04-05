@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { HeaderSave } from "../../shared/Header/HeaderSave";
+import Header from "../../shared/Header/Header";
 import Textarea from "../../components/Textarea/Textarea";
-import axios, { axiosImgUpload } from "../../api/axios";
+import { api, axiosImgUpload } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PostUpload = () => {
@@ -22,7 +22,8 @@ const PostUpload = () => {
   const myProfile = location.state?.image;
 
   const convertURLtoFile = async (url) => {
-    const res = await axios({
+    // axios? api?
+    const res = await api({
       url,
       method: "get",
       responseType: "blob",
@@ -110,7 +111,7 @@ const PostUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(images);
 
-        const res = await axios.post(
+        const res = await api.post(
           "/post/",
           {
             post: {
@@ -147,7 +148,7 @@ const PostUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(images);
 
-        const res = await axios.put(
+        const res = await api.put(
           `/post/${post.id}`,
           {
             post: {
@@ -180,9 +181,10 @@ const PostUpload = () => {
   }, []);
 
   return (
-    <div className="page">
+    <>
       {/* Note: Header 수정 필요 */}
-      <HeaderSave
+      <Header
+        headerFor="save"
         btnText="업로드"
         isActive={uploadPossible && (isText || imageURLs.length)}
         onSubmitForm={post ? onPostEdit : onPostCreate}
@@ -243,7 +245,7 @@ const PostUpload = () => {
           <input id="imgUpload" multiple accept="image/*" type="file" className="hidden" onChange={handleImgUpload} />
         </fieldset>
       </form>
-    </div>
+    </>
   );
 };
 

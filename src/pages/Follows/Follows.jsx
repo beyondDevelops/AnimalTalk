@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { HeaderFollow } from "../../shared/Header/HeaderFollow";
+import Header from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import Footer from "../../shared/Footer/Footer";
 import { useLocation } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 
 const Follow = () => {
   const [followerList, setFollowerList] = useState(null);
@@ -42,8 +42,8 @@ const Follow = () => {
   }, [pageName, followerList, followingList]);
 
   return (
-    <div className="page">
-      <HeaderFollow title={pageName} />
+    <>
+      <Header headerFor="follow" title={pageName} />
       <main>
         {pageName === "followers" && followerList && followerList.length > 0 ? (
           followerList.map((follower) => (
@@ -81,7 +81,7 @@ const Follow = () => {
         )}
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

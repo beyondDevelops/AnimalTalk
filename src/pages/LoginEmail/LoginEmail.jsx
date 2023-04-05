@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
+import useLengthCheck from "../../hooks/useLengthCheck";
 
 const LoginEmail = () => {
   const navigate = useNavigate();
@@ -9,12 +10,7 @@ const LoginEmail = () => {
 
   const [isWrong, setIswrong] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [isActive, setIsActive] = useState(false);
-
-  const leastLength = {
-    emailleast: 1,
-    passwordleast: 6,
-  };
+  const [isActive] = useLengthCheck(Object.keys(inputRef.current), inputRef);
 
   useEffect(() => {
     inputRef.current["email"].focus();
@@ -25,31 +21,6 @@ const LoginEmail = () => {
       setFormData({ ...formData, email: inputRef.current["email"].value });
     } else if (e.target.id === "password") {
       setFormData({ ...formData, password: inputRef.current["password"].value });
-    }
-  };
-
-  const handleEmailLengthCheck = () => {
-    if (inputRef.current["email"].value.length < leastLength.emailleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handlePasswordLengthCheck = () => {
-    if (inputRef.current["password"].value.length < leastLength.passwordleast) {
-      return false;
-    }
-    return true;
-  };
-
-  const handleBtnControl = () => {
-    const emailValidationResult = handleEmailLengthCheck();
-    const passwordValidationResult = handlePasswordLengthCheck();
-
-    if (emailValidationResult && passwordValidationResult) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
     }
   };
 
@@ -84,67 +55,61 @@ const LoginEmail = () => {
   };
 
   return (
-    <div className="page">
-      <main className="w-[39rem] h-screen mx-auto bg-white flex flex-col">
-        <h1 className="pt-[3rem] pb-[4rem] text-center text-[2.4rem] font-medium">로그인</h1>
-        <form action="" className="flex flex-col items-center " onSubmit={handleUserLoginSubmit}>
-          <fieldset className="mb-[1.6rem]">
-            <legend className="ir">로그인</legend>
-            <label htmlFor="emailId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              이메일
-            </label>
-            <input
-              required
-              id="email"
-              type="email"
-              ref={(el) => (inputRef.current["email"] = el)}
-              onChange={(e) => {
-                handleFormData(e);
-                handleEmailLengthCheck();
-                handleBtnControl();
-              }}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-            />
-          </fieldset>
+    <main className="w-[39rem] h-screen mx-auto bg-white flex flex-col">
+      <h1 className="pt-[3rem] pb-[4rem] text-center text-[2.4rem] font-medium">로그인</h1>
+      <form action="" className="flex flex-col items-center " onSubmit={handleUserLoginSubmit}>
+        <fieldset className="mb-[1.6rem]">
+          <legend className="ir">로그인</legend>
+          <label htmlFor="emailId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            이메일
+          </label>
+          <input
+            required
+            id="email"
+            type="email"
+            ref={(el) => (inputRef.current["email"] = el)}
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+          />
+        </fieldset>
 
-          <fieldset className="mt-[1.5rem]">
-            <legend className="ir">로그인</legend>
-            <label htmlFor="pw" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              비밀번호
-            </label>
-            <input
-              required
-              id="password"
-              type="password"
-              ref={(el) => {
-                inputRef.current["password"] = el;
-              }}
-              onChange={(e) => {
-                handleFormData(e);
-                handlePasswordLengthCheck();
-                handleBtnControl();
-              }}
-              className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-            />
-            {isWrong ? null : (
-              <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">
-                * 이메일 또는 비밀번호가 일치하지 않습니다.
-              </p>
-            )}
-          </fieldset>
+        <fieldset className="mt-[1.5rem]">
+          <legend className="ir">로그인</legend>
+          <label htmlFor="pw" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            비밀번호
+          </label>
+          <input
+            required
+            id="password"
+            type="password"
+            ref={(el) => {
+              inputRef.current["password"] = el;
+            }}
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+          />
+          {isWrong ? null : (
+            <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">
+              * 이메일 또는 비밀번호가 일치하지 않습니다.
+            </p>
+          )}
+        </fieldset>
 
-          <button
-            disabled={!isActive}
-            className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
-          >
-            로그인
-          </button>
-        </form>
-        <Link to="/signup" className="text-cst-gray text-[1.2rem] text-center">
-          이메일로 회원가입
-        </Link>
-      </main>
-    </div>
+        <button
+          disabled={!isActive}
+          className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
+        >
+          로그인
+        </button>
+      </form>
+      <Link to="/signup" className="text-cst-gray text-[1.2rem] text-center">
+        이메일로 회원가입
+      </Link>
+    </main>
   );
 };
 

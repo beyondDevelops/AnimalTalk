@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import axios from "../../api/axios";
+import { api } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const Footer = () => {
@@ -25,7 +25,7 @@ const Footer = () => {
       const token = localStorage.getItem("token");
       const getUserInfo = async () => {
         try {
-          const res = await axios.get("/user/myinfo", {
+          const res = await api.get("/user/myinfo", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -40,8 +40,8 @@ const Footer = () => {
   }, [userInfo]);
 
   return (
-    <nav className="flex px-[0.6rem] pt-[1.2rem] pb-[0.6rem]">
-      <Link className="flex flex-col items-center mx-[3rem]" to="/home">
+    <nav className="flex px-[0.6rem] pt-[1.2rem] pb-[0.6rem] justify-between">
+      <Link className="flex flex-col items-center mx-[auto]" to="/home">
         {location.pathname === "/home" ? (
           <>
             <img src={homeFill} alt="홈" className="w-[2.4rem] h-[2.4rem]" />
@@ -54,7 +54,7 @@ const Footer = () => {
           </>
         )}
       </Link>
-      <Link className="flex flex-col items-center mx-[3rem]" to="/chat">
+      <Link className="flex flex-col items-center mx-[auto]" to="/chat">
         {location.pathname === "/chat" ? (
           <>
             <img src={chatFill} alt="채팅" className="w-[2.4rem] h-[2.4rem]" />
@@ -67,12 +67,12 @@ const Footer = () => {
           </>
         )}
       </Link>
-      <Link className="flex flex-col items-center mx-[3rem]" to="/postupload" state={{ image: `${image}` }}>
+      <Link className="flex flex-col items-center mx-[auto]" to="/postupload" state={{ image: `${image}` }}>
         <img src={postCreate} alt="게시글 작성" className="w-[2.4rem] h-[2.4rem]" />
         <span className="block mt-[0.4rem] text-[1rem] text-cst-gray">게시물 작성</span>
       </Link>
       <Link
-        className="flex flex-col items-center mx-[3rem]"
+        className="flex flex-col items-center mx-[auto]"
         to={`/profile/${editAccountname ? editAccountname : accountname}`}
         state={{ myAccountname: `${editAccountname ? editAccountname : accountname}` }}
       >

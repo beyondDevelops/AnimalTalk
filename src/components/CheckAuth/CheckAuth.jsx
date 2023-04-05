@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 
 const CheckAuth = () => {
   const token = localStorage.getItem("token");
@@ -16,6 +16,8 @@ const CheckAuth = () => {
               Authorization: `Bearer ${token}`,
             },
           });
+          // 데이터 receive 체킹
+          // console.log(res.data.user);
           setUserInfo({ ...res.data.user });
         } catch (err) {
           console.log(err);

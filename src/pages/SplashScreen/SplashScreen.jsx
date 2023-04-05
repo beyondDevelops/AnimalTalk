@@ -16,7 +16,7 @@ const SplashScreen = () => {
     };
   });
   return (
-    <div className="page animate-fade-in">
+    <div className="animate-fade-in">
       <main className="flex">
         <img src={splashImg} alt="" className="w-[14.5rem] mx-auto h-[20.2rem] my-[auto]" />
       </main>
