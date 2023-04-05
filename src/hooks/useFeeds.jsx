@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getFollowersFeeds } from "../api/axios";
 
-export default function useFeeds(feedNum = 1) {
+export default function useFeeds(pageNum = 1) {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -16,7 +16,7 @@ export default function useFeeds(feedNum = 1) {
     const controller = new AbortController();
     const { signal } = controller;
 
-    getFollowersFeeds(feedNum, { signal })
+    getFollowersFeeds(pageNum, { signal })
       .then((data) => {
         setResults((prev) => [...prev, ...data]);
         setHasMore(Boolean(data.length));
@@ -30,7 +30,7 @@ export default function useFeeds(feedNum = 1) {
       });
 
     return () => controller.abort();
-  }, [feedNum]);
+  }, [pageNum]);
 
   return { results, isLoading, isError, error, hasMore };
 }
