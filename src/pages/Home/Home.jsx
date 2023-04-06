@@ -35,14 +35,19 @@ const Home = () => {
     );
   }
 
-  const content = results.map((post, idx) => {
-    if (results.length === 0) return <NoFeed key={post.id} />;
-    if (results.length === idx + 1) {
-      return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
-    } else {
-      return <Post key={post.id + uuidv4()} post={post} />;
-    }
-  });
+  const content =
+    results.length === 0 ? (
+      <NoFeed />
+    ) : (
+      results.map((post, idx) => {
+        if (results.length === 0) return <NoFeed key={post.id} />;
+        if (results.length === idx + 1) {
+          return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
+        } else {
+          return <Post key={post.id + uuidv4()} post={post} />;
+        }
+      })
+    );
 
   return (
     <>
