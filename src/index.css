@@ -43,7 +43,7 @@ main {
   @apply rounded-[44px] py-[0.7rem] xs:w-[7.8rem] sm:w-[9rem] md:w-[9rem]  font-medium;
 }
 
-.btn-xs {
+.btn-sm {
   @apply rounded-[26px] py-[0.7rem] xs:w-[3.8rem] sm:w-[5.6rem] md:w-[5.6rem] text-[1.2rem];
 }
 
