@@ -16,11 +16,11 @@ export const axiosImgUpload = axios.create({
   },
 });
 
-export const getFollowersFeeds = async (feedParam = 1, token, options = {}) => {
+// Home
+export const getFollowersFeeds = async (pageParam = 1, token, options = {}) => {
   const res = await api.get(
-    `/post/feed?limit=10&skip=${feedParam}`,
+    `/post/feed?limit=10&skip=${pageParam}`,
     {
-      // headers를 api에 넣으면 기본적으로 모든 요청에 헤더가 붙는지 확인할 것
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -30,6 +30,7 @@ export const getFollowersFeeds = async (feedParam = 1, token, options = {}) => {
   return res.data.posts;
 };
 
+// UserSearch
 export const getSearchUser = async (search, token) => {
   const res = await api.get(`/user/searchuser/?keyword=${search}`, {
     headers: {
@@ -37,4 +38,36 @@ export const getSearchUser = async (search, token) => {
     },
   });
   return res.data;
+};
+
+// UserFeed
+export const getPageOwnerProfile = async (pageAccount, token) => {
+  const res = await api.get(`/profile/${pageAccount}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.profile;
+};
+
+export const getPageOwnerFeeds = async (pageAccount, pageParam = 1, token, options = {}) => {
+  const res = await api.get(
+    `/post/${pageAccount}/userpost/?limit=10&skip=${pageParam}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    options
+  );
+  return res.data.post;
+};
+
+export const getPageOwnerClub = async (pageAccount, token) => {
+  const res = await api.get(`/product/${pageAccount}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.product;
 };
