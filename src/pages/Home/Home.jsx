@@ -40,7 +40,6 @@ const Home = () => {
       <NoFeed />
     ) : (
       results.map((post, idx) => {
-        if (results.length === 0) return <NoFeed key={post.id} />;
         if (results.length === idx + 1) {
           return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
         } else {
