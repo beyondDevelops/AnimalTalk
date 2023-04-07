@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { api, axiosImgUpload } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const SignupProfile = () => {
