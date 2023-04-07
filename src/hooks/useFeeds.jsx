@@ -25,7 +25,7 @@ export default function useFeeds(pageNum = 1) {
           ? await getPageOwnerFeeds(accountname, pageNum, token, { signal })
           : await getFollowersFeeds(pageNum, token, { signal });
         setResults((prev) => [...prev, ...res]);
-        setHasMore(!Boolean(res.length % 10));
+        setHasMore(Boolean(res.length));
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);

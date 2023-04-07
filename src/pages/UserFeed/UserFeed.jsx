@@ -35,7 +35,7 @@ const UserFeed = () => {
   const [club, setClub] = useState(null);
 
   // 피드 정보 무한스크롤 기능 구현
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
   const { results, isLoading, isError, error, hasMore } = useFeeds(pageNum);
   const observerTarget = useRef(null);
 

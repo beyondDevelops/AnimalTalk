@@ -8,7 +8,7 @@ import useFeeds from "../../hooks/useFeeds";
 import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
   const { results, isLoading, isError, error, hasMore } = useFeeds(pageNum);
   const observerTarget = useRef(null);
   const lastFeedRef = useCallback(
