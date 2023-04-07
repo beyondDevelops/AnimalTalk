@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { getFollowersFeeds } from "../api/axios";
+import { useParams } from "react-router-dom";
+import { getFollowersFeeds, getPageOwnerFeeds } from "../api/axios";
 
 export default function useFeeds(pageNum = 1) {
+  const { accountname } = useParams();
   const token = localStorage.getItem("token");
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +21,9 @@ export default function useFeeds(pageNum = 1) {
 
     const getFeeds = async () => {
       try {
-        const res = await getFollowersFeeds(pageNum, token, { signal });
+        const res = accountname
+          ? await getPageOwnerFeeds(accountname, pageNum, token, { signal })
+          : await getFollowersFeeds(pageNum, token, { signal });
         setResults((prev) => [...prev, ...res]);
         setHasMore(Boolean(res.length));
         setIsLoading(false);
