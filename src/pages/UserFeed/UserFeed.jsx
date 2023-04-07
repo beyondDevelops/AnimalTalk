@@ -35,8 +35,8 @@ const UserFeed = () => {
   const [club, setClub] = useState(null);
 
   // 피드 정보 무한스크롤 기능 구현
-  const [pageNum, setPageNum] = useState(0);
-  const { results, isLoading, isError, error, hasMore } = useFeeds(pageNum);
+  const [feedNum, setFeedNum] = useState(0);
+  const { results, isLoading, isError, error, hasMore } = useFeeds(feedNum);
   const observerTarget = useRef(null);
 
   const handleModalInfo = useCallback(
@@ -98,7 +98,7 @@ const UserFeed = () => {
       if (observerTarget.current) observerTarget.current.disconnect();
       observerTarget.current = new IntersectionObserver((feeds) => {
         if (feeds[0].isIntersecting && hasMore) {
-          setPageNum((prev) => prev + 1);
+          setFeedNum((prev) => prev + 1);
         }
       });
       if (post) observerTarget.current.observe(post);

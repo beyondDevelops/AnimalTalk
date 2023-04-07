@@ -8,8 +8,8 @@ import useFeeds from "../../hooks/useFeeds";
 import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
-  const [pageNum, setPageNum] = useState(0);
-  const { results, isLoading, isError, error, hasMore } = useFeeds(pageNum);
+  const [feedNum, setFeedNum] = useState(0);
+  const { results, isLoading, isError, error, hasMore } = useFeeds(feedNum);
   const observerTarget = useRef(null);
   const lastFeedRef = useCallback(
     (post) => {
@@ -17,7 +17,7 @@ const Home = () => {
       if (observerTarget.current) observerTarget.current.disconnect();
       observerTarget.current = new IntersectionObserver((feeds) => {
         if (feeds[0].isIntersecting && hasMore) {
-          setPageNum((prev) => prev + 1);
+          setFeedNum((prev) => prev + 1);
         }
       });
       if (post) observerTarget.current.observe(post);
