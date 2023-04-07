@@ -17,9 +17,9 @@ export const axiosImgUpload = axios.create({
 });
 
 // Home
-export const getFollowersFeeds = async (pageParam = 1, token, options = {}) => {
+export const getFollowersFeeds = async (pageParam = 0, token, options = {}) => {
   const res = await api.get(
-    `/post/feed?limit=10&skip=${pageParam}`,
+    `/post/feed?limit=10&skip=${pageParam * 10}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -50,9 +50,9 @@ export const getPageOwnerProfile = async (pageAccount, token) => {
   return res.data.profile;
 };
 
-export const getPageOwnerFeeds = async (pageAccount, pageParam = 1, token, options = {}) => {
+export const getPageOwnerFeeds = async (pageAccount, pageParam = 0, token, options = {}) => {
   const res = await api.get(
-    `/post/${pageAccount}/userpost/?limit=10&skip=${pageParam}`,
+    `/post/${pageAccount}/userpost/?limit=10&skip=${pageParam * 10}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
