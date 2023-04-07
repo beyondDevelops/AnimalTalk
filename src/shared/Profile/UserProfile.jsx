@@ -5,7 +5,7 @@ import { api } from "../../api/axios";
 import axios from "../../api/axios";
 
 const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
-  const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
+  const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.svg`;
   const shareImg = `${process.env.PUBLIC_URL}/assets/img/icon-share.png`;
   const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
 
