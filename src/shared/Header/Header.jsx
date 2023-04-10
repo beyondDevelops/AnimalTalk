@@ -1,6 +1,6 @@
-import { PreviousButton } from "../../components/Parts/PreviousButton";
-import { MoreButton } from "../../components/Parts/MoreButton";
-import { SearchLink } from "../../components/Parts/SearchLink";
+import { PreviousButton } from "../../components/HeaderParts/PreviousButton";
+import { MoreButton } from "../../components/HeaderParts/MoreButton";
+import { SearchLink } from "../../components/HeaderParts/SearchLink";
 
 export default function Header({ headerFor, title, onModalInfo, isActive, btnText, onSubmitForm, search, setSearch }) {
   const state = headerFor;
