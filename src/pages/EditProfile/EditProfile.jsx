@@ -55,10 +55,10 @@ const EditProfile = () => {
       }
     };
     getProfileData();
-  }, []);
+  }, [token]);
 
   if (myProfileData.user === undefined) {
-    return;
+    return null;
   }
 
   const ImageFormData = async (file) => {
@@ -153,6 +153,7 @@ const EditProfile = () => {
     <>
       <Header headerFor="save" isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
       <main className="h-screen flex flex-col">
+        <h1 className="ir">프로필 수정</h1>
         <form action="" className="flex flex-col items-center">
           <fieldset>
             <legend className="ir">프로필 사진 업로드</legend>
