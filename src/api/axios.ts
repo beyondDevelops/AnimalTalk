@@ -35,8 +35,10 @@ accessInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log(error.messages);
-    return Promise.reject(error);
+    if (error) {
+      console.log(error.message);
+      return Promise.reject(error);
+    }
   }
 );
 
@@ -48,7 +50,9 @@ accessInstance.interceptors.response.use(
     return res.data;
   },
   (error) => {
-    console.log(error.messages);
-    return Promise.reject(error);
+    if (error) {
+      console.log(error.message);
+      return Promise.reject(error);
+    }
   }
 );
