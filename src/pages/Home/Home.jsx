@@ -1,31 +1,37 @@
-import { useState, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import Header from "../../shared/Header/Header";
 import Footer from "../../shared/Footer/Footer";
 import Post from "../../shared/Post/Post";
 import ErrorFeed from "../../components/ErrorFeed/ErrorFeed";
 import NoFeed from "../../components/NoFeed/NoFeed";
-import useFeeds from "../../hooks/useFeeds";
 import { v4 as uuidv4 } from "uuid";
+import { useInfiniteQuery } from "react-query";
+import { readFollowingFeed } from "../../api/Feed/readFollowingFeed";
 
 const Home = () => {
-  const [feedNum, setFeedNum] = useState(0);
-  const { results, isLoading, isError, error, hasMore } = useFeeds(feedNum);
+  const { data, status, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ["feeds"],
+    ({ feedParam = 0 }) => readFollowingFeed(feedParam),
+    {
+      getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
+    }
+  );
   const observerTarget = useRef(null);
   const lastFeedRef = useCallback(
-    (post) => {
-      if (isLoading) return;
+    (feed) => {
+      if (isFetchingNextPage) return;
       if (observerTarget.current) observerTarget.current.disconnect();
-      observerTarget.current = new IntersectionObserver((feeds) => {
-        if (feeds[0].isIntersecting && hasMore) {
-          setFeedNum((prev) => prev + 1);
+      observerTarget.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
         }
       });
-      if (post) observerTarget.current.observe(post);
+      if (feed) observerTarget.current.observe(feed);
     },
-    [isLoading, hasMore]
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
   );
 
-  if (isError) {
+  if (status === "error") {
     return (
       <>
         <Header headerFor="feed" />
@@ -36,15 +42,18 @@ const Home = () => {
   }
 
   const content =
-    results.length === 0 ? (
+    data?.pages.length === 0 ? (
       <NoFeed />
     ) : (
-      results.map((post, idx) => {
-        if (results.length === idx + 1) {
-          return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
-        } else {
-          return <Post key={post.id + uuidv4()} post={post} />;
-        }
+      data?.pages.map((page) => {
+        return page?.map((feed, idx) => {
+          console.log(feed);
+          if (page.length === idx + 1) {
+            return <Post key={feed.id + uuidv4()} post={feed} ref={lastFeedRef} />;
+          } else {
+            return <Post key={feed.id + uuidv4()} post={feed} />;
+          }
+        });
       })
     );
 
