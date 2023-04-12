@@ -10,15 +10,15 @@ import { readFollowingFeed } from "../../api/Feed/readFollowingFeed";
 
 const Home = () => {
   const { data, status, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ["feeds"],
-    ({ feedParam = 0 }) => readFollowingFeed(feedParam),
+    ["post"],
+    ({ pageParam = 0 }) => readFollowingFeed(pageParam),
     {
       getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
     }
   );
   const observerTarget = useRef(null);
   const lastFeedRef = useCallback(
-    (feed) => {
+    (post) => {
       if (isFetchingNextPage) return;
       if (observerTarget.current) observerTarget.current.disconnect();
       observerTarget.current = new IntersectionObserver((entries) => {
@@ -26,7 +26,7 @@ const Home = () => {
           fetchNextPage();
         }
       });
-      if (feed) observerTarget.current.observe(feed);
+      if (post) observerTarget.current.observe(post);
     },
     [isFetchingNextPage, fetchNextPage, hasNextPage]
   );
@@ -46,13 +46,11 @@ const Home = () => {
       <NoFeed />
     ) : (
       data?.pages.map((page) => {
-        return page?.map((feed, idx) => {
-          console.log(feed);
+        return page?.map((post, idx) => {
           if (page.length === idx + 1) {
-            return <Post key={feed.id + uuidv4()} post={feed} ref={lastFeedRef} />;
-          } else {
-            return <Post key={feed.id + uuidv4()} post={feed} />;
+            return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
           }
+          return <Post key={post.id + uuidv4()} post={post} />;
         });
       })
     );
