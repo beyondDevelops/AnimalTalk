@@ -2,7 +2,7 @@
   "homepage": "https://beyondDevelops.github.io/AnimalTalk",
   "author": "beyondDevelops",
   "name": "animaltalk",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
