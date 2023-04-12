@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../api/axios";
+import { instance } from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const Signup = () => {
@@ -33,7 +33,7 @@ const Signup = () => {
     };
 
     try {
-      const res = await api.post("/user/emailvalid", JSON.stringify(data));
+      const res = await instance.post("/user/emailvalid", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
       if (res.data.message === "이미 가입된 이메일 주소 입니다.") {
         setIswrong(!isWrong);

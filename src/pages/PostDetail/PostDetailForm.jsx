@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { api } from "../../api/axios";
+import { instance } from "../../api/axios";
 
 const PostDetailForm = ({ postId, setIsUpload }) => {
   const inpTextRef = useRef();
@@ -18,7 +18,7 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
       setIsText(false);
       const token = localStorage.getItem("token");
 
-      const res = await api.post(
+      const res = await instance.post(
         `/post/${postId}/comments`,
         {
           comment: {

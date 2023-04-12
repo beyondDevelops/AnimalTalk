@@ -3,7 +3,7 @@ import Header from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import Footer from "../../shared/Footer/Footer";
 import { useLocation } from "react-router-dom";
-import { api } from "../../api/axios";
+import { instance } from "../../api/axios";
 
 const Follow = () => {
   const [followerList, setFollowerList] = useState(null);
@@ -16,7 +16,7 @@ const Follow = () => {
   const token = localStorage.getItem("token");
 
   const getFollowerList = async () => {
-    const res = await api.get(`/profile/${pageAccount}/follower?limit=${Infinity}`, {
+    const res = await instance.get(`/profile/${pageAccount}/follower?limit=${Infinity}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -25,7 +25,7 @@ const Follow = () => {
   };
 
   const getFollowingList = async () => {
-    const res = await api.get(`/profile/${pageAccount}/following?limit=${Infinity}`, {
+    const res = await instance.get(`/profile/${pageAccount}/following?limit=${Infinity}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
