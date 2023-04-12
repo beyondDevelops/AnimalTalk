@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getFollowersFeeds, getPageOwnerFeeds } from "../api/axios";
+import { readMyFeed } from "../api/Feed/readMyFeed";
 
-export default function useFeeds(pageNum = 1) {
+export default function useFeeds(pageNum = 0) {
   const { accountname } = useParams();
-  const token = localStorage.getItem("token");
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -21,9 +20,7 @@ export default function useFeeds(pageNum = 1) {
 
     const getFeeds = async () => {
       try {
-        const res = accountname
-          ? await getPageOwnerFeeds(accountname, pageNum, token, { signal })
-          : await getFollowersFeeds(pageNum, token, { signal });
+        const res = await readMyFeed(accountname, pageNum, { signal });
         setResults((prev) => [...prev, ...res]);
         setHasMore(Boolean(res.length));
         setIsLoading(false);
@@ -38,7 +35,7 @@ export default function useFeeds(pageNum = 1) {
     getFeeds();
 
     return () => controller.abort();
-  }, [pageNum]);
+  }, [pageNum, accountname]);
 
   return { results, isLoading, isError, error, hasMore };
 }
