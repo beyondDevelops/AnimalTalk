@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useQuery } from "react-query";
 import Header from "../../shared/Header/Header";
+import { useState, useEffect, useMemo } from "react";
+import { readSearch } from "../../api/Search/readSearch";
+import Loading from "../../components/Loading/Loading";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
-import { getSearchUser } from "../../api/axios";
 
 const UserSearch = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
+  const { data, isLoading } = useQuery("search", () => readSearch(search), {
+    enabled: search.length > 0,
+  });
+
   const findUser = async (search) => {
-    try {
-      const users = await getSearchUser(search);
-      const filterUsers = users.filter(
-        (user) => user.username.toLowerCase().includes(search) || user.accountname.toLowerCase().includes(search)
-      );
-      setSearchResult(filterUsers);
-    } catch (err) {
-      console.log(err);
-    }
+    const filterUsers = data?.filter(
+      (user) => user.username.toLowerCase().includes(search) || user.accountname.toLowerCase().includes(search)
+    );
+    setSearchResult(filterUsers);
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const UserSearch = () => {
   const content = useMemo(
     () => (
       <ul>
-        {searchResult.map((user) => (
+        {searchResult?.map((user) => (
           <SimpleUserList
             key={user._id}
             isMessage={false}
@@ -62,7 +63,8 @@ const UserSearch = () => {
   return (
     <>
       <Header headerFor="search" search={search} setSearch={setSearch} />
-      <main>{content}</main>
+      {isLoading && <Loading />}
+      {!isLoading && <main>{content}</main>}
     </>
   );
 };
