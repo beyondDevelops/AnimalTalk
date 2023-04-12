@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { readClubList } from "../../api/Club/readClubList";
 import { readProfile } from "../../api/Profile/readProfile";
+import { readMyFeed } from "../../api/Feed/readMyFeed";
 import Header from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
 import UserClub from "../../shared/UserClub/UserClub";
@@ -13,7 +14,7 @@ import Post from "../../shared/Post/Post";
 import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
-import useFeeds from "../../hooks/useFeeds";
+import { useInfiniteQuery } from "react-query";
 import { PostAlbumOutline } from "../../shared/Post/PostAlbumOutline";
 
 const UserFeed = () => {
@@ -36,9 +37,27 @@ const UserFeed = () => {
   const [club, setClub] = useState(null);
 
   // 피드 정보 무한스크롤 기능 구현
-  const [feedNum, setFeedNum] = useState(0);
-  const { results, isLoading, isError, error, hasMore } = useFeeds(feedNum);
+  const { data, status, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ["userPost", pageAccount],
+    ({ pageParam = 0 }) => readMyFeed(pageAccount, pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
+    }
+  );
   const observerTarget = useRef(null);
+  const lastFeedRef = useCallback(
+    (post) => {
+      if (isFetchingNextPage) return;
+      if (observerTarget.current) observerTarget.current.disconnect();
+      observerTarget.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (post) observerTarget.current.observe(post);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
+  );
 
   const handleModalInfo = useCallback(
     (e) => {
@@ -84,21 +103,7 @@ const UserFeed = () => {
     setIsUpload(false);
   }, [isUpload, pageAccount]);
 
-  const lastFeedRef = useCallback(
-    (post) => {
-      if (isLoading) return;
-      if (observerTarget.current) observerTarget.current.disconnect();
-      observerTarget.current = new IntersectionObserver((feeds) => {
-        if (feeds[0].isIntersecting && hasMore) {
-          setFeedNum((prev) => prev + 1);
-        }
-      });
-      if (post) observerTarget.current.observe(post);
-    },
-    [isLoading, hasMore]
-  );
-
-  if (isError) {
+  if (status === "error") {
     return (
       <>
         <Header headerFor="feed" />
@@ -111,17 +116,18 @@ const UserFeed = () => {
   const content = (
     <section>
       <h2 className="ir">유저 게시글</h2>
-      {results.length === 0 && <NoFeed />}
-      {results.length > 0 &&
+      {data?.pages?.length === 0 && <NoFeed />}
+      {data?.pages?.length > 0 &&
         list &&
-        results.map((post, idx) => {
-          if (results.length === idx + 1) {
-            return <Post key={post.id + uuidv4()} {...{ post }} {...{ setIsUpload }} ref={lastFeedRef} />;
-          } else {
-            return <Post key={post.id + uuidv4()} {...{ post }} {...{ setIsUpload }} />;
-          }
+        data?.pages.map((page) => {
+          return page?.map((post, idx) => {
+            if (page.length === idx + 1) {
+              return <Post key={uuidv4()} post={post} lastFeedRef={lastFeedRef} />;
+            }
+            return <Post key={uuidv4()} post={post} />;
+          });
         })}
-      {results.length > 0 && !list && <PostAlbumOutline results={results} />}
+      {data?.pages.length > 0 && !list && <PostAlbumOutline results={data.pages} />}
     </section>
   );
 
