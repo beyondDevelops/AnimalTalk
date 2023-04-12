@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { getPageOwnerClub, getPageOwnerProfile } from "../../api/axios";
+import { readClubList } from "../../api/Club/readClubList";
+import { readProfile } from "../../api/Profile/readProfile";
 import Header from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
 import UserClub from "../../shared/UserClub/UserClub";
@@ -69,22 +70,13 @@ const UserFeed = () => {
 
   useEffect(() => {
     if (!isUpload) return;
-    const token = localStorage.getItem("token");
     const getPageProfile = async () => {
-      try {
-        const data = await getPageOwnerProfile(pageAccount, token);
-        setPageProfile(data);
-      } catch (err) {
-        console.log(err);
-      }
+      const data = await readProfile(pageAccount);
+      setPageProfile(data);
     };
     const getPageClub = async () => {
-      try {
-        const data = await getPageOwnerClub(pageAccount, token);
-        setClub(data);
-      } catch (err) {
-        console.log(err);
-      }
+      const data = await readClubList(pageAccount);
+      setClub(data);
     };
 
     getPageProfile();
