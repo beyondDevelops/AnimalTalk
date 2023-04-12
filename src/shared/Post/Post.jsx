@@ -1,6 +1,6 @@
 import React, { useRef, useState, forwardRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../../api/axios";
+import { instance } from "../../api/axios";
 import ModalPost from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 
@@ -42,12 +42,12 @@ const Post = forwardRef(({ post, setIsUpload }, ref) => {
       const token = localStorage.getItem("token");
 
       const res = isLike
-        ? await api.delete(`/post/${post.id}/unheart`, {
+        ? await instance.delete(`/post/${post.id}/unheart`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
-        : await api.post(`/post/${post.id}/heart`, [], {
+        : await instance.post(`/post/${post.id}/heart`, [], {
             headers: {
               Authorization: `Bearer ${token}`,
             },

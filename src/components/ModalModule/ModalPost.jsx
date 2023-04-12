@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../../api/axios";
+import { instance } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const ModalPost = ({ setModalPost, post, setIsUpload }) => {
@@ -27,7 +27,7 @@ const ModalPost = ({ setModalPost, post, setIsUpload }) => {
       e.preventDefault();
       setIsDisabled(true);
 
-      const res = await api.delete(`/post/${post.id}`, {
+      const res = await instance.delete(`/post/${post.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -50,7 +50,7 @@ const ModalPost = ({ setModalPost, post, setIsUpload }) => {
       e.preventDefault();
       setIsDisabled(true);
 
-      const res = await api.post(`/post/${post.id}/report`, [], {
+      const res = await instance.post(`/post/${post.id}/report`, [], {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { api, axiosImgUpload } from "../../api/axios";
+import { instance, imgInstance } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
@@ -40,7 +40,7 @@ const SignupProfile = () => {
 
   const convertURLtoFile = async (url) => {
     // axios? api?
-    const res = await api({
+    const res = await instance({
       url,
       method: "get",
       responseType: "blob",
@@ -57,7 +57,7 @@ const SignupProfile = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await axiosImgUpload.post("/image/uploadfile", formData);
+      const res = await imgInstance.post("/image/uploadfile", formData);
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
@@ -78,7 +78,7 @@ const SignupProfile = () => {
     };
 
     try {
-      const res = await api.post("/user/login", JSON.stringify(data));
+      const res = await instance.post("/user/login", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
 
       const accessToken = res.data.user.token;
@@ -105,7 +105,7 @@ const SignupProfile = () => {
           image: imageURL,
         },
       };
-      const res = await api.post("/user", JSON.stringify(data));
+      const res = await instance.post("/user", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
       if (res.data.message === "회원가입 성공") {
         await loginControl();

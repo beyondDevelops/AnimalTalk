@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Header from "../../shared/Header/Header";
 import Textarea from "../../components/Textarea/Textarea";
-import { api, axiosImgUpload } from "../../api/axios";
+import { instance, imgInstance } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PostUpload = () => {
@@ -23,7 +23,7 @@ const PostUpload = () => {
 
   const convertURLtoFile = async (url) => {
     // axios? api?
-    const res = await api({
+    const res = await instance({
       url,
       method: "get",
       responseType: "blob",
@@ -90,7 +90,7 @@ const PostUpload = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("image", files[i]);
       }
-      const res = await axiosImgUpload.post("/image/uploadfiles", formData);
+      const res = await imgInstance.post("/image/uploadfiles", formData);
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
@@ -111,7 +111,7 @@ const PostUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(images);
 
-        const res = await api.post(
+        const res = await instance.post(
           "/post/",
           {
             post: {
@@ -148,7 +148,7 @@ const PostUpload = () => {
         const token = localStorage.getItem("token");
         const imageName = await imageFormData(images);
 
-        const res = await api.put(
+        const res = await instance.put(
           `/post/${post.id}`,
           {
             post: {

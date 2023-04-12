@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../api/axios";
+import { instance } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const SimpleUserList = ({
@@ -39,7 +39,7 @@ const SimpleUserList = ({
   // followReq, unfollowReq 함수는 중복으로 사용되고 있습니다. api에서 관리할 필요가 있습니다.
   const followReq = async () => {
     // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
-    const res = await api.post(
+    const res = await instance.post(
       `/profile/${followAccount}/follow`,
       {},
       {
@@ -52,7 +52,7 @@ const SimpleUserList = ({
   };
 
   const unfollowReq = async () => {
-    const res = await api.delete(`/profile/${followAccount}/unfollow`, {
+    const res = await instance.delete(`/profile/${followAccount}/unfollow`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
