@@ -30,8 +30,11 @@ const router = createBrowserRouter(
         },
         {
           path: "login",
-          element: <LoginHome />,
           children: [
+            {
+              path: "",
+              element: <LoginHome />,
+            },
             {
               path: "email",
               element: <LoginEmail />,
@@ -40,8 +43,11 @@ const router = createBrowserRouter(
         },
         {
           path: "signup",
-          element: <SignUp />,
           children: [
+            {
+              path: "",
+              element: <SignUp />,
+            },
             {
               path: "profile",
               element: <SignupProfile />,
@@ -61,8 +67,11 @@ const router = createBrowserRouter(
             },
             {
               path: "profile/:accountname",
-              element: <UserFeed />,
               children: [
+                {
+                  path: "",
+                  element: <UserFeed />,
+                },
                 {
                   path: "followers",
                   element: <Follows />,
@@ -99,8 +108,11 @@ const router = createBrowserRouter(
             },
             {
               path: "chat",
-              element: <ChatList />,
               children: [
+                {
+                  path: "",
+                  element: <ChatList />,
+                },
                 {
                   path: ":accountname",
                   element: <ChatRoom />,
