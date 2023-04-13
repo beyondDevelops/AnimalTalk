@@ -1,4 +1,3 @@
-import React from "react";
 const ModalInfo = ({ onModalAction, onModalInfo, contentOne, contentTwo, modalRef }) => {
   return (
     <section onClick={onModalInfo} ref={modalRef} className="absolute inset-0">
