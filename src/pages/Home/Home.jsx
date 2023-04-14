@@ -11,7 +11,7 @@ import { readFollowingFeed } from "../../api/Feed/readFollowingFeed";
 const Home = () => {
   const { data, status, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["post"],
-    ({ pageParam = 0 }) => readFollowingFeed(pageParam),
+    ({ pageParam = 1 }) => readFollowingFeed(pageParam),
     {
       getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
     }

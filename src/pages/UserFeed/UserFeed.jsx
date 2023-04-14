@@ -39,7 +39,7 @@ const UserFeed = () => {
   // 피드 정보 무한스크롤 기능 구현
   const { data, status, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["userPost", pageAccount],
-    ({ pageParam = 0 }) => readMyFeed(pageAccount, pageParam),
+    ({ pageParam = 1 }) => readMyFeed(pageAccount, pageParam),
     {
       getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
     }

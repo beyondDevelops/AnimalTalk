@@ -23,7 +23,7 @@ const PostDetail = () => {
   // 댓글 리스트 무한 스크롤 기능
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["comment"],
-    ({ pageParam = 0 }) => readCommentList(postId, pageParam),
+    ({ pageParam = 1 }) => readCommentList(postId, pageParam),
     {
       enabled: isUpload,
       getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
