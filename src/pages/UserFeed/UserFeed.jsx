@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { readClubList } from "../../api/Club/readClubList";
 import { readProfile } from "../../api/Profile/readProfile";
+import { useInfiniteQuery } from "react-query";
+import { readClubList } from "../../api/Club/readClubList";
 import { readMyFeed } from "../../api/Feed/readMyFeed";
 import Header from "../../shared/Header/Header";
 import UserProfile from "../../shared/Profile/UserProfile";
@@ -11,11 +12,10 @@ import PostTypeSelectBar from "../../components/PostTypeSelectBar/PostTypeSelect
 import NoFeed from "../../components/NoFeed/NoFeed";
 import ErrorFeed from "../../components/ErrorFeed/ErrorFeed";
 import Post from "../../shared/Post/Post";
+import { PostAlbumOutline } from "../../shared/Post/PostAlbumOutline";
 import Footer from "../../shared/Footer/Footer";
 import ModalInfo from "../../components/ModalModule/ModalInfo";
 import Modal from "../../components/ModalModule/Modal";
-import { useInfiniteQuery } from "react-query";
-import { PostAlbumOutline } from "../../shared/Post/PostAlbumOutline";
 
 const UserFeed = () => {
   const [isUpload, setIsUpload] = useState(true);
