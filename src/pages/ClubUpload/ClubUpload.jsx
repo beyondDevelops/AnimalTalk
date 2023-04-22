@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from "rea
 import { useLocation, useNavigate } from "react-router-dom";
 import { instance, imgInstance } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
+import { convertURLtoFile } from "../../api/Image/convertURLtoFile";
 import Header from "../../shared/Header/Header";
 
 const ClubUpload = () => {
@@ -24,19 +25,6 @@ const ClubUpload = () => {
   const location = useLocation();
   const product = location.state?.clubData;
   const { accountname } = useContext(AuthContext);
-
-  const convertURLtoFile = async (url) => {
-    // axios? api?
-    const res = await instance({
-      url,
-      method: "get",
-      responseType: "blob",
-    });
-    const ext = url.split(".").pop();
-    const filename = url.split("/").pop();
-    const metadata = { type: `image/${ext}` };
-    return new File([res.data], filename, metadata);
-  };
 
   useEffect(() => {
     if (!product) return;
