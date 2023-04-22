@@ -3,6 +3,7 @@ import Header from "../../shared/Header/Header";
 import Textarea from "../../components/Textarea/Textarea";
 import { instance, imgInstance } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { convertURLtoFile } from "../../api/Image/convertURLtoFile";
 
 const PostUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
@@ -20,19 +21,6 @@ const PostUpload = () => {
   const location = useLocation();
   const post = location.state?.post;
   const myProfile = location.state?.image;
-
-  const convertURLtoFile = async (url) => {
-    // axios? api?
-    const res = await instance({
-      url,
-      method: "get",
-      responseType: "blob",
-    });
-    const ext = url.split(".").pop();
-    const filename = url.split("/").pop();
-    const metadata = { type: `image/${ext}` };
-    return new File([res.data], filename, metadata);
-  };
 
   useEffect(() => {
     if (!post) return;
