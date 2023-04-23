@@ -1,20 +1,17 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { instance, imgInstance } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 import { convertURLtoFile } from "../../api/Image/convertURLtoFile";
 import Header from "../../shared/Header/Header";
 import { moneyWithComma } from "../../utils/currentUnitComma";
 import { useForm } from "react-hook-form";
+import { createSingleImage } from "../../api/Image/createSingleImage";
+import { createClub } from "../../api/Club/createClub";
+import { updateClub } from "../../api/Club/updateClub";
 
 const ClubUpload = () => {
   const imgUpload = `${process.env.PUBLIC_URL}/assets/img/img-button.png`;
   const imgUploadFin = `${process.env.PUBLIC_URL}/assets/img/icon-upload-file.png`;
-
-  const [image, setImage] = useState([]);
-  const [imageURL, setImageURL] = useState([]);
-  const [uploadPossible, setUploadPossible] = useState(true);
-  const [submitTextData, setSubmitTextData] = useState({});
 
   const {
     register,
@@ -30,23 +27,17 @@ const ClubUpload = () => {
     },
   });
 
-  useEffect(() => {
-    setFocus("clubName");
-  }, [setFocus]);
-
-  const onSubmitTextData = (data) => {
-    const clubTextData = {
-      itemName: data.clubName,
-      price: moneyWithComma(data.clubFee),
-      link: data.clubLocation,
-    };
-    setSubmitTextData(clubTextData);
-  };
+  const [image, setImage] = useState([]);
+  const [imageURL, setImageURL] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
   const product = location.state?.clubData;
   const { accountname } = useContext(AuthContext);
+
+  useEffect(() => {
+    setFocus("clubName");
+  }, [setFocus]);
 
   // 모임을 수정하고자 하는 경우 - 모임 데이터 가져오기
   useEffect(() => {
@@ -62,6 +53,7 @@ const ClubUpload = () => {
     setValue("clubLocation", product.link);
   }, [product, setValue]);
 
+  // 모임 참가비 입력 시 콤마 자동 추가
   const clubFeeValidation = (value) => {
     if (parseInt(value)) {
       const numberTypeValue = parseInt(value.match(/[0-9]/g).join(""));
@@ -81,95 +73,54 @@ const ClubUpload = () => {
     setImage([...e.target.files]);
   };
 
+  // 이미지 미리보기에 사용되기 위한 URL 생성
   useEffect(() => {
     const newImageURL = [];
     image.map((i) => newImageURL.push(URL.createObjectURL(i)));
     setImageURL(newImageURL);
   }, [image]);
 
-  const imageFormData = async (file) => {
-    try {
-      const formData = new FormData();
-      formData.append("image", file[0]);
-
-      const res = await imgInstance.post("/image/uploadfile", formData);
-      if (res.status !== 200) {
-        throw new Error(res.status, "통신에 실패했습니다.");
-      }
-      return res.data.filename;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const onClubUpload = useCallback(
-    async (e) => {
-      try {
-        e.preventDefault();
-        setUploadPossible(false);
-
-        const token = localStorage.getItem("token");
-        const imageName = await imageFormData(image);
-
-        const submitData = {
-          product: {
-            ...submitTextData,
-            itemImage: imageName,
-          },
-        };
-
-        const res = await instance.post("/product", JSON.stringify(submitData), {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (res.status !== 200) {
-          setUploadPossible(true);
-          throw new Error(res.status, "통신에 실패했습니다.");
-        }
-
+    async (data) => {
+      const clubTextData = {
+        itemName: data.clubName,
+        price: parseInt(data.clubFee.replaceAll(",", "")),
+        link: data.clubLocation,
+      };
+      const imageName = await createSingleImage(image);
+      const submitData = {
+        product: {
+          ...clubTextData,
+          itemImage: imageName,
+        },
+      };
+      const res = await createClub(submitData);
+      if (res) {
         navigate(`/profile/${accountname}`);
-      } catch (err) {
-        console.log(err);
       }
     },
     [accountname, image, navigate]
   );
 
   const onClubUpEdit = useCallback(
-    async (e) => {
-      try {
-        e.preventDefault();
-        setUploadPossible(false);
-
-        const token = localStorage.getItem("token");
-        const imageName = await imageFormData(image);
-
-        const submitData = {
-          product: {
-            ...submitTextData,
-            itemImage: imageName,
-          },
-        };
-
-        const res = await instance.put(`/product/${product.id}`, JSON.stringify(submitData), {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (res.status !== 200) {
-          setUploadPossible(true);
-          throw new Error(res.status, "통신에 실패했습니다.");
-        }
-
+    async (data) => {
+      const clubTextData = {
+        itemName: data.clubName,
+        price: parseInt(data.clubFee.replaceAll(",", "")),
+        link: data.clubLocation,
+      };
+      const imageName = await createSingleImage(image);
+      const submitData = {
+        product: {
+          ...clubTextData,
+          itemImage: imageName,
+        },
+      };
+      const res = await updateClub(submitData, product.id);
+      if (res) {
         navigate(`/profile/${accountname}`);
-      } catch (err) {
-        console.log(err);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [image, navigate]
   );
 
@@ -178,8 +129,8 @@ const ClubUpload = () => {
       <Header
         headerFor="save"
         btnText="저장"
-        isActive={uploadPossible && !errors.clubName && !errors.clubFee && !errors.clubLocation && imageURL.length}
-        onSubmitForm={handleSubmit(onSubmitTextData)}
+        isActive={imageURL.length ? true : false}
+        onSubmitForm={product ? handleSubmit(onClubUpEdit) : handleSubmit(onClubUpload)}
       />
       <main>
         <form className="mt-[3rem] mx-[3.4rem]">
@@ -223,7 +174,7 @@ const ClubUpload = () => {
               }`}
               value={product?.itemName}
               {...register("clubName", {
-                required: true,
+                required: "2~15자 이내여야 합니다.",
                 minLength: {
                   value: 2,
                   message: "2~15자 이내여야 합니다.",
@@ -248,12 +199,11 @@ const ClubUpload = () => {
               }`}
               value={product?.price}
               {...register("clubFee", {
-                required: true,
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: "0부터 9까지의 숫자만 입력 가능합니다.",
+                required: {
+                  value: true,
+                  message: "참가비를 입력해주세요.",
                 },
-                validate: (value) => (value > 0 ? true : "0보다 큰 숫자를 입력해주세요."),
+                pattern: /^[1-9][0-9]{0,2}(,[0-9]{3})*$/,
               })}
               onChange={(e) => setValue("clubFee", clubFeeValidation(e.target.value))}
             />
