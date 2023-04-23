@@ -41,7 +41,7 @@ export default function Header({ headerFor, title, onModalInfo, isActive, btnTex
           save: (
             <>
               <PreviousButton />
-              <form onClick={onSubmitForm}>
+              <form onSubmit={onSubmitForm}>
                 <button
                   className={`btn-md text-[1.4rem] text-[#fff] my-[0.8rem] ${isActive ? "bg-m-color" : "bg-s-color"}`}
                   disabled={!isActive}
