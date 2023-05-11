@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/axios";
+import { instance } from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const Signup = () => {
@@ -28,21 +28,12 @@ const Signup = () => {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    const userInfo = {
-      email: formData.email,
-      password: formData.password,
+    const data = {
+      user: { ...formData },
     };
-    console.log(userInfo);
 
     try {
-      const res = await api.post(
-        "/user/emailvalid",
-        JSON.stringify({
-          user: {
-            email: formData.email,
-          },
-        })
-      );
+      const res = await instance.post("/user/emailvalid", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
       if (res.data.message === "이미 가입된 이메일 주소 입니다.") {
         setIswrong(!isWrong);
@@ -51,7 +42,7 @@ const Signup = () => {
 
       navigate("/signup/profile", {
         state: {
-          userInfo,
+          data,
         },
       });
     } catch (err) {
@@ -62,62 +53,60 @@ const Signup = () => {
   };
 
   return (
-    <div className="page">
-      <main className="w-[39rem] h-screen mx-auto bg-white flex flex-col">
-        <h1 className="pt-[3rem] pb-[4rem] text-center text-[2.4rem] font-medium">이메일로 회원가입</h1>
-        <form action="" className="flex flex-col items-center" onSubmit={handleSignupSubmit}>
-          <fieldset className="mb-[1.6rem]">
-            <legend className="ir">이메일</legend>
+    <main className="w-[39rem] h-screen mx-auto bg-white flex flex-col">
+      <h1 className="pt-[3rem] pb-[4rem] text-center text-[2.4rem] font-medium">이메일로 회원가입</h1>
+      <form action="" className="flex flex-col items-center" onSubmit={handleSignupSubmit}>
+        <fieldset className="mb-[1.6rem]">
+          <legend className="ir">이메일</legend>
 
-            <label htmlFor="emailId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              이메일
-            </label>
-            <input
-              required
-              id="email"
-              type="email"
-              ref={(el) => (inputRef.current["email"] = el)}
-              placeholder="ex. animal@talk.com"
-              onChange={handleFormData}
-              pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
-              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-            />
-            {isWrong ? null : (
-              <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">
-                * 이미 가입된 이메일 주소입니다.
-              </p>
-            )}
-          </fieldset>
+          <label htmlFor="emailId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            이메일
+          </label>
+          <input
+            required
+            id="email"
+            type="email"
+            ref={(el) => (inputRef.current["email"] = el)}
+            placeholder="ex. animal@talk.com"
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
+            className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+          />
+          {isWrong ? null : (
+            <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">
+              * 이미 가입된 이메일 주소입니다.
+            </p>
+          )}
+        </fieldset>
 
-          <fieldset className="mt-[1.5rem]">
-            <legend className="ir">비밀번호</legend>
-            <label htmlFor="pw" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              비밀번호
-            </label>
-            <input
-              required
-              id="password"
-              type="password"
-              ref={(el) => (inputRef.current["password"] = el)}
-              placeholder="6자리 이상 입력해주세요."
-              onChange={(e) => {
-                handleFormData(e);
-                handlePasswordLengthCheck();
-                handleBtnControl();
-              }}
-              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
-            />
-          </fieldset>
+        <fieldset className="mt-[1.5rem]">
+          <legend className="ir">비밀번호</legend>
+          <label htmlFor="pw" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            비밀번호
+          </label>
+          <input
+            required
+            id="password"
+            type="password"
+            ref={(el) => (inputRef.current["password"] = el)}
+            placeholder="6자리 이상 입력해주세요."
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            className="w-[32.2rem] border-b-[1px] py-[0.8rem] border-cst-light-gray outline-none"
+          />
+        </fieldset>
 
-          <button
-            disabled={!isActive}
-            className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
-          >
-            다음
-          </button>
-        </form>
-      </main>
-    </div>
+        <button
+          disabled={!isActive}
+          className={`btn-xl ${isActive ? "btn-on" : "btn-off"} text-[#fff] mt-[6rem] mb-[2rem] text-center`}
+        >
+          다음
+        </button>
+      </form>
+    </main>
   );
 };
 

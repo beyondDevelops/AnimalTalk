@@ -1,12 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom/dist";
+import { useNavigate, useParams } from "react-router-dom/dist";
 
 const NoFeed = () => {
   const defaultImg = `${process.env.PUBLIC_URL}/assets/img/char-default-cat.svg`;
 
+  const { accountname } = useParams();
   const navigate = useNavigate();
 
-  return (
+  return accountname ? (
+    <>
+      <img src={defaultImg} alt="노트북을 들고 있는 고양이" className="mx-[auto] mt-[25%] mb-[3rem]" />
+      <p className="text-[1.6rem] text-center text-m-color">작성된 게시글이 없어요...ㅠㅠ</p>
+    </>
+  ) : (
     <section className="h-full my-auto flex flex-col justify-center items-center">
       <h2 className="ir">유저를 검색해주세요.</h2>
       <img src={defaultImg} alt="팔로우하는 유저가 없습니다." className="w-[14.5rem] h-[20rem] align-bottom" />

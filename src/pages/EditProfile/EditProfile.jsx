@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
-import api, { axiosImgUpload } from "../../api/axios";
+import { instance, imgInstance } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
-import { HeaderSave } from "../../shared/Header/HeaderSave";
+import Header from "../../shared/Header/Header";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const EditProfile = () => {
@@ -42,7 +42,7 @@ const EditProfile = () => {
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        const res = await api.get("/user/myinfo", {
+        const res = await instance.get("/user/myinfo", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -55,10 +55,10 @@ const EditProfile = () => {
       }
     };
     getProfileData();
-  }, []);
+  }, [token]);
 
   if (myProfileData.user === undefined) {
-    return;
+    return null;
   }
 
   const ImageFormData = async (file) => {
@@ -66,7 +66,7 @@ const EditProfile = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await axiosImgUpload.post("/image/uploadfile", formData);
+      const res = await imgInstance.post("/image/uploadfile", formData);
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
@@ -114,7 +114,7 @@ const EditProfile = () => {
       // 프로필 이미지를 수정한 경우, 수정한 데이터를 ImageFormData로 보내줍니다.
       imageURL = await ImageFormData(imgRef.current.files[0]);
 
-      const res = await api.put(
+      const res = await instance.put(
         "/user",
         {
           user: {
@@ -150,9 +150,10 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="page">
-      <HeaderSave isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
+    <>
+      <Header headerFor="save" isActive={isActive} btnText="저장" onSubmitForm={handleEditProfile} />
       <main className="h-screen flex flex-col">
+        <h1 className="ir">프로필 수정</h1>
         <form action="" className="flex flex-col items-center">
           <fieldset>
             <legend className="ir">프로필 사진 업로드</legend>
@@ -225,7 +226,7 @@ const EditProfile = () => {
           </fieldset>
         </form>
       </main>
-    </div>
+    </>
   );
 };
 

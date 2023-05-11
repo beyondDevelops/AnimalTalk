@@ -1,51 +1,66 @@
-import { HeaderFeed } from "../../shared/Header/HeaderFeed";
-import Post from "../../shared/Post/Post";
-import NoFeed from "../../components/NoFeed/NoFeed";
+import { useRef, useCallback } from "react";
+import Header from "../../shared/Header/Header";
 import Footer from "../../shared/Footer/Footer";
-import axios from "../../api/axios";
-import { useState, useRef, useEffect } from "react";
-import useIntersect from "../../hooks/useIntersect";
+import Post from "../../shared/Post/Post";
+import ErrorFeed from "../../components/ErrorFeed/ErrorFeed";
+import NoFeed from "../../components/NoFeed/NoFeed";
+import { v4 as uuidv4 } from "uuid";
+import { useInfiniteQuery } from "react-query";
+import { readFollowingFeed } from "../../api/Feed/readFollowingFeed";
 
 const Home = () => {
-  const token = localStorage.getItem("token");
-  const [posts, setPosts] = useState([]);
-  const [state, setState] = useState({ postNum: 0, moreFeed: true });
-
-  const getFollowersFeeds = async () => {
-    try {
-      const res = await axios.get(`/post/feed?limit=10&skip=${state.postNum}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setPosts((prev) => [...prev, ...res.data.posts]);
-      setState((prev) => ({ postNum: prev.postNum + 10, moreFeed: posts.length % 10 === 0 }));
-    } catch (err) {
-      console.log(err);
+  const { data, status, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ["post"],
+    ({ pageParam = 1 }) => readFollowingFeed(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
     }
-  };
-
-  useEffect(() => {
-    if (posts.length === 0) {
-      getFollowersFeeds();
-    }
-  }, []);
-
+  );
   const observerTarget = useRef(null);
+  const lastFeedRef = useCallback(
+    (post) => {
+      if (isFetchingNextPage) return;
+      if (observerTarget.current) observerTarget.current.disconnect();
+      observerTarget.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (post) observerTarget.current.observe(post);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
+  );
 
-  useIntersect(observerTarget, state.postNum, state.moreFeed, getFollowersFeeds);
+  if (status === "error") {
+    return (
+      <>
+        <Header headerFor="feed" />
+        <ErrorFeed errorMsg={error.message} />
+        <Footer />
+      </>
+    );
+  }
+
+  const content =
+    data?.pages.length === 0 ? (
+      <NoFeed />
+    ) : (
+      data?.pages.map((page) => {
+        return page?.map((post, idx) => {
+          if (page.length === idx + 1) {
+            return <Post key={post.id + uuidv4()} post={post} ref={lastFeedRef} />;
+          }
+          return <Post key={post.id + uuidv4()} post={post} />;
+        });
+      })
+    );
 
   return (
-    <div className="page">
-      <HeaderFeed />
-      <main>
-        <>
-          {posts.length > 0 ? posts.map((post) => <Post key={post.id} post={post} />) : <NoFeed />}
-          {posts.length > 0 && <div ref={observerTarget}></div>}
-        </>
-      </main>
+    <>
+      <Header headerFor="feed" />
+      <main>{content}</main>
       <Footer />
-    </div>
+    </>
   );
 };
 

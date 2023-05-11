@@ -1,11 +1,10 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState, forwardRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../../api/axios";
+import { instance } from "../../api/axios";
 import ModalPost from "../../components/ModalModule/ModalPost";
 import ModalPostImg from "../../components/ModalModule/ModalPostImg";
 
-const Post = ({ post, setIsUpload }) => {
-  // 아래 이미지 변수는 기본 설정입니다.
+const Post = forwardRef(({ post, setIsUpload }, ref) => {
   const profileSmallImg =
     post.author.image !== "http://146.56.183.55:5050/Ellipse.png"
       ? post.author.image
@@ -43,12 +42,12 @@ const Post = ({ post, setIsUpload }) => {
       const token = localStorage.getItem("token");
 
       const res = isLike
-        ? await axios.delete(`/post/${post.id}/unheart`, {
+        ? await instance.delete(`/post/${post.id}/unheart`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
-        : await axios.post(`/post/${post.id}/heart`, [], {
+        : await instance.post(`/post/${post.id}/heart`, [], {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -64,8 +63,9 @@ const Post = ({ post, setIsUpload }) => {
   // 유저 클릭 시 페이지 이동
   const handleLink = () => navigate(`/profile/${post.author.accountname}`);
 
-  return (
+  const feed = (
     <>
+      {/* 게시글 피드 */}
       <section className="my-[2rem] mx-[1.6rem]">
         <img
           tabIndex="0"
@@ -148,12 +148,14 @@ const Post = ({ post, setIsUpload }) => {
           <></>
         )}
 
+        {/* 좋아요 */}
         <form className="inline-flex align-bottom">
           <button onClick={handleLikeBtn} className="inline-flex items-center ml-[5.4rem] mr-[1.8rem] text-cst-gray">
             <img className="w-[2rem] h-[2rem]" src={isLike ? heartOnImg : heartOffImg} alt="좋아요" />
             <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">{likeCount}</span>
           </button>
         </form>
+        {/* 댓글 */}
         <Link
           to={`/post/${post.id}`}
           state={{ ...{ post } }}
@@ -162,6 +164,7 @@ const Post = ({ post, setIsUpload }) => {
           <img className="w-[2rem] h-[2rem]" src={commentImg} alt="댓글 확인하기" />
           <span className="text-[1.2rem] leading-[1.2rem] ml-[0.6rem]">{post.commentCount}</span>
         </Link>
+        {/* 게시글 업로드 시간 */}
         <time
           dateTime={`${year}-${month}-${date}`}
           className="block ml-[5.4rem] mt-[1.8rem] mb-[0.4rem] text-[1rem] leading-[1.2rem] text-[#767676]"
@@ -170,11 +173,16 @@ const Post = ({ post, setIsUpload }) => {
         </time>
       </section>
 
+      {/* 게시글 이미지 모달 */}
       {modalPostImg ? <ModalPostImg imgArr={postImg.split(",")} {...{ setModalPostImg }} {...{ post }} /> : <></>}
-
+      {/* 게시글 모달 */}
       {modalPost ? <ModalPost {...{ setModalPost }} {...{ post }} {...{ setIsUpload }} /> : <></>}
     </>
   );
-};
+
+  const content = ref ? <article ref={ref}>{feed}</article> : <article>{feed}</article>;
+
+  return content;
+});
 
 export default Post;

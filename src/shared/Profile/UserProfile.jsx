@@ -1,11 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import api from "../../api/axios";
-import axios from "../../api/axios";
+import { instance } from "../../api/axios";
 
 const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
-  const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.png`;
+  const chatImg = `${process.env.PUBLIC_URL}/assets/img/icon-message-circle-line-profile.svg`;
   const shareImg = `${process.env.PUBLIC_URL}/assets/img/icon-share.png`;
   const defaultProfile = `${process.env.PUBLIC_URL}/assets/img/profile-woman-large.png`;
 
@@ -33,7 +32,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
     const token = localStorage.getItem("token");
     const getUserInfo = async () => {
       try {
-        const res = await axios.get("/user/myinfo", {
+        const res = await instance.get("/user/myinfo", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -48,7 +47,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
 
   const followReq = async () => {
     // 로그인한 사용자의 토큰으로 상대방 계정이 포함된 api url 통신을 하여야 함
-    const res = await api.post(
+    const res = await instance.post(
       `/profile/${pageAccount}/follow`,
       {},
       {
@@ -63,7 +62,7 @@ const UserProfile = ({ pageProfile, setIsUpload, editAccountname }) => {
   };
 
   const unfollowReq = async () => {
-    const res = await api.delete(`/profile/${pageAccount}/unfollow`, {
+    const res = await instance.delete(`/profile/${pageAccount}/unfollow`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

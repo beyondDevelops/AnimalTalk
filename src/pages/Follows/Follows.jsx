@@ -1,87 +1,130 @@
-import { useEffect, useState } from "react";
-import { HeaderFollow } from "../../shared/Header/HeaderFollow";
+import { useRef, useCallback } from "react";
+import { useLocation } from "react-router-dom";
+import Header from "../../shared/Header/Header";
 import SimpleUserList from "../../shared/SimpleUserList/SimpleUserList";
 import Footer from "../../shared/Footer/Footer";
-import { useLocation } from "react-router-dom";
-import api from "../../api/axios";
+import { readFollowerList } from "../../api/Profile/follow/readFollowerList";
+import { readFollowingList } from "../../api/Profile/follow/readFollowingList";
+import { useInfiniteQuery } from "react-query";
 
 const Follow = () => {
-  const [followerList, setFollowerList] = useState(null);
-  const [followingList, setFollowingList] = useState(null);
-
   const location = useLocation();
   const pageAccount = location.pathname.split("/")[2];
   const pageName = location.pathname.split("/")[3];
 
-  const token = localStorage.getItem("token");
-
-  const getFollowerList = async () => {
-    const res = await api.get(`/profile/${pageAccount}/follower?limit=${Infinity}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setFollowerList(res.data);
-  };
-
-  const getFollowingList = async () => {
-    const res = await api.get(`/profile/${pageAccount}/following?limit=${Infinity}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setFollowingList(res.data);
-  };
-
-  useEffect(() => {
-    if (pageName === "followers" && !followerList) {
-      getFollowerList();
-    } else if (pageName === "followings" && !followingList) {
-      getFollowingList();
+  const {
+    data: userList,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    pageName === "followers" ? ["followerList", pageAccount] : ["followingList", pageAccount],
+    ({ pageParam = 1 }) => {
+      if (pageName === "followers") {
+        return readFollowerList(pageAccount, pageParam);
+      } else {
+        return readFollowingList(pageAccount, pageParam);
+      }
+    },
+    {
+      enabled: pageName === "followers" || pageName === "followings",
+      getNextPageParam: (lastPage, allPages) => (lastPage?.length ? allPages.length + 1 : undefined),
     }
-  }, [pageName, followerList, followingList]);
+  );
+  // console.log(userList);
+
+  const observerTarget = useRef(null);
+  const lastUserRef = useCallback(
+    (user) => {
+      if (isFetchingNextPage) return;
+      if (observerTarget.current) observerTarget.current.disconnect();
+      observerTarget.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (user) observerTarget.current.observe(user);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
+  );
+
+  const followerContent = userList?.pages.map((page) => {
+    return page?.map((user, idx) => {
+      if (page.length === idx + 1) {
+        return (
+          <SimpleUserList
+            key={user._id}
+            isfollow={user.isfollow}
+            followAccount={user.accountname}
+            username={user.username}
+            profileSmallImg={user.image}
+            content={user.intro}
+            isBtn={true}
+            isfollowMode={true}
+            chat={null}
+            ref={lastUserRef}
+          />
+        );
+      }
+      return (
+        <SimpleUserList
+          key={user._id}
+          isfollow={user.isfollow}
+          followAccount={user.accountname}
+          username={user.username}
+          profileSmallImg={user.image}
+          content={user.intro}
+          isBtn={true}
+          isfollowMode={true}
+          chat={null}
+        />
+      );
+    });
+  });
+
+  const followingContent = userList?.pages.map((page) => {
+    return page?.map((user, idx) => {
+      if (page.length === idx + 1) {
+        return (
+          <SimpleUserList
+            key={user._id}
+            isfollow={user.isfollow}
+            followAccount={user.accountname}
+            username={user.username}
+            profileSmallImg={user.image}
+            content={user.intro}
+            isBtn={true}
+            isfollowMode={true}
+            chat={null}
+            ref={lastUserRef}
+          />
+        );
+      }
+      return (
+        <SimpleUserList
+          key={user._id}
+          isfollow={user.isfollow}
+          followAccount={user.accountname}
+          username={user.username}
+          profileSmallImg={user.image}
+          content={user.intro}
+          isBtn={true}
+          isfollowMode={true}
+          chat={null}
+        />
+      );
+    });
+  });
 
   return (
-    <div className="page">
-      <HeaderFollow title={pageName} />
+    <>
+      <Header headerFor="follow" title={pageName} />
       <main>
-        {pageName === "followers" && followerList && followerList.length > 0 ? (
-          followerList.map((follower) => (
-            <SimpleUserList
-              key={follower._id}
-              isBtn={true}
-              isfollowMode={true}
-              chat={null}
-              isfollow={follower.isfollow}
-              followAccount={follower.accountname}
-              username={follower.username}
-              profileSmallImg={follower.image}
-              content={follower.intro}
-            />
-          ))
-        ) : (
-          <></>
-        )}
-        {pageName === "followings" && followingList && followingList.length > 0 ? (
-          followingList.map((follower) => (
-            <SimpleUserList
-              key={follower._id}
-              isBtn={true}
-              isfollowMode={true}
-              chat={null}
-              isfollow={follower.isfollow}
-              followAccount={follower.accountname}
-              username={follower.username}
-              profileSmallImg={follower.image}
-              content={follower.intro}
-            />
-          ))
-        ) : (
-          <></>
-        )}
+        {pageName === "followers" && followerContent ? followerContent : <></>}
+        {pageName === "followings" && followingContent ? followingContent : <></>}
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import api, { axiosImgUpload } from "../../api/axios";
+import { instance, imgInstance } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "../../api/axios";
 import useLengthCheck from "../../hooks/useLengthCheck";
 
 const SignupProfile = () => {
@@ -11,7 +10,7 @@ const SignupProfile = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { email, password } = location.state;
+  const { email, password } = location.state.data.user;
 
   const inputRef = useRef([]);
 
@@ -40,7 +39,8 @@ const SignupProfile = () => {
   };
 
   const convertURLtoFile = async (url) => {
-    const res = await axios({
+    // axios? api?
+    const res = await instance({
       url,
       method: "get",
       responseType: "blob",
@@ -57,7 +57,7 @@ const SignupProfile = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await axiosImgUpload.post("/image/uploadfile", formData);
+      const res = await imgInstance.post("/image/uploadfile", formData);
       if (res.status !== 200) {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
@@ -70,17 +70,15 @@ const SignupProfile = () => {
 
   // 회원가입시 바로 로그인이 될 수 있게
   const loginControl = async () => {
-    try {
-      const res = await api.post(
-        "/user/login",
-        JSON.stringify({
-          user: {
-            email,
-            password,
-          },
-        })
-      );
+    const data = {
+      user: {
+        email,
+        password,
+      },
+    };
 
+    try {
+      const res = await instance.post("/user/login", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
 
       const accessToken = res.data.user.token;
@@ -97,22 +95,18 @@ const SignupProfile = () => {
     try {
       const defaultImg = await convertURLtoFile("https://mandarin.api.weniv.co.kr/1672734242192.png");
       const imageURL = await ImageFormData(inputRef.current["image"].files[0] || defaultImg);
-
-      const res = await api.post(
-        "/user",
-        JSON.stringify({
-          user: {
-            username: inputRef.current["username"].value,
-            email,
-            password,
-            accountname: inputRef.current["accountname"].value,
-            intro: inputRef.current["intro"].value,
-            image: imageURL,
-          },
-        })
-      );
+      const data = {
+        user: {
+          username: inputRef.current["username"].value,
+          email,
+          password,
+          accountname: inputRef.current["accountname"].value,
+          intro: inputRef.current["intro"].value,
+          image: imageURL,
+        },
+      };
+      const res = await instance.post("/user", JSON.stringify(data));
       if (res.status !== 200) throw new Error("서버로부터의 통신에 실패하였습니다.");
-
       if (res.data.message === "회원가입 성공") {
         await loginControl();
         navigate("/home");
@@ -152,103 +146,95 @@ const SignupProfile = () => {
   };
 
   return (
-    <div className="page">
-      <main className="h-screen flex flex-col">
-        <strong className="pt-[3rem] pb-[1.2rem] text-center text-[2.4rem] font-medium">프로필 설정</strong>
-        <p className="text-center text-cst-gray">언제든지 변경이 가능합니다.</p>
-        <form action="" className="flex flex-col items-center">
-          <fieldset>
-            <legend className="ir">프로필 사진 업로드</legend>
-            <label htmlFor="imgUpload" className="block relative my-[3rem] cursor-pointer">
-              <img
-                src={profileImage ? profileImage : baseProfile}
-                alt="프로필 이미지 업로드"
-                className="w-[11rem] h-[11rem] rounded-full object-cover"
-              />
-              <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
-            </label>
-            <input
-              id="imgUpload"
-              type="file"
-              ref={(el) => (inputRef.current["image"] = el)}
-              accept="image/*"
-              onChange={imgPreview}
-              className="hidden"
+    <main className="h-screen flex flex-col">
+      <strong className="pt-[3rem] pb-[1.2rem] text-center text-[2.4rem] font-medium">프로필 설정</strong>
+      <p className="text-center text-cst-gray">언제든지 변경이 가능합니다.</p>
+      <form action="" className="flex flex-col items-center">
+        <fieldset>
+          <legend className="ir">프로필 사진 업로드</legend>
+          <label htmlFor="imgUpload" className="block relative my-[3rem] cursor-pointer">
+            <img
+              src={profileImage ? profileImage : baseProfile}
+              alt="프로필 이미지 업로드"
+              className="w-[11rem] h-[11rem] rounded-full object-cover"
             />
-          </fieldset>
+            <img src={upload} alt="" className="w-[3.6rem] h-[3.6rem] absolute right-0 bottom-0" />
+          </label>
+          <input
+            ref={(el) => (inputRef.current["image"] = el)}
+            id="imgUpload"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={imgPreview}
+          />
+        </fieldset>
 
-          <fieldset className="mb-[1.6rem]">
-            <legend className="ir">사용자 이름</legend>
+        <fieldset className="mb-[1.6rem]">
+          <legend className="ir">사용자 이름</legend>
 
-            <label htmlFor="name" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              사용자 이름
-            </label>
-            <input
-              required
-              id="username"
-              type="text"
-              ref={(el) => (inputRef.current["username"] = el)}
-              placeholder="2~10자 이내여야 합니다."
-              onChange={(e) => {
-                handleFormData(e);
-                handleUsernameLengthCheck();
-                handleBtnControl();
-              }}
-              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
-            />
-          </fieldset>
+          <label htmlFor="name" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            사용자 이름
+          </label>
+          <input
+            required
+            id="username"
+            type="text"
+            ref={(el) => (inputRef.current["username"] = el)}
+            placeholder="2~10자 이내여야 합니다."
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+          />
+        </fieldset>
 
-          <fieldset className="mb-[2.5rem]">
-            <legend className="ir">계정 ID</legend>
-            <label htmlFor="userId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              계정 ID
-            </label>
-            <input
-              required
-              id="accountname"
-              type="text"
-              ref={(el) => (inputRef.current["accountname"] = el)}
-              placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
-              onChange={(e) => {
-                handleFormData(e);
-                handleAccountnameLengthCheck();
-                handleBtnControl();
-              }}
-              className="xs:w-[26rem] sm:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
-            />
-            {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
-          </fieldset>
+        <fieldset className="mb-[2.5rem]">
+          <legend className="ir">계정 ID</legend>
+          <label htmlFor="userId" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            계정 ID
+          </label>
+          <input
+            required
+            id="accountname"
+            type="text"
+            ref={(el) => (inputRef.current["accountname"] = el)}
+            placeholder="영문,숫자,특수문자(.),(_)만 사용 가능합니다."
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+          />
+          {isWrong ? null : <p className="absolute font-normal text-[1.2rem] text-[#EB5757] mt-[0.6rem]">{errMsg}</p>}
+        </fieldset>
 
-          <fieldset>
-            <legend className="ir">소개</legend>
-            <label htmlFor="intro" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
-              소개
-            </label>
-            <input
-              id="intro"
-              type="text"
-              ref={(el) => (inputRef.current["intro"] = el)}
-              placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
-              onChange={(e) => {
-                handleFormData(e);
-                handleIntroLengthCheck();
-                handleBtnControl();
-              }}
-              className="xs:w-[100%] md:w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
-            />
-          </fieldset>
+        <fieldset>
+          <legend className="ir">소개</legend>
+          <label htmlFor="intro" className="block text-[1.2rem] text-cst-gray py-[0.4rem]">
+            소개
+          </label>
+          <input
+            id="intro"
+            type="text"
+            ref={(el) => (inputRef.current["intro"] = el)}
+            placeholder="본인과 반려동물을 소개해주세요. (5글자 이상)"
+            onChange={(e) => {
+              handleFormData(e);
+            }}
+            className="w-[32.2rem] border-b-[1px] border-cst-light-gray py-[0.8rem] outline-m-color"
+          />
+        </fieldset>
 
-          <button
-            onClick={handleProfileSetting}
-            className={`${
-              isActive ? "btn-on" : "pointer-events-none btn-off"
-            } btn-xl text-[#fff] mt-[3rem] mb-[2rem] text-center`}
-          >
-            애니멀톡 시작하기
-          </button>
-        </form>
-      </main>
-    </div>
+        <button
+          onClick={handleProfileSetting}
+          className={`${
+            isActive ? "btn-on" : "pointer-events-none btn-off"
+          } btn-xl text-[#fff] mt-[3rem] mb-[2rem] text-center`}
+        >
+          애니멀톡 시작하기
+        </button>
+      </form>
+    </main>
   );
 };
 
