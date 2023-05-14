@@ -77,7 +77,7 @@ const ModalPostImg = ({ imgArr, setModalPostImg, post }) => {
               src={
                 imgArr[currentIndex].includes("https")
                   ? imgArr[currentIndex]
-                  : `https://mandarin.api.weniv.co.kr/${imgArr[currentIndex]}`
+                  : `https://api.mandarin.weniv.co.kr/${imgArr[currentIndex]}`
               }
               alt=""
               className="min-w-full object-cover"

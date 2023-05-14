@@ -73,7 +73,7 @@ const EditProfile = () => {
       if (res.data.filename === undefined) {
         return;
       }
-      return "https://mandarin.api.weniv.co.kr/" + res.data.filename;
+      return "https://api.mandarin.weniv.co.kr/" + res.data.filename;
     } catch (err) {
       console.log(err);
     }

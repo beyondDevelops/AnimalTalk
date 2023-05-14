@@ -12,7 +12,7 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
 
   const clubImage = clubData.itemImage.includes("https")
     ? clubData.itemImage
-    : "https://mandarin.api.weniv.co.kr/" + clubData.itemImage;
+    : "https://api.mandarin.weniv.co.kr/" + clubData.itemImage;
   const clubName = clubData.itemName;
   const clubFee = comma(clubData.price);
   const clubLocation = clubData.link;
