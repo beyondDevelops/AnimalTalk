@@ -1,11 +1,13 @@
-const SimpleClub = ({ data, setIsClubModal, setClubData, comma }) => {
+import { moneyWithComma } from "../../utils/currentUnitComma";
+
+const SimpleClub = ({ data, setIsClubModal, setClubData }) => {
   // Note: 아래 주석처리된 변수는 추가 기능에 사용됩니다.
   // const navigate = useNavigate();
   // const clubId = data.id;
   const clubThumbnailImg = data.itemImage;
   const clubTitle = data.itemName;
 
-  const clubFee = comma(data.price);
+  const clubFee = moneyWithComma(data.price);
   const handleClubModal = () => {
     setClubData(data);
     setIsClubModal(true);
