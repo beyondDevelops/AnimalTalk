@@ -49,7 +49,7 @@ const UserSearch = () => {
             profileSmallImg={
               user.image &&
               user.image !== "http://146.56.183.55:5050/Ellipse.png" &&
-              user.image !== "https://mandarin.api.weniv.co.kr/Ellipse.png"
+              user.image !== "https://api.mandarin.weniv.co.kr/Ellipse.png"
                 ? user.image
                 : `${process.env.PUBLIC_URL}/assets/img/profile-man-small.png`
             }

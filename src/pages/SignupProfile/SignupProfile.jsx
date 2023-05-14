@@ -62,7 +62,7 @@ const SignupProfile = () => {
         throw new Error(res.status, "통신에 실패했습니다.");
       }
 
-      return "https://mandarin.api.weniv.co.kr/" + res.data.filename;
+      return "https://api.mandarin.weniv.co.kr/" + res.data.filename;
     } catch (err) {
       console.log(err);
     }
@@ -93,7 +93,7 @@ const SignupProfile = () => {
     e.preventDefault();
 
     try {
-      const defaultImg = await convertURLtoFile("https://mandarin.api.weniv.co.kr/1672734242192.png");
+      const defaultImg = await convertURLtoFile("https://api.mandarin.weniv.co.kr/1672734242192.png");
       const imageURL = await ImageFormData(inputRef.current["image"].files[0] || defaultImg);
       const data = {
         user: {

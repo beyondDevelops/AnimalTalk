@@ -107,7 +107,7 @@ const Post = forwardRef(({ post, setIsUpload }, ref) => {
                   {postImg.split(",").map((img, idx) => (
                     <img
                       key={idx}
-                      src={img.includes("https") ? img : `https://mandarin.api.weniv.co.kr/${img}`}
+                      src={img.includes("https") ? img : `https://api.mandarin.weniv.co.kr/${img}`}
                       alt=""
                       className={`min-w-full object-cover cursor-pointer ${
                         postImg.split(",")[currentIndex] === img ? "" : "hidden"
@@ -134,7 +134,7 @@ const Post = forwardRef(({ post, setIsUpload }, ref) => {
             ) : (
               <div className="flex h-full">
                 <img
-                  src={postImg.includes("https") ? postImg : `https://mandarin.api.weniv.co.kr/${postImg}`}
+                  src={postImg.includes("https") ? postImg : `https://api.mandarin.weniv.co.kr/${postImg}`}
                   alt=""
                   className="min-w-full object-cover cursor-pointer"
                   onClick={() => {

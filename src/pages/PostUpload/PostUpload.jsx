@@ -25,7 +25,7 @@ const PostUpload = () => {
   useEffect(() => {
     if (!post) return;
     const postImages = post.image
-      ? post.image.split(",").map((image) => `https://mandarin.api.weniv.co.kr/${image}`)
+      ? post.image.split(",").map((image) => `https://api.mandarin.weniv.co.kr/${image}`)
       : "";
     const getImageFiles = async () => {
       const imageFiles = await Promise.all(postImages.map((url) => convertURLtoFile(url)));

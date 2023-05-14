@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const convertURLtoFile = async (url: string) => {
-  const res = await axios.get<any, any>(`https://mandarin.api.weniv.co.kr/${url}`, {
+  const res = await axios.get<any, any>(`https://api.mandarin.weniv.co.kr/${url}`, {
     responseType: "blob",
   });
   const extension = url.split(".").pop() as string;

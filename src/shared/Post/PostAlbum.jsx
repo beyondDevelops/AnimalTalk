@@ -19,7 +19,7 @@ const PostAlbum = ({ post }) => {
                   {postImg.split(",").map((img) => (
                     <img
                       key={crypto.randomUUID()}
-                      src={img.includes("https") ? img : `https://mandarin.api.weniv.co.kr/${img}`}
+                      src={img.includes("https") ? img : `https://api.mandarin.weniv.co.kr/${img}`}
                       alt=""
                       className="min-w-full object-cover cursor-pointer"
                       onClick={() => {
@@ -31,7 +31,7 @@ const PostAlbum = ({ post }) => {
               ) : (
                 <>
                   <img
-                    src={postImg.includes("https") ? postImg : `https://mandarin.api.weniv.co.kr/${postImg}`}
+                    src={postImg.includes("https") ? postImg : `https://api.mandarin.weniv.co.kr/${postImg}`}
                     alt=""
                     className="min-w-full object-cover cursor-pointer"
                     onClick={() => {

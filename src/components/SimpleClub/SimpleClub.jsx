@@ -19,7 +19,7 @@ const SimpleClub = ({ data, setIsClubModal, setClubData, comma }) => {
           src={
             clubThumbnailImg.includes("https")
               ? clubThumbnailImg
-              : `https://mandarin.api.weniv.co.kr/${clubThumbnailImg}`
+              : `https://api.mandarin.weniv.co.kr/${clubThumbnailImg}`
           }
           alt=""
         />

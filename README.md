@@ -524,13 +524,13 @@ AnimalTalk
     이유 : 기존에는 아래와 같이 url을 삽입하여 경로를 설정해주었는데 서버에서 img경로를 받아올때 url 주소가 `파일이름` 혹은 `서버주소+파일이름`처럼 일관되지 않게 들어오는 문제 발생
 
     ```html
-    <img src=`https://mandarin.api.weniv.co.kr/${img}` />
+    <img src=`https://api.mandarin.weniv.co.kr/${img}` />
     ```
 
     해결방안
 
     ```html
-    <img src={img.includes("https") ? img : `https://mandarin.api.weniv.co.kr/${img}`} />
+    <img src={img.includes("https") ? img : `https://api.mandarin.weniv.co.kr/${img}`} />
     ```
 
     `includes`를 통해 `https`가 있는지 검사하고 `https`가 있다면 `img`를 바로 넣어주고 없다면 주소를 넣어 `img`를 넣어주어 x-box가 렌더링이 되는 문제를 해결
