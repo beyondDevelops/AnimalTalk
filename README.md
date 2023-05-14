@@ -111,7 +111,7 @@ URL : 🔗 https://beyonddevelops.github.io/AnimalTalk/
 - src/shared/ : 페이지에서 공통적으로 쓰이는 컴포넌트
 - src/store/ : 상태관리용 컴포넌트
 - src/types/ : 타입 관리를 위한 컴포넌트
-- src/utils : 뷰와 무관한 함수 모듈
+- src/utils/ : 뷰와 무관한 함수 모듈
 
 ```bash
 AnimalTal듈
