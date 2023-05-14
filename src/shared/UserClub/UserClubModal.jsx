@@ -2,8 +2,9 @@ import React, { useState, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import { instance } from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
+import { moneyWithComma } from "../../utils/currentUnitComma";
 
-const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
+const UserClubModal = ({ setIsClubModal, clubData, setIsUpload }) => {
   const modalRef = useRef([]);
   const [modalDelete, setModalDelete] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -14,7 +15,7 @@ const UserClubModal = ({ setIsClubModal, clubData, comma, setIsUpload }) => {
     ? clubData.itemImage
     : "https://mandarin.api.weniv.co.kr/" + clubData.itemImage;
   const clubName = clubData.itemName;
-  const clubFee = comma(clubData.price);
+  const clubFee = moneyWithComma(clubData.price);
   const clubLocation = clubData.link;
 
   const handleModal = (e) => {
