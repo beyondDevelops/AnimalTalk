@@ -1,9 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
-import { instance } from "../../api/axios";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { createCommentReport } from "../../api/Comment/createCommentReport";
+import { deleteComment } from "../../api/Comment/deleteComment";
 
 // Note: userId에 따라 댓글 신고와 삭제 구분
-const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
+const PostCommentModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
   const modalRef = useRef([]);
   const [isDisabled, setIsDisabled] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -20,51 +21,30 @@ const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
 
   const { _id } = useContext(AuthContext);
 
-  const token = localStorage.getItem("token");
-
   // 댓글 삭제
   const handleChatDelete = async (e) => {
-    try {
-      e.preventDefault();
-      setIsDisabled(true);
+    e.preventDefault();
+    setIsDisabled(true);
 
-      const res = await instance.delete(`/post/${postId}/comments/${commentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setIsUpload(true);
-      setIsModal(false);
+    const res = await deleteComment(postId, commentId);
+    setIsUpload(true);
+    setIsModal(false);
 
-      if (res.status !== 200) {
-        setIsDisabled(false);
-        throw new Error(res.status, "통신에 실패했습니다.");
-      }
-    } catch (err) {
-      console.log(err);
+    if (res.status !== 200) {
+      setIsDisabled(false);
     }
   };
 
   // 댓글 신고
   const handleChatReport = async (e) => {
-    try {
-      e.preventDefault();
-      setIsDisabled(true);
+    e.preventDefault();
+    setIsDisabled(true);
 
-      const res = await instance.post(`/post/${postId}/comments/${commentId}/report`, [], {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setIsModal(false);
-      if (res.status !== 200) {
-        setIsDisabled(false);
-        throw new Error(res.status, "통신에 실패했습니다.");
-      }
-      alert("신고가 접수되었습니다.");
-    } catch (err) {
-      console.log(err);
-    }
+    await createCommentReport(postId, commentId);
+
+    setIsModal(false);
+
+    alert("신고가 접수되었습니다.");
   };
 
   return (
@@ -125,4 +105,4 @@ const PostModal = ({ setIsModal, postId, userId, commentId, setIsUpload }) => {
   );
 };
 
-export default PostModal;
+export default PostCommentModal;
