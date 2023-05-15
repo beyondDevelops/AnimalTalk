@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { detailDate } from "../../utils/date";
 
 // Note: comment 정보를 props로 받음 (댓글, 소유자 정보)
-const PostChatList = forwardRef(({ comment, setIsModal, setUserId, setCommentId }, ref) => {
+const PostCommentList = forwardRef(({ comment, setIsModal, setUserId, setCommentId }, ref) => {
   const imgMore = `${process.env.PUBLIC_URL}/assets/img/icon-more-vertical-small.png`;
 
   const handleModal = () => {
@@ -42,4 +42,4 @@ const PostChatList = forwardRef(({ comment, setIsModal, setUserId, setCommentId 
   return commentList;
 });
 
-export default PostChatList;
+export default PostCommentList;
