@@ -1,6 +1,6 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { instance } from "../../api/axios";
+import { createCommentList } from "../../api/Comment/createComment";
 
 const PostDetailForm = ({ postId, setIsUpload }) => {
   const inpTextRef = useRef();
@@ -13,30 +13,14 @@ const PostDetailForm = ({ postId, setIsUpload }) => {
   };
 
   const handleSubmitForm = async (e) => {
-    try {
-      e.preventDefault();
-      setIsText(false);
-      const token = localStorage.getItem("token");
+    e.preventDefault();
+    setIsText(false);
 
-      const res = await instance.post(
-        `/post/${postId}/comments`,
-        {
-          comment: {
-            content: inpTextRef.current.value,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (res.status !== 200) throw new Error(res.status, "통신에 실패했습니다.");
-      inpTextRef.current.value = "";
-      setIsUpload(true);
-    } catch (err) {
-      console.log(err);
-    }
+    // 댓글 생성
+    await createCommentList(postId, inpTextRef.current.value);
+
+    inpTextRef.current.value = "";
+    setIsUpload(true);
   };
 
   useEffect(() => {
