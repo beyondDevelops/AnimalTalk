@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Header from "../../shared/Header/Header";
 import Post from "../../shared/Post/Post";
-import PostChatList from "./PostChatList";
 import PostDetailForm from "./PostDetailForm";
-import PostChatModal from "./PostChatModal";
+import PostCommentModal from "./PostCommentModal";
+import PostCommentList from "./PostCommentList";
 import NoComment from "../../components/NoComment/NoComment";
 import { instance } from "../../api/axios";
 import { useLocation } from "react-router-dom";
@@ -76,7 +76,7 @@ const PostDetail = () => {
         return page?.map((comment, idx) => {
           if (page.length === idx + 1) {
             return (
-              <PostChatList
+              <PostCommentList
                 key={uuidv4()}
                 {...{ comment }}
                 {...{ setCommentId }}
@@ -87,7 +87,7 @@ const PostDetail = () => {
             );
           }
           return (
-            <PostChatList
+            <PostCommentList
               key={uuidv4()}
               {...{ comment }}
               {...{ setCommentId }}
@@ -113,7 +113,7 @@ const PostDetail = () => {
 
           {/* Note: modal에 comment list의 author._id를 내려줘야 함 */}
           {isModal ? (
-            <PostChatModal
+            <PostCommentModal
               // ref={modalRef}
               {...{ setIsModal }}
               {...{ userId }}
